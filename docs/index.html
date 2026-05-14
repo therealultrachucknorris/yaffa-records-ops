@@ -2512,6 +2512,8 @@ Defiance turned dancefloor.</pre>
   YAFFA RECORDS · INTERNAL · last codebase update <span class="mono">12.5.2026</span> · בנוי על ידי Mosko + Claude
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 (function() {
   const PREFIX = 'yaffa-ops-v1-';
@@ -2564,32 +2566,99 @@ Defiance turned dancefloor.</pre>
     });
   });
 
-  // ===== STATE PERSISTENCE =====
+  // ===== STATE PERSISTENCE (Firebase Realtime DB + localStorage cache) =====
   function loadState(id) {
     return localStorage.getItem(PREFIX + id);
   }
-  function saveState(id, val) {
+  function saveLocal(id, val) {
     localStorage.setItem(PREFIX + id, val);
   }
 
-  // Restore checkboxes
-  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+  // Firebase: shared state so ticks sync live between everyone on the dashboard.
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6jJ-6RfSDwUXa7ioOXsXT5kwL9NBP-ek",
+    authDomain: "yaffa-dashboard.firebaseapp.com",
+    databaseURL: "https://yaffa-dashboard-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "yaffa-dashboard",
+    storageBucket: "yaffa-dashboard.firebasestorage.app",
+    messagingSenderId: "275736999213",
+    appId: "1:275736999213:web:00e65503141995f28ecfa4"
+  };
+  let dbRef = null;
+  let remoteApplying = false;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    dbRef = firebase.database().ref('state');
+  } catch (e) {
+    console.warn('Firebase unavailable — running in local-only mode', e);
+  }
+
+  function saveState(id, val) {
+    saveLocal(id, val);
+    if (dbRef && !remoteApplying) dbRef.child(id).set(val);
+  }
+
+  const checkboxes = document.querySelectorAll('input[type="checkbox"][data-id]');
+  const textInputs = document.querySelectorAll('input[type="text"][data-id], input[type="url"][data-id], textarea[data-id]');
+
+  // Instant paint from localStorage cache (no flash while Firebase connects)
+  checkboxes.forEach(cb => {
     const stored = loadState(cb.dataset.id);
     if (stored === 'true') cb.checked = true;
     cb.addEventListener('change', () => {
       saveState(cb.dataset.id, cb.checked);
       updateProgress();
+      renderOverview();
     });
   });
-
-  // Restore text/url inputs and textareas
-  document.querySelectorAll('input[type="text"][data-id], input[type="url"][data-id], textarea[data-id]').forEach(inp => {
+  textInputs.forEach(inp => {
     const stored = loadState(inp.dataset.id);
     if (stored !== null) inp.value = stored;
     inp.addEventListener('change', () => saveState(inp.dataset.id, inp.value));
     inp.addEventListener('blur', () => saveState(inp.dataset.id, inp.value));
     inp.addEventListener('input', () => saveState(inp.dataset.id, inp.value));
   });
+
+  // Apply a value coming from the shared DB onto the matching element
+  function applyRemote(id, val) {
+    const cb = document.querySelector('input[type="checkbox"][data-id="' + CSS.escape(id) + '"]');
+    if (cb) {
+      const on = (val === true || val === 'true');
+      if (cb.checked !== on) cb.checked = on;
+      saveLocal(id, on);
+      return;
+    }
+    const inp = document.querySelector('input[type="text"][data-id="' + CSS.escape(id) + '"], input[type="url"][data-id="' + CSS.escape(id) + '"], textarea[data-id="' + CSS.escape(id) + '"]');
+    if (inp && document.activeElement !== inp) {
+      const v = (val == null ? '' : String(val));
+      if (inp.value !== v) inp.value = v;
+      saveLocal(id, v);
+    }
+  }
+
+  // Live sync: one-time migration of existing local ticks, then subscribe
+  if (dbRef) {
+    dbRef.once('value').then(snap => {
+      const remote = snap.val() || {};
+      const updates = {};
+      checkboxes.forEach(cb => {
+        if (!(cb.dataset.id in remote) && cb.checked) updates[cb.dataset.id] = true;
+      });
+      textInputs.forEach(inp => {
+        if (!(inp.dataset.id in remote) && inp.value) updates[inp.dataset.id] = inp.value;
+      });
+      if (Object.keys(updates).length) dbRef.update(updates);
+    }).catch(e => console.warn('Firebase initial read failed', e));
+
+    dbRef.on('value', snap => {
+      const remote = snap.val() || {};
+      remoteApplying = true;
+      Object.keys(remote).forEach(id => applyRemote(id, remote[id]));
+      remoteApplying = false;
+      updateProgress();
+      renderOverview();
+    });
+  }
 
   // Render embedded email templates into iframe preview + source pre
   document.querySelectorAll('script[type="text/x-html-template"]').forEach(tpl => {
@@ -2672,34 +2741,38 @@ Defiance turned dancefloor.</pre>
   ];
 
   const ovGrid = document.getElementById('ov-grid');
-  releases.forEach(r => {
-    const d = daysUntil(r.date);
-    const panel = document.getElementById('tab-' + r.id);
-    const cbs = panel.querySelectorAll('input[type="checkbox"][data-id]');
-    const done = panel.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
-    const pct = cbs.length > 0 ? Math.round((done / cbs.length) * 100) : 0;
-    const cdClass = d <= 0 ? 'today' : d <= 3 ? 'urgent' : '';
-    const cdText = d > 0 ? d + 'd' : d === 0 ? 'TODAY' : '·';
-    const dt = new Date(r.date);
-    const card = document.createElement('div');
-    card.className = 'ov-card';
-    card.innerHTML = `
-      <div class="ov-card-hdr">
-        <div class="ov-card-title">${r.title}</div>
-        <div class="ov-card-cd ${cdClass}">${cdText}</div>
-      </div>
-      <div class="ov-card-sub">${r.sub}</div>
-      <div class="ov-card-bar"><div style="width: ${pct}%"></div></div>
-      <div class="ov-card-foot">
-        <span>${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</span>
-        <span><span class="badge ${r.format}">${r.format === 'free' ? 'Free Edit' : 'Official'}</span> · ${pct}%</span>
-      </div>
-    `;
-    card.addEventListener('click', () => {
-      document.querySelector(`.tab-btn[data-tab="${r.id}"]`).click();
+  function renderOverview() {
+    ovGrid.innerHTML = '';
+    releases.forEach(r => {
+      const d = daysUntil(r.date);
+      const panel = document.getElementById('tab-' + r.id);
+      const cbs = panel.querySelectorAll('input[type="checkbox"][data-id]');
+      const done = panel.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
+      const pct = cbs.length > 0 ? Math.round((done / cbs.length) * 100) : 0;
+      const cdClass = d <= 0 ? 'today' : d <= 3 ? 'urgent' : '';
+      const cdText = d > 0 ? d + 'd' : d === 0 ? 'TODAY' : '·';
+      const dt = new Date(r.date);
+      const card = document.createElement('div');
+      card.className = 'ov-card';
+      card.innerHTML = `
+        <div class="ov-card-hdr">
+          <div class="ov-card-title">${r.title}</div>
+          <div class="ov-card-cd ${cdClass}">${cdText}</div>
+        </div>
+        <div class="ov-card-sub">${r.sub}</div>
+        <div class="ov-card-bar"><div style="width: ${pct}%"></div></div>
+        <div class="ov-card-foot">
+          <span>${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</span>
+          <span><span class="badge ${r.format}">${r.format === 'free' ? 'Free Edit' : 'Official'}</span> · ${pct}%</span>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        document.querySelector(`.tab-btn[data-tab="${r.id}"]`).click();
+      });
+      ovGrid.appendChild(card);
     });
-    ovGrid.appendChild(card);
-  });
+  }
+  renderOverview();
 
   // ===== TIMELINE =====
   const tl = document.getElementById('timeline-track');
