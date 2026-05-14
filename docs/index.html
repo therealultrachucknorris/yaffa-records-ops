@@ -1,0 +1,2795 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yaffa Records — Release Ops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Heebo:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #080809;
+    --deep: #0E0E12;
+    --surface: #16161C;
+    --surface-2: #1E1E26;
+    --surface-3: #2A2A33;
+    --ivory: #EDE8DC;
+    --ivory-dim: #B5B0A4;
+    --muted: #7A7770;
+    --faint: #4A4844;
+    --gold: #BF9830;
+    --gold-light: #D4AC46;
+    --gold-soft: rgba(191, 152, 48, 0.12);
+    --red: #C13B2E;
+    --green: #2A7A52;
+    --blue: #1E5C8A;
+    --amber: #C49010;
+    --violet: #5C2E8C;
+    --border: rgba(237, 232, 220, 0.08);
+    --border-strong: rgba(237, 232, 220, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Heebo', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--void);
+    color: var(--ivory);
+    line-height: 1.55;
+    font-weight: 400;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(191, 152, 48, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 100%, rgba(191, 152, 48, 0.03) 0%, transparent 50%);
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .display { font-family: 'Cinzel', serif; letter-spacing: 0.08em; }
+
+  /* HEADER */
+  header.app-hdr {
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 24px;
+    background: linear-gradient(to bottom, var(--deep), var(--void));
+  }
+  .hdr-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .brand { display: flex; flex-direction: column; gap: 4px; }
+  .brand .logo { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 700; letter-spacing: 0.18em; color: var(--ivory); }
+  .brand .logo .accent { color: var(--gold); }
+  .brand .subtitle { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ivory-dim); font-weight: 500; }
+  .hdr-meta { display: flex; gap: 28px; align-items: baseline; font-size: 13px; color: var(--ivory-dim); }
+  .hdr-meta .stat { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .hdr-meta .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--ivory); font-weight: 600; }
+  .hdr-meta .stat-lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+  /* TODAY ALERT BAR */
+  .today-bar {
+    background: linear-gradient(90deg, rgba(191, 152, 48, 0.18), rgba(191, 152, 48, 0.04));
+    border-bottom: 1px solid rgba(191, 152, 48, 0.25);
+    padding: 14px 40px;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .today-bar .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 0 rgba(191, 152, 48, 0.7);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(191, 152, 48, 0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(191, 152, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(191, 152, 48, 0); }
+  }
+  .today-bar strong { color: var(--gold); letter-spacing: 0.05em; }
+
+  /* TABS */
+  nav.tabs {
+    display: flex;
+    gap: 4px;
+    padding: 12px 40px 0;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    background: var(--void);
+    z-index: 10;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--ivory-dim);
+    font-family: inherit;
+    font-size: 13px;
+    padding: 14px 18px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tab-btn:hover { color: var(--ivory); background: rgba(255,255,255,0.02); }
+  .tab-btn.active { color: var(--ivory); border-bottom-color: var(--gold); }
+  .tab-btn .tname { font-weight: 600; letter-spacing: 0.04em; }
+  .tab-btn .tcd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .tab-btn.active .tcd { color: var(--gold); }
+  .tab-btn .tcd.urgent { color: var(--red); }
+  .tab-btn .tcd.today { color: var(--gold); font-weight: 600; }
+
+  /* MAIN */
+  main { padding: 32px 40px 80px; max-width: 1280px; margin: 0 auto; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* RELEASE HERO */
+  .release-hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, var(--surface), var(--deep));
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .release-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: radial-gradient(circle at top right, var(--gold-soft), transparent 60%);
+    pointer-events: none;
+  }
+  .release-hero > * { position: relative; z-index: 1; }
+  .rh-left h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ivory);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .rh-left .rh-sub { color: var(--gold); font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 14px; font-weight: 500; }
+  .rh-meta { display: flex; flex-wrap: wrap; gap: 14px 24px; font-size: 12px; }
+  .rh-meta .mitem { display: flex; flex-direction: column; gap: 2px; }
+  .rh-meta .mlbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .rh-meta .mval { color: var(--ivory); font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .rh-right { text-align: center; min-width: 140px; }
+  .rh-countdown {
+    font-family: 'Cinzel', serif;
+    font-size: 56px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .rh-countdown.urgent { color: var(--red); }
+  .rh-countdown.today { color: var(--ivory); }
+  .rh-countdown-lbl { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ivory-dim); margin-top: 8px; }
+  .rh-date { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding: 0 4px;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--surface);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 500;
+    min-width: 56px;
+    text-align: left;
+  }
+  .progress-counts { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  /* PHASE SECTIONS */
+  details.phase {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  details.phase[open] { border-color: var(--border-strong); }
+  details.phase summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: background 0.15s ease;
+  }
+  details.phase summary:hover { background: var(--surface-2); }
+  details.phase summary::-webkit-details-marker { display: none; }
+  details.phase summary::before {
+    content: '+';
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    margin-left: 12px;
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  details.phase[open] summary::before { content: '−'; }
+  .phase-title { flex: 1; display: flex; align-items: center; gap: 14px; }
+  .phase-title .pname { font-weight: 600; font-size: 14px; letter-spacing: 0.03em; color: var(--ivory); }
+  .phase-title .ptag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    background: var(--gold-soft);
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+  }
+  .phase-progress {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: 16px;
+  }
+  .phase-progress.done { color: var(--green); }
+  details.phase .phase-body { padding: 4px 20px 20px; }
+
+  /* CHECKLIST */
+  ul.checklist { list-style: none; }
+  ul.checklist li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+  }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li:hover { background: rgba(255,255,255,0.015); }
+  ul.checklist input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+    background: transparent;
+    flex-shrink: 0;
+  }
+  ul.checklist input[type="checkbox"]:hover { border-color: var(--gold); }
+  ul.checklist input[type="checkbox"]:checked {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  ul.checklist input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: var(--void);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  ul.checklist input[type="checkbox"]:checked + label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--faint); }
+  ul.checklist label { font-size: 13.5px; line-height: 1.45; cursor: pointer; color: var(--ivory); }
+  ul.checklist .due {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ivory-dim);
+    background: var(--surface-2);
+    padding: 3px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  ul.checklist .due.urgent { color: var(--red); background: rgba(193, 59, 46, 0.1); }
+  ul.checklist .due.today { color: var(--gold); background: var(--gold-soft); font-weight: 600; }
+  ul.checklist .due.soon { color: var(--amber); background: rgba(196, 144, 16, 0.08); }
+  ul.checklist .due.done { color: var(--green); background: rgba(42, 122, 82, 0.1); }
+
+  /* SECTION HEADERS */
+  h2.section {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 36px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* TABLES (assets / DJ clips) */
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+  table.data thead { background: var(--surface-2); }
+  table.data th {
+    text-align: right;
+    padding: 12px 16px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  table.data td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--ivory);
+  }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  table.data tbody tr:hover { background: rgba(255,255,255,0.015); }
+  table.data input[type="text"], table.data input[type="url"] {
+    background: transparent;
+    border: 1px dashed var(--border);
+    color: var(--ivory);
+    padding: 6px 10px;
+    border-radius: 2px;
+    width: 100%;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+  }
+  table.data input[type="text"]:focus, table.data input[type="url"]:focus {
+    outline: none;
+    border-color: var(--gold);
+    border-style: solid;
+    background: var(--surface-2);
+  }
+  table.data input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    background: transparent;
+  }
+  table.data input[type="checkbox"]:checked { background: var(--gold); border-color: var(--gold); }
+  table.data input[type="checkbox"]:checked::after {
+    content: '✓'; color: var(--void); position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 11px; font-weight: 700;
+  }
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .badge.ready { background: rgba(42, 122, 82, 0.15); color: var(--green); }
+  .badge.wip { background: rgba(196, 144, 16, 0.15); color: var(--amber); }
+  .badge.missing { background: rgba(193, 59, 46, 0.12); color: var(--red); }
+  .badge.na { background: rgba(122, 119, 112, 0.15); color: var(--muted); }
+  .badge.done { background: rgba(42, 122, 82, 0.2); color: var(--green); }
+  .badge.free { background: var(--gold-soft); color: var(--gold); }
+  .badge.official { background: rgba(30, 92, 138, 0.2); color: #6FA8D0; }
+  .add-row-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: 1px dashed var(--border-strong);
+    color: var(--ivory-dim);
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+  .add-row-btn:hover { color: var(--gold); border-color: var(--gold); border-style: solid; }
+
+  /* OVERVIEW PANEL */
+  .ov-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .ov-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .ov-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .ov-card-hdr { display: flex; justify-content: space-between; align-items: flex-start; }
+  .ov-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    letter-spacing: 0.03em;
+    color: var(--ivory);
+    line-height: 1.2;
+  }
+  .ov-card-cd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .ov-card-cd.urgent { color: var(--red); }
+  .ov-card-cd.today { color: var(--ivory); }
+  .ov-card-sub { color: var(--ivory-dim); font-size: 12px; letter-spacing: 0.08em; }
+  .ov-card-bar { height: 4px; background: var(--deep); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+  .ov-card-bar > div { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.4s ease; }
+  .ov-card-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; padding-top: 4px; }
+
+  /* TIMELINE */
+  .timeline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+  }
+  .timeline-track { position: relative; min-width: 700px; padding: 24px 0; }
+  .timeline-axis { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border-strong); }
+  .timeline-event {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .timeline-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 2px solid var(--void); box-shadow: 0 0 0 2px var(--gold); }
+  .timeline-dot.free { background: var(--ivory-dim); box-shadow: 0 0 0 2px var(--ivory-dim); }
+  .timeline-dot.today { background: var(--red); box-shadow: 0 0 0 2px var(--red); }
+  .timeline-label {
+    position: absolute;
+    top: 24px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--ivory-dim);
+    white-space: nowrap;
+    transform: translateX(-50%);
+    left: 0;
+  }
+  .timeline-label .tl-date { color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+  .timeline-event.bottom .timeline-label { top: auto; bottom: 24px; }
+
+  /* FOOTER */
+  footer.app-foot {
+    padding: 24px 40px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  /* UTILITIES */
+  .row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .row > * { flex: 1; }
+  .note {
+    background: var(--gold-soft);
+    border-right: 3px solid var(--gold);
+    padding: 12px 16px;
+    border-radius: 0 2px 2px 0;
+    font-size: 13px;
+    color: var(--ivory);
+    margin: 16px 0;
+    line-height: 1.6;
+  }
+  .note strong { color: var(--gold); }
+  .info-pill {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    background: var(--surface-2);
+    border-radius: 2px;
+    color: var(--ivory-dim);
+    letter-spacing: 0.08em;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .filter-bar label { color: var(--ivory-dim); margin-left: 10px; }
+  .filter-bar select, .filter-bar button {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--ivory);
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .filter-bar button:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* CAPTIONS BLOCKS */
+  .captions-grid { display: grid; gap: 14px; margin-bottom: 24px; }
+  .caption-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .caption-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .caption-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .caption-meta {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--ivory-dim);
+    padding: 5px 12px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .copy-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .copy-btn.done {
+    background: var(--gold-soft);
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .caption-body {
+    margin: 0;
+    padding: 16px;
+    font-family: inherit;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ivory);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background: var(--surface);
+    unicode-bidi: plaintext;
+    font-weight: 400;
+  }
+  .caption-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 16px;
+    font-family: inherit;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ivory);
+    background: var(--surface);
+    border: none;
+    resize: vertical;
+    outline: none;
+    unicode-bidi: plaintext;
+  }
+  .caption-textarea:focus { background: var(--surface-2); }
+  .caption-textarea::placeholder { color: var(--faint); }
+
+  /* EMAIL PREVIEW BLOCK */
+  .email-preview-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .email-preview-actions {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .email-preview-actions .caption-label { margin-left: auto; }
+  .email-preview-frame {
+    width: 100%;
+    height: 760px;
+    border: none;
+    background: #080809;
+    display: block;
+  }
+  .email-source-details { border-top: 1px solid var(--border); }
+  .email-source-details summary {
+    padding: 12px 14px;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ivory-dim);
+    background: var(--surface-2);
+    list-style: none;
+  }
+  .email-source-details summary::-webkit-details-marker { display: none; }
+  .email-source-details summary::before {
+    content: '+';
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    margin-left: 10px;
+  }
+  .email-source-details[open] summary::before { content: '−'; }
+  .email-source-details summary:hover { color: var(--gold); }
+  .email-source-pre {
+    margin: 0;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    line-height: 1.5;
+    color: var(--ivory-dim);
+    background: var(--deep);
+    max-height: 420px;
+    overflow: auto;
+    white-space: pre;
+    word-wrap: normal;
+    direction: ltr;
+    text-align: left;
+  }
+  .email-link-btn {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--ivory-dim);
+    padding: 5px 12px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-block;
+    transition: all 0.15s ease;
+  }
+  .email-link-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    main { padding: 20px 16px 60px; }
+    header.app-hdr { padding: 20px 16px; }
+    .hdr-meta { gap: 16px; }
+    nav.tabs { padding: 8px 16px 0; }
+    .tab-btn { padding: 10px 12px; font-size: 12px; }
+    .release-hero { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
+    .rh-left h1 { font-size: 24px; }
+    .rh-countdown { font-size: 44px; }
+    .today-bar { padding: 12px 16px; font-size: 13px; }
+    ul.checklist li { grid-template-columns: auto 1fr; }
+    ul.checklist .due { grid-column: 2; justify-self: start; }
+    table.data { font-size: 12px; }
+    table.data th, table.data td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+<style id="auth-gate-style">body { display: none !important; } body.auth-ok { display: block !important; } #auth-gate { display: flex; position: fixed; inset: 0; background: #080809; color: #EDE8DC; align-items: center; justify-content: center; flex-direction: column; gap: 16px; font-family: -apple-system, sans-serif; z-index: 99999; } #auth-gate input { background: #16161C; border: 1px solid rgba(237,232,220,0.18); color: #EDE8DC; padding: 12px 16px; font-size: 14px; border-radius: 4px; width: 240px; text-align: center; font-family: monospace; } #auth-gate button { background: #BF9830; border: none; color: #080809; padding: 10px 24px; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; cursor: pointer; border-radius: 2px; } #auth-gate .err { color: #C13B2E; font-size: 12px; min-height: 16px; }</style>
+<div id="auth-gate"><div style="font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 0.18em; color: #BF9830;">YAFFA RECORDS</div><div style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #B5B0A4;">Release Operations</div><input id="auth-input" type="password" placeholder="password" autofocus><button id="auth-btn">Enter</button><div class="err" id="auth-err"></div></div>
+<script>
+(function() {
+  const HASH = "27ccebe1cf40d4d40a0774a62a280b776a0744bd655efcb8ce1cdb10308c8c7f";
+  if (sessionStorage.getItem('yro_auth') === HASH) {
+    document.body.classList.add('auth-ok');
+    const g = document.getElementById('auth-gate'); if (g) g.remove();
+    return;
+  }
+  async function check() {
+    const v = document.getElementById('auth-input').value;
+    if (!v) return;
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
+    const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hex === HASH) {
+      sessionStorage.setItem('yro_auth', HASH);
+      document.body.classList.add('auth-ok');
+      document.getElementById('auth-gate').remove();
+    } else {
+      document.getElementById('auth-err').textContent = 'Wrong password';
+      document.getElementById('auth-input').value = '';
+    }
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('auth-btn').addEventListener('click', check);
+    document.getElementById('auth-input').addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+  });
+})();
+</script>
+
+
+<header class="app-hdr">
+  <div class="hdr-row">
+    <div class="brand">
+      <div class="logo">YAFFA <span class="accent">RECORDS</span></div>
+      <div class="subtitle">Release Operations Center</div>
+    </div>
+    <div class="hdr-meta">
+      <div class="stat">
+        <span class="stat-num" id="today-str">—</span>
+        <span class="stat-lbl">Today</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="active-count">5</span>
+        <span class="stat-lbl">Active</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="overall-pct">0%</span>
+        <span class="stat-lbl">Done</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="today-bar">
+  <div class="pulse"></div>
+  <div>
+    <strong>היום:</strong> Bulletproof T-2 — Hypeddit gate active, VIP email queued. All Night T-29 — סשן אולפן לסיים drum pattern. Emta T-44 — לתאם צילום שרון.
+  </div>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-tab="overview">
+    <span class="tname">Overview</span>
+    <span class="tcd">5 releases</span>
+  </button>
+  <button class="tab-btn" data-tab="bulletproof">
+    <span class="tname">Bulletproof EDIT</span>
+    <span class="tcd" data-cd="2026-05-14">—</span>
+  </button>
+  <button class="tab-btn" data-tab="all-night">
+    <span class="tname">All Night</span>
+    <span class="tcd" data-cd="2026-06-10">—</span>
+  </button>
+  <button class="tab-btn" data-tab="emta">
+    <span class="tname">Emta</span>
+    <span class="tcd" data-cd="2026-06-25">—</span>
+  </button>
+  <button class="tab-btn" data-tab="higher">
+    <span class="tname">Higher</span>
+    <span class="tcd" data-cd="2026-07-15">—</span>
+  </button>
+  <button class="tab-btn" data-tab="slts">
+    <span class="tname">Smells Like Teen Spirit</span>
+    <span class="tcd" data-cd="2026-07-29">—</span>
+  </button>
+  <button class="tab-btn" data-tab="pool">
+    <span class="tname">Free Edits Pool</span>
+    <span class="tcd">3 ready</span>
+  </button>
+  <button class="tab-btn" data-tab="legend">
+    <span class="tname">לגיין</span>
+    <span class="tcd">help</span>
+  </button>
+</nav>
+
+<main>
+
+<!-- ========== OVERVIEW ========== -->
+<section class="tab-panel active" id="tab-overview">
+
+  <h2 class="section">פיפליין הקרוב</h2>
+  <div class="ov-grid" id="ov-grid">
+    <!-- generated by JS -->
+  </div>
+
+  <h2 class="section">לוח זמנים ויזואלי</h2>
+  <div class="timeline">
+    <div class="timeline-track" id="timeline-track">
+      <div class="timeline-axis"></div>
+      <!-- generated by JS -->
+    </div>
+  </div>
+
+  <h2 class="section">סיכום אירועים אחרונים</h2>
+  <div class="row" style="gap: 20px;">
+    <div style="background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px;">
+      <div style="color: var(--gold); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px;">25.4.26 — Cape Town</div>
+      <div style="font-family: 'Cinzel', serif; font-size: 20px; margin-bottom: 6px;">Halo Club</div>
+      <div style="font-size: 13px; color: var(--ivory-dim); line-height: 1.5;">
+        מסיבה מעולה. רווח: <strong style="color: var(--green);">3,300 ₪</strong> (פייפאל הלייבל, מוכן להוצאות).
+        Lineup: Goldbeat, Nino Tores, JuiceBox, Oi b2b Mosko.
+      </div>
+    </div>
+    <div style="background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px;">
+      <div style="color: var(--gold); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px;">2026 — AfrikaBurn</div>
+      <div style="font-family: 'Cinzel', serif; font-size: 20px; margin-bottom: 6px;">מטורף, המון באז</div>
+      <div style="font-size: 13px; color: var(--ivory-dim); line-height: 1.5;">
+        ניצול ה-buzz לקמפיינים הקרובים — All Night + Emta. צריך לרכז סטילס/וידאו ולעבד לקונטנט.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section">חוקי משחק</h2>
+  <div class="note">
+    <strong>3-4 שבועות לפני:</strong> כל ריליס צריך להיות מוכן 3-4 שבועות לפני התאריך — מאסטר סופי, מטה-דאטה, ארטוורק, פרי-סייב, PR, וקונטנט T-14 לכל הפלטפורמות.
+    <br><strong>Cadence:</strong> שחרור אחד כל שבועיים, יום רביעי (אלא אם צוין אחרת).
+    <br><strong>הפצה:</strong> Proton בלבד לאופישלס. SoundCloud + Hypeddit לפרי אדיטים.
+    <br><strong>צ׳קליסט שמור:</strong> כל סימון V נשמר בדפדפן (localStorage). פתח את הקובץ באותו דפדפן בכל פעם.
+  </div>
+
+</section>
+
+<!-- ========== BULLETPROOF ========== -->
+<section class="tab-panel" id="tab-bulletproof">
+
+  <div class="release-hero">
+    <div class="rh-left">
+      <h1>Bulletproof EDIT</h1>
+      <div class="rh-sub">La Roux × Oi & Mosko Yaffa Edit</div>
+      <div class="rh-meta">
+        <div class="mitem"><span class="mlbl">Date</span><span class="mval">14.5.2026 (Thu)</span></div>
+        <div class="mitem"><span class="mlbl">Format</span><span class="mval">Free Edit</span></div>
+        <div class="mitem"><span class="mlbl">Cat#</span><span class="mval">—</span></div>
+        <div class="mitem"><span class="mlbl">Artist</span><span class="mval">Oi</span></div>
+        <div class="mitem"><span class="mlbl">Platforms</span><span class="mval">SoundCloud + Hypeddit</span></div>
+        <div class="mitem"><span class="mlbl">Status</span><span class="mval"><span class="badge ready">Ready</span></span></div>
+      </div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-countdown" data-cd-big="2026-05-14">—</div>
+      <div class="rh-countdown-lbl">days to drop</div>
+      <div class="rh-date">14.5.2026 · יום חמישי</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="progress-pct">0%</div>
+    <div class="progress-counts"><span class="pc-done">0</span>/<span class="pc-total">0</span></div>
+  </div>
+
+  <div class="note">
+    <strong>הערה:</strong> חמישי (לא רביעי הרגיל). TrackStack כבר רץ — 24 sent, 3 pending retries. רוב הקהל הגיע מהפרי אדיט של Living On My Own (April 1), אז שווה לרכוב על המומנטום באימייל.
+  </div>
+
+  <details open class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-2 · היום</span>
+        <span class="pname">היום (12.5) — הכנה ושיגור אימיילים מקדמי</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="bp-t2-1" data-id="bp-t2-1"><label for="bp-t2-1">Hypeddit gate חי ומעודכן (אימייל + WAV downloadable)</label><span class="due today">היום</span></li>
+        <li><input type="checkbox" id="bp-t2-2" data-id="bp-t2-2"><label for="bp-t2-2">אימייל VIP (150) נשלח דרך DemoDrop</label><span class="due today">היום</span></li>
+        <li><input type="checkbox" id="bp-t2-3" data-id="bp-t2-3"><label for="bp-t2-3">אימייל Hypeddit list (~2,000) — שעתיים אחרי VIP</label><span class="due today">היום</span></li>
+        <li><input type="checkbox" id="bp-t2-4" data-id="bp-t2-4"><label for="bp-t2-4">לבדוק שה-Facebook Pixel + Google Ads Tag פועלים על הגייט</label><span class="due today">היום</span></li>
+        <li><input type="checkbox" id="bp-t2-5" data-id="bp-t2-5"><label for="bp-t2-5">SoundCloud upload (Private, לעבור ל-Public ביום השחרור)</label><span class="due today">היום</span></li>
+        <li><input type="checkbox" id="bp-t2-6" data-id="bp-t2-6"><label for="bp-t2-6">קפשנים סופיים מאושרים (IG, TikTok, SoundCloud)</label><span class="due today">היום</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-1 · מחר</span>
+        <span class="pname">מחר (13.5) — תיזר וסיגנל</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="bp-t1-1" data-id="bp-t1-1"><label for="bp-t1-1">IG Story: "Tomorrow." ארטוורק נקי + countdown sticker</label><span class="due soon">מחר</span></li>
+        <li><input type="checkbox" id="bp-t1-2" data-id="bp-t1-2"><label for="bp-t1-2">TikTok teaser 15s — preview clip</label><span class="due soon">מחר</span></li>
+        <li><input type="checkbox" id="bp-t1-3" data-id="bp-t1-3"><label for="bp-t1-3">WhatsApp Community: heads-up "מחר משחררים משהו חופשי"</label><span class="due soon">מחר</span></li>
+        <li><input type="checkbox" id="bp-t1-4" data-id="bp-t1-4"><label for="bp-t1-4">לוודא שלוח הזמנים של חמישי מסונכרן ב-Buffer/Meta</label><span class="due soon">מחר</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-0 · 14.5</span>
+        <span class="pname">יום השחרור — חמישי 14.5</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="bp-t0-1" data-id="bp-t0-1"><label for="bp-t0-1">SoundCloud Public (07:00)</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="bp-t0-2" data-id="bp-t0-2"><label for="bp-t0-2">IG Story #1 (בוקר): "It's out." ארטוורק + link sticker ל-Hypeddit</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="bp-t0-3" data-id="bp-t0-3"><label for="bp-t0-3">IG Feed post — ארטוורק + קפשן מלא + לינק בביו</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="bp-t0-4" data-id="bp-t0-4"><label for="bp-t0-4">TikTok — animated loop של 30 שניות</label><span class="due">צהריים</span></li>
+        <li><input type="checkbox" id="bp-t0-5" data-id="bp-t0-5"><label for="bp-t0-5">IG Reel — preview 30-60 שניות</label><span class="due">אחה"צ</span></li>
+        <li><input type="checkbox" id="bp-t0-6" data-id="bp-t0-6"><label for="bp-t0-6">IG Story #2 (אחה"צ): preview clip + link sticker</label><span class="due">אחה"צ</span></li>
+        <li><input type="checkbox" id="bp-t0-7" data-id="bp-t0-7"><label for="bp-t0-7">WhatsApp Community broadcast (full message + לינק)</label><span class="due">אחה"צ</span></li>
+        <li><input type="checkbox" id="bp-t0-8" data-id="bp-t0-8"><label for="bp-t0-8">YouTube — visualizer / animated artwork upload</label><span class="due">אחה"צ</span></li>
+        <li><input type="checkbox" id="bp-t0-9" data-id="bp-t0-9"><label for="bp-t0-9">IG Story #3 (ערב): "Save it. Play it loud."</label><span class="due">ערב</span></li>
+        <li><input type="checkbox" id="bp-t0-10" data-id="bp-t0-10"><label for="bp-t0-10">פין על פוסט IG</label><span class="due">ערב</span></li>
+        <li><input type="checkbox" id="bp-t0-11" data-id="bp-t0-11"><label for="bp-t0-11">להוסיף לכל הביוס + linktree</label><span class="due">ערב</span></li>
+        <li><input type="checkbox" id="bp-t0-12" data-id="bp-t0-12"><label for="bp-t0-12">עדכון yaffarecords.com — להוסיף את הטראק</label><span class="due">ערב</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T+1 → T+7</span>
+        <span class="pname">פוסט-ריליס</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="bp-tp-1" data-id="bp-tp-1"><label for="bp-tp-1">IG Stories — first reactions, reshares, DMs (15.5)</label><span class="due">15.5</span></li>
+        <li><input type="checkbox" id="bp-tp-2" data-id="bp-tp-2"><label for="bp-tp-2">TrackStack: לדחוף שולחים שעוד פתוחים (Hot Creations, Westend, וכו')</label><span class="due">16-20.5</span></li>
+        <li><input type="checkbox" id="bp-tp-3" data-id="bp-tp-3"><label for="bp-tp-3">לתעד צילומי DJs שמנגנים את הטראק (בטבלה למטה)</label><span class="due">לאורך השבוע</span></li>
+        <li><input type="checkbox" id="bp-tp-4" data-id="bp-tp-4"><label for="bp-tp-4">מספרים יום 7: SoundCloud plays, Hypeddit downloads</label><span class="due">21.5</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <h2 class="section">נכסים — קישורי הורדה/יצירה</h2>
+  <table class="data">
+    <thead><tr><th style="width: 22%;">נכס</th><th style="width: 11%;">סטטוס</th><th>קישור</th><th style="width: 11%;">אחריות</th></tr></thead>
+    <tbody>
+      <tr><td>Master WAV</td><td><span class="badge ready">Ready</span></td><td><input type="url" data-id="bp-asset-master" placeholder="הדבק קישור..."></td><td>Oi</td></tr>
+      <tr><td>Master MP3 (320)</td><td><span class="badge ready">Ready</span></td><td><input type="url" data-id="bp-asset-mp3" placeholder="הדבק קישור..."></td><td>Oi</td></tr>
+      <tr><td>Cover artwork (3000×3000)</td><td><span class="badge wip">WIP</span></td><td><input type="url" data-id="bp-asset-cover" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+      <tr><td>Story artwork (1080×1920)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="bp-asset-story" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+      <tr><td>Reel cover (1080×1350)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="bp-asset-reel" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+      <tr><td>Preview clip 30-60s (Runway visualizer)</td><td><span class="badge wip">WIP</span></td><td><input type="url" data-id="bp-asset-preview" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+      <tr><td>TikTok loop 15s</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="bp-asset-tt" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+      <tr><td>YouTube visualizer (full track)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="bp-asset-yt" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+      <tr><td>קפשן IG + hashtags</td><td><span class="badge wip">WIP</span></td><td><input type="url" data-id="bp-asset-cap" placeholder="הדבק קישור..."></td><td>Mosko</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">סרטוני תמיכת DJs (להוריד מסטוריז ולהקליד כאן)</h2>
+  <table class="data" id="bp-dj-table">
+    <thead><tr><th>DJ</th><th>פלטפורמה</th><th>קישור</th><th>תאריך</th><th>הורד?</th><th>הופץ?</th></tr></thead>
+    <tbody>
+      <tr><td><input type="text" data-id="bp-dj-1-name" placeholder="שם DJ"></td><td><input type="text" data-id="bp-dj-1-plat" placeholder="IG / TikTok"></td><td><input type="url" data-id="bp-dj-1-url" placeholder="קישור"></td><td><input type="text" data-id="bp-dj-1-date" placeholder="DD.MM"></td><td><input type="checkbox" data-id="bp-dj-1-dl"></td><td><input type="checkbox" data-id="bp-dj-1-shared"></td></tr>
+      <tr><td><input type="text" data-id="bp-dj-2-name" placeholder="שם DJ"></td><td><input type="text" data-id="bp-dj-2-plat" placeholder="IG / TikTok"></td><td><input type="url" data-id="bp-dj-2-url" placeholder="קישור"></td><td><input type="text" data-id="bp-dj-2-date" placeholder="DD.MM"></td><td><input type="checkbox" data-id="bp-dj-2-dl"></td><td><input type="checkbox" data-id="bp-dj-2-shared"></td></tr>
+      <tr><td><input type="text" data-id="bp-dj-3-name" placeholder="שם DJ"></td><td><input type="text" data-id="bp-dj-3-plat" placeholder="IG / TikTok"></td><td><input type="url" data-id="bp-dj-3-url" placeholder="קישור"></td><td><input type="text" data-id="bp-dj-3-date" placeholder="DD.MM"></td><td><input type="checkbox" data-id="bp-dj-3-dl"></td><td><input type="checkbox" data-id="bp-dj-3-shared"></td></tr>
+      <tr><td><input type="text" data-id="bp-dj-4-name" placeholder="שם DJ"></td><td><input type="text" data-id="bp-dj-4-plat" placeholder="IG / TikTok"></td><td><input type="url" data-id="bp-dj-4-url" placeholder="קישור"></td><td><input type="text" data-id="bp-dj-4-date" placeholder="DD.MM"></td><td><input type="checkbox" data-id="bp-dj-4-dl"></td><td><input type="checkbox" data-id="bp-dj-4-shared"></td></tr>
+      <tr><td><input type="text" data-id="bp-dj-5-name" placeholder="שם DJ"></td><td><input type="text" data-id="bp-dj-5-plat" placeholder="IG / TikTok"></td><td><input type="url" data-id="bp-dj-5-url" placeholder="קישור"></td><td><input type="text" data-id="bp-dj-5-date" placeholder="DD.MM"></td><td><input type="checkbox" data-id="bp-dj-5-dl"></td><td><input type="checkbox" data-id="bp-dj-5-shared"></td></tr>
+    </tbody>
+  </table>
+  <button class="add-row-btn" data-add-row="bp-dj-table" data-prefix="bp-dj">+ הוסף שורה</button>
+
+  <h2 class="section">מספרים — פוסט שחרור</h2>
+  <table class="data">
+    <thead><tr><th>מטריקה</th><th>יום 1</th><th>שבוע 1</th><th>חודש 1</th></tr></thead>
+    <tbody>
+      <tr><td>SoundCloud plays</td><td><input type="text" data-id="bp-num-sc-1"></td><td><input type="text" data-id="bp-num-sc-7"></td><td><input type="text" data-id="bp-num-sc-30"></td></tr>
+      <tr><td>Hypeddit downloads</td><td><input type="text" data-id="bp-num-hd-1"></td><td><input type="text" data-id="bp-num-hd-7"></td><td><input type="text" data-id="bp-num-hd-30"></td></tr>
+      <tr><td>SoundCloud likes</td><td><input type="text" data-id="bp-num-lk-1"></td><td><input type="text" data-id="bp-num-lk-7"></td><td><input type="text" data-id="bp-num-lk-30"></td></tr>
+      <tr><td>SoundCloud reposts</td><td><input type="text" data-id="bp-num-rp-1"></td><td><input type="text" data-id="bp-num-rp-7"></td><td><input type="text" data-id="bp-num-rp-30"></td></tr>
+      <tr><td>אימיילים חדשים שנאספו</td><td><input type="text" data-id="bp-num-em-1"></td><td><input type="text" data-id="bp-num-em-7"></td><td><input type="text" data-id="bp-num-em-30"></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">אימייל HTML — מעוצב לשליחה (VIP)</h2>
+  <div class="email-preview-wrap">
+    <div class="email-preview-actions">
+      <button class="copy-btn" data-copy-target="bp-email-source">העתק HTML של האימייל</button>
+      <a class="email-link-btn" href="brand/email_bulletproof_edit_vip.html" target="_blank">פתח בקובץ נפרד</a>
+      <span class="caption-meta">SUBJECT: For you, first. La Roux × Yaffa.</span>
+    </div>
+    <iframe id="bp-email-preview" class="email-preview-frame" title="VIP email preview"></iframe>
+    <details class="email-source-details">
+      <summary>הצג קוד מקור (HTML)</summary>
+      <pre class="email-source-pre" id="bp-email-source"></pre>
+    </details>
+  </div>
+
+  <script id="bp-email-html-template" type="text/x-html-template">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Yaffa Records - Bulletproof (Edit)</title>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Outfit:wght@300;400&display=swap');
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; display: block; }
+    body { margin: 0 !important; padding: 0 !important; background-color: #080809 !important; width: 100% !important; }
+    a { color: #BF9830; text-decoration: none; }
+    @media screen and (max-width: 600px) {
+      .email-wrapper { width: 100% !important; }
+      .email-body { padding: 32px 24px !important; }
+      .headline { font-size: 28px !important; line-height: 1.2 !important; }
+      .social-row td { padding: 0 8px !important; }
+      .divider-line { width: 40px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background-color:#080809;">
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; color:#080809; line-height:1px; max-width:0px; opacity:0;">
+  Becoming bulletproof. Free edit. Yours, before anyone. &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+</div>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#080809;">
+  <tr>
+    <td align="center" style="padding: 32px 16px;">
+      <table class="email-wrapper" border="0" cellpadding="0" cellspacing="0" width="560" style="background-color:#080809; max-width:560px;">
+        <tr>
+          <td align="center" style="padding-bottom: 28px;">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding: 0 16px;">
+                  <div style="width: 1px; height: 32px; background-color: #BF9830; margin: 0 auto; opacity: 0.5;"></div>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-top: 14px;">
+                  <span style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; font-weight: 600; letter-spacing: 0.45em; color: #BF9830; text-transform: uppercase; opacity: 0.85;">Yaffa Records</span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 0 0 0 0;">
+            <img src="https://www.dropbox.com/scl/fi/u46k04cav4yv1xgg3vcpt/Bulletsquare-2.jpg?rlkey=6u29u0sa53d3m2ffujzk23teg&raw=1" alt="La Roux - Bulletproof (Oi & Mosko Yaffa Edit)" width="560" style="width: 100%; max-width: 560px; display: block;">
+          </td>
+        </tr>
+        <tr>
+          <td class="email-body" align="center" style="padding: 44px 40px 36px 40px; background-color: #0E0E12;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td align="center" style="padding-bottom: 32px;">
+                  <div class="divider-line" style="width: 32px; height: 1px; background-color: #C13B2E; margin: 0 auto;"></div>
+                </td>
+              </tr>
+            </table>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td align="center" style="padding-bottom: 10px;">
+                  <h1 class="headline" style="font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 400; color: #EDE8DC; letter-spacing: 0.06em; line-height: 1.25; margin: 0; padding: 0;">
+                    Becoming<br>bulletproof.
+                  </h1>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 28px; padding-top: 14px;">
+                  <p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 300; color: #C13B2E; letter-spacing: 0.18em; text-transform: uppercase; margin: 0; padding: 0; line-height: 1.8;">
+                    La Roux &nbsp;/&nbsp; Bulletproof<br>
+                    <span style="color: #BF9830; letter-spacing: 0.14em;">Oi &amp; Mosko Yaffa Edit</span>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 28px;">
+                  <div style="width: 32px; height: 1px; background-color: #BF9830; margin: 0 auto; opacity: 0.4;"></div>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 36px;">
+                  <p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 300; color: #EDE8DC; line-height: 1.8; margin: 0 auto; padding: 0; max-width: 400px; text-align: center;">
+                    <span style="color: #8A8878;">Hey {{ contact.FIRSTNAME | default : "there" }},</span><br><br>
+                    La Roux. Bulletproof. Through the Yaffa filter.<br>
+                    Defiance turned dancefloor. The frequency of armor.<br><br>
+                    It&rsquo;s free. It&rsquo;s yours. Before the world catches it.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 12px;">
+                  <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td align="center" style="background-color: #BF9830;">
+                        <a href="https://on.soundcloud.com/vqFerZTWgWW3iSVbkg" target="_blank" style="display: inline-block; font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: #080809; text-decoration: none; padding: 16px 40px;">
+                          Listen on SoundCloud
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 40px; padding-top: 10px;">
+                  <p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 300; color: #4A4844; letter-spacing: 0.1em; margin: 0; padding: 0;">
+                    Yaffa VIP first. Goes public Thursday.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 32px;">
+                  <div style="width: 32px; height: 1px; background-color: #BF9830; margin: 0 auto; opacity: 0.3;"></div>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding-bottom: 28px;">
+                  <table class="social-row" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="padding: 0 14px;">
+                        <a href="https://www.instagram.com/yaffarecords" target="_blank" style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #8A8878; text-decoration: none;">Instagram</a>
+                      </td>
+                      <td style="padding: 0 14px; border-left: 1px solid #2a2a2e;">
+                        <a href="https://soundcloud.com/yaffa-records" target="_blank" style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #8A8878; text-decoration: none;">SoundCloud</a>
+                      </td>
+                      <td style="padding: 0 14px; border-left: 1px solid #2a2a2e;">
+                        <a href="https://www.beatport.com/label/yaffa/149683" target="_blank" style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #8A8878; text-decoration: none;">Beatport</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 24px 40px 32px 40px; background-color: #080809;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td align="center">
+                  <p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 300; color: #4A4844; letter-spacing: 0.1em; line-height: 1.8; margin: 0; padding: 0;">
+                    Yaffa Records &bull; Tel Aviv, Israel<br>
+                    <a href="https://yaffarecords.com" style="color: #4A4844; text-decoration: none;">yaffarecords.com</a>
+                    &nbsp;&bull;&nbsp;
+                    <a href="mailto:info@yaffarecords.com" style="color: #4A4844; text-decoration: none;">info@yaffarecords.com</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+  </script>
+
+  <h2 class="section">אימייל HTML — Broadcast (Hypeddit list, ~3,500)</h2>
+  <div class="email-preview-wrap">
+    <div class="email-preview-actions">
+      <button class="copy-btn" data-copy-target="bp-email-bc-source">העתק HTML של ה-Broadcast</button>
+      <a class="email-link-btn" href="brand/email_bulletproof_edit_broadcast.html" target="_blank">פתח בקובץ נפרד</a>
+      <span class="caption-meta">SUBJECT: New Yaffa edit. La Roux. Bulletproof.</span>
+    </div>
+    <iframe id="bp-email-bc-preview" class="email-preview-frame" title="Broadcast email preview"></iframe>
+    <details class="email-source-details">
+      <summary>הצג קוד מקור (HTML)</summary>
+      <pre class="email-source-pre" id="bp-email-bc-source"></pre>
+    </details>
+  </div>
+
+  <script id="bp-email-bc-html-template" type="text/x-html-template">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Yaffa Records - Bulletproof (Edit) - Out Now</title>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Outfit:wght@300;400&display=swap');
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; display: block; }
+    body { margin: 0 !important; padding: 0 !important; background-color: #080809 !important; width: 100% !important; }
+    a { color: #BF9830; text-decoration: none; }
+    @media screen and (max-width: 600px) {
+      .email-wrapper { width: 100% !important; }
+      .email-body { padding: 32px 24px !important; }
+      .headline { font-size: 28px !important; line-height: 1.2 !important; }
+      .social-row td { padding: 0 8px !important; }
+      .divider-line { width: 40px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background-color:#080809;">
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; color:#080809; line-height:1px; max-width:0px; opacity:0;">
+  Out now on SoundCloud. Free. &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+</div>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#080809;">
+  <tr>
+    <td align="center" style="padding: 32px 16px;">
+      <table class="email-wrapper" border="0" cellpadding="0" cellspacing="0" width="560" style="background-color:#080809; max-width:560px;">
+        <tr>
+          <td align="center" style="padding-bottom: 28px;">
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tr><td style="padding: 0 16px;"><div style="width: 1px; height: 32px; background-color: #BF9830; margin: 0 auto; opacity: 0.5;"></div></td></tr>
+              <tr><td align="center" style="padding-top: 14px;"><span style="font-family: 'Cinzel', Georgia, serif; font-size: 10px; font-weight: 600; letter-spacing: 0.45em; color: #BF9830; text-transform: uppercase; opacity: 0.85;">Yaffa Records</span></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 0;">
+            <img src="https://www.dropbox.com/scl/fi/u46k04cav4yv1xgg3vcpt/Bulletsquare-2.jpg?rlkey=6u29u0sa53d3m2ffujzk23teg&raw=1" alt="La Roux - Bulletproof (Oi & Mosko Yaffa Edit)" width="560" style="width: 100%; max-width: 560px; display: block;">
+          </td>
+        </tr>
+        <tr>
+          <td class="email-body" align="center" style="padding: 44px 40px 36px 40px; background-color: #0E0E12;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td align="center" style="padding-bottom: 32px;"><div class="divider-line" style="width: 32px; height: 1px; background-color: #C13B2E; margin: 0 auto;"></div></td></tr></table>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr><td align="center" style="padding-bottom: 10px;"><h1 class="headline" style="font-family: 'Cinzel', Georgia, serif; font-size: 32px; font-weight: 400; color: #EDE8DC; letter-spacing: 0.06em; line-height: 1.25; margin: 0; padding: 0;">Out now.</h1></td></tr>
+              <tr><td align="center" style="padding-bottom: 28px; padding-top: 14px;"><p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 300; color: #C13B2E; letter-spacing: 0.18em; text-transform: uppercase; margin: 0; padding: 0; line-height: 1.8;">La Roux &nbsp;/&nbsp; Bulletproof<br><span style="color: #BF9830; letter-spacing: 0.14em;">Oi &amp; Mosko Yaffa Edit</span></p></td></tr>
+              <tr><td align="center" style="padding-bottom: 28px;"><div style="width: 32px; height: 1px; background-color: #BF9830; margin: 0 auto; opacity: 0.4;"></div></td></tr>
+              <tr><td align="center" style="padding-bottom: 36px;"><p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 300; color: #EDE8DC; line-height: 1.8; margin: 0 auto; padding: 0; max-width: 400px; text-align: center;">La Roux. Bulletproof. Through the Yaffa filter.<br>Defiance turned dancefloor. The frequency of armor.<br><br>Free download. Play it loud.</p></td></tr>
+              <tr><td align="center" style="padding-bottom: 12px;"><table border="0" cellpadding="0" cellspacing="0"><tr><td align="center" style="background-color: #BF9830;"><a href="https://on.soundcloud.com/vqFerZTWgWW3iSVbkg" target="_blank" style="display: inline-block; font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: #080809; text-decoration: none; padding: 16px 40px;">Listen on SoundCloud</a></td></tr></table></td></tr>
+              <tr><td align="center" style="padding-bottom: 40px; padding-top: 10px;"><p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 300; color: #4A4844; letter-spacing: 0.1em; margin: 0; padding: 0;">Free download. Out today.</p></td></tr>
+              <tr><td align="center" style="padding-bottom: 32px;"><div style="width: 32px; height: 1px; background-color: #BF9830; margin: 0 auto; opacity: 0.3;"></div></td></tr>
+              <tr><td align="center" style="padding-bottom: 28px;"><table class="social-row" border="0" cellpadding="0" cellspacing="0"><tr>
+                <td style="padding: 0 14px;"><a href="https://www.instagram.com/yaffarecords" target="_blank" style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #8A8878; text-decoration: none;">Instagram</a></td>
+                <td style="padding: 0 14px; border-left: 1px solid #2a2a2e;"><a href="https://soundcloud.com/yaffa-records" target="_blank" style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #8A8878; text-decoration: none;">SoundCloud</a></td>
+                <td style="padding: 0 14px; border-left: 1px solid #2a2a2e;"><a href="https://www.beatport.com/label/yaffa/149683" target="_blank" style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: #8A8878; text-decoration: none;">Beatport</a></td>
+              </tr></table></td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 24px 40px 32px 40px; background-color: #080809;">
+            <p style="font-family: 'Outfit', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 300; color: #4A4844; letter-spacing: 0.1em; line-height: 1.8; margin: 0; padding: 0; text-align: center;">
+              Yaffa Records &bull; Tel Aviv, Israel<br>
+              <a href="https://yaffarecords.com" style="color: #4A4844; text-decoration: none;">yaffarecords.com</a>
+              &nbsp;&bull;&nbsp;
+              <a href="mailto:info@yaffarecords.com" style="color: #4A4844; text-decoration: none;">info@yaffarecords.com</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+  </script>
+
+  <h2 class="section">קפשנים — מוכן להעתקה</h2>
+  <div class="captions-grid">
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">Email · Subject</span>
+        <button class="copy-btn" data-copy-target="bp-cap-email-subj">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-email-subj">For you, first. La Roux × Yaffa.</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">Email · Preheader</span>
+        <button class="copy-btn" data-copy-target="bp-cap-email-pre">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-email-pre">Becoming bulletproof. Free edit. Yours, before anyone.</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">Instagram · Feed</span>
+        <button class="copy-btn" data-copy-target="bp-cap-ig">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-ig">Becoming bulletproof.
+
+La Roux | Bulletproof
+Oi &amp; Mosko Yaffa Edit
+
+Defiance turned dancefloor.
+The frequency of armor.
+
+Free download in bio.
+
+@larouxofficial · @oi_omerinbar · @mosko_music
+
+.
+.
+#yaffarecords #yaffaedit #laroux #bulletproof #techhouse #housemusic #freedownload #djedit #electronicmusic #telaviv #yaffarecordstlv</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">Instagram · Stories sequence</span>
+        <button class="copy-btn" data-copy-target="bp-cap-igst">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-igst">Story 1 (morning):
+Artwork full screen + link sticker to SoundCloud.
+Text overlay: "Out now. Free."
+
+Story 2 (afternoon):
+Preview clip 30-60s + link sticker.
+Text overlay: "Becoming bulletproof."
+
+Story 3 (evening):
+Artwork (smaller) + repost of any DJ/fan reaction.
+Text overlay: "Save it. Play it loud."</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">TikTok</span>
+        <button class="copy-btn" data-copy-target="bp-cap-tt">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-tt">defiance turned dancefloor.
+
+la roux × yaffa.
+free, link in bio.
+
+#fyp #foryou #techhouse #housemusic #laroux #bulletproof #djedit #freedownload #electronicmusic #yaffarecords #yaffaedit</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">YouTube · Title</span>
+        <button class="copy-btn" data-copy-target="bp-cap-yt-t">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-yt-t">La Roux - Bulletproof (Oi &amp; Mosko Yaffa Edit) | Yaffa Records</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">YouTube · Description</span>
+        <button class="copy-btn" data-copy-target="bp-cap-yt-d">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-yt-d">La Roux | Bulletproof
+Oi &amp; Mosko Yaffa Edit
+
+Defiance turned dancefloor.
+
+Free download: https://on.soundcloud.com/vqFerZTWgWW3iSVbkg
+
+Took La Roux's defiance and ran it through the Yaffa filter. Tech house energy with the original's bite left intact.
+
+Yaffa Records | Tel Aviv
+https://yaffarecords.com
+
+Follow:
+Instagram: https://instagram.com/yaffarecords
+SoundCloud: https://soundcloud.com/yaffa-records
+Beatport: https://beatport.com/label/yaffa/149683
+
+#yaffarecords #laroux #bulletproof #techhouse #housemusic #yaffaedit #freedownload #djedit</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">SoundCloud · Track description</span>
+        <button class="copy-btn" data-copy-target="bp-cap-sc">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-sc">La Roux | Bulletproof
+Oi &amp; Mosko Yaffa Edit
+
+Free download. Defiance turned dancefloor.
+
+Yaffa Records | Tel Aviv
+yaffarecords.com
+
+Follow:
+instagram.com/yaffarecords
+beatport.com/label/yaffa/149683</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">WhatsApp Community</span>
+        <button class="copy-btn" data-copy-target="bp-cap-wa">העתק</button>
+      </div>
+      <pre class="caption-body" id="bp-cap-wa">הוצאנו אדיט חדש
+
+La Roux | Bulletproof
+Oi &amp; Mosko Yaffa Edit
+
+חינם להורדה ב-SoundCloud:
+https://on.soundcloud.com/vqFerZTWgWW3iSVbkg
+
+Defiance turned dancefloor.</pre>
+    </div>
+
+    <div class="caption-block">
+      <div class="caption-hdr">
+        <span class="caption-label">וריאציה משלך / פתק</span>
+        <button class="copy-btn" data-copy-target="bp-cap-custom">העתק</button>
+      </div>
+      <textarea class="caption-textarea" data-id="bp-cap-custom" id="bp-cap-custom" placeholder="מקום לוריאציה נוספת שלך..."></textarea>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ========== ALL NIGHT ========== -->
+<section class="tab-panel" id="tab-all-night">
+
+  <div class="release-hero">
+    <div class="rh-left">
+      <h1>All Night</h1>
+      <div class="rh-sub">Oi & Mosko · YFR010</div>
+      <div class="rh-meta">
+        <div class="mitem"><span class="mlbl">Date</span><span class="mval">10.6.2026 (Wed)</span></div>
+        <div class="mitem"><span class="mlbl">Format</span><span class="mval">Single / EP</span></div>
+        <div class="mitem"><span class="mlbl">Cat#</span><span class="mval">YFR010</span></div>
+        <div class="mitem"><span class="mlbl">Distributor</span><span class="mval">Proton</span></div>
+        <div class="mitem"><span class="mlbl">PR</span><span class="mval">Dispersion (לסגור)</span></div>
+        <div class="mitem"><span class="mlbl">Status</span><span class="mval"><span class="badge wip">Pre-production</span></span></div>
+      </div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-countdown" data-cd-big="2026-06-10">—</div>
+      <div class="rh-countdown-lbl">days to drop</div>
+      <div class="rh-date">10.6.2026 · יום רביעי</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="progress-pct">0%</div>
+    <div class="progress-counts"><span class="pc-done">0</span>/<span class="pc-total">0</span></div>
+  </div>
+
+  <div class="note">
+    <strong>הוקדם מ-8.7 ל-10.6.</strong> drum pattern עוד לא נסגר — סשן אולפן דחוף ב-13.5 (מחר). Dispersion PR (info@dispersionpr.com, Julian Shay + Dean Muhsin) — לסגור ולשלוח טראק עד 17.5 לאחר שאומר ואני מאושרים על המיקס הסופי.
+  </div>
+
+  <details open class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-30 · 11.5</span>
+        <span class="pname">פאזה 1 — Pre-Production (T-30 → T-22)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-pp-1" data-id="an-pp-1"><label for="an-pp-1">סשן אולפן: לסגור drum pattern</label><span class="due urgent">13.5 (מחר)</span></li>
+        <li><input type="checkbox" id="an-pp-2" data-id="an-pp-2"><label for="an-pp-2">Final mix</label><span class="due urgent">14.5</span></li>
+        <li><input type="checkbox" id="an-pp-3" data-id="an-pp-3"><label for="an-pp-3">AB עם רפרנסים על מערכת טובה</label><span class="due urgent">15.5</span></li>
+        <li><input type="checkbox" id="an-pp-4" data-id="an-pp-4"><label for="an-pp-4">Master מקצועי</label><span class="due urgent">17.5</span></li>
+        <li><input type="checkbox" id="an-pp-5" data-id="an-pp-5"><label for="an-pp-5">Track listing מאושר (סינגל / EP / רמיקסים)</label><span class="due">17.5</span></li>
+        <li><input type="checkbox" id="an-pp-6" data-id="an-pp-6"><label for="an-pp-6">ISRC דרך Proton</label><span class="due">18.5</span></li>
+        <li><input type="checkbox" id="an-pp-7" data-id="an-pp-7"><label for="an-pp-7">מטה-דאטה: BPM, Key, Credits, Copyright line</label><span class="due">18.5</span></li>
+        <li><input type="checkbox" id="an-pp-8" data-id="an-pp-8"><label for="an-pp-8">Artwork ראשי (3000×3000)</label><span class="due">19.5</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-21 · 20.5</span>
+        <span class="pname">פאזה 2 — Distribution & PR (T-21 → T-15)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-dp-1" data-id="an-dp-1"><label for="an-dp-1">העלאה ל-Proton (soundsystem.protonradio.com)</label><span class="due soon">20.5</span></li>
+        <li><input type="checkbox" id="an-dp-2" data-id="an-dp-2"><label for="an-dp-2">Pre-save link מ-Proton</label><span class="due soon">20.5</span></li>
+        <li><input type="checkbox" id="an-dp-3" data-id="an-dp-3"><label for="an-dp-3">Beatport pre-order מופעל</label><span class="due soon">20.5</span></li>
+        <li><input type="checkbox" id="an-dp-4" data-id="an-dp-4"><label for="an-dp-4">FatDrop DJ promo campaign חי</label><span class="due soon">20.5</span></li>
+        <li><input type="checkbox" id="an-dp-5" data-id="an-dp-5"><label for="an-dp-5">אימייל ל-Dispersion PR (info@dispersionpr.com): הצעת קמפיין All Night</label><span class="due soon">15.5</span></li>
+        <li><input type="checkbox" id="an-dp-6" data-id="an-dp-6"><label for="an-dp-6">סגירת תקציב + scope (press, radio, DJ support) עם Dispersion</label><span class="due soon">17.5</span></li>
+        <li><input type="checkbox" id="an-dp-7" data-id="an-dp-7"><label for="an-dp-7">שליחת WAV ופרי-סייב ל-Dispersion</label><span class="due soon">18.5</span></li>
+        <li><input type="checkbox" id="an-dp-8" data-id="an-dp-8"><label for="an-dp-8">Spotify editorial pitch דרך Proton</label><span class="due">20.5</span></li>
+        <li><input type="checkbox" id="an-dp-9" data-id="an-dp-9"><label for="an-dp-9">Premiere blog נבחר (Suprematic Sounds / Music Is 4 Lovers / אחר)</label><span class="due">21.5</span></li>
+        <li><input type="checkbox" id="an-dp-10" data-id="an-dp-10"><label for="an-dp-10">Direct DJ outreach: 200+ קונטקטס</label><span class="due">22.5</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-14 · 27.5</span>
+        <span class="pname">פאזה 3 — Content Push (T-14 → T-8)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-c-1" data-id="an-c-1"><label for="an-c-1">Cover Reveal — IG feed + Story + TikTok + YT (T-14)</label><span class="due">27.5</span></li>
+        <li><input type="checkbox" id="an-c-2" data-id="an-c-2"><label for="an-c-2">פוסט פרי-סייב: "Out 10.6. Pre-save in bio."</label><span class="due">27.5</span></li>
+        <li><input type="checkbox" id="an-c-3" data-id="an-c-3"><label for="an-c-3">Studio behind-the-scenes story (Oi + Mosko בסטודיו)</label><span class="due">28.5</span></li>
+        <li><input type="checkbox" id="an-c-4" data-id="an-c-4"><label for="an-c-4">Audio preview clip 30-60 שניות (Runway visualizer)</label><span class="due">29.5</span></li>
+        <li><input type="checkbox" id="an-c-5" data-id="an-c-5"><label for="an-c-5">Sound × Body pillar — קושר ל-All Night</label><span class="due">1.6</span></li>
+        <li><input type="checkbox" id="an-c-6" data-id="an-c-6"><label for="an-c-6">DJ support clip repost (אם יש)</label><span class="due">2.6</span></li>
+        <li><input type="checkbox" id="an-c-7" data-id="an-c-7"><label for="an-c-7">Geometry in Sound — חיבור הטראק לצורה/תדר</label><span class="due">3.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-10 · 31.5</span>
+        <span class="pname">פאזה 4 — TrackStack + Final Outreach (T-10 → T-3)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-ts-1" data-id="an-ts-1"><label for="an-ts-1">TrackStack — Batch 1 (50 DJs טק האוס/האוס)</label><span class="due">31.5</span></li>
+        <li><input type="checkbox" id="an-ts-2" data-id="an-ts-2"><label for="an-ts-2">Inflyte — DJ feedback campaign</label><span class="due">31.5</span></li>
+        <li><input type="checkbox" id="an-ts-3" data-id="an-ts-3"><label for="an-ts-3">Animated preview push (Reel + TikTok + Shorts)</label><span class="due">3.6</span></li>
+        <li><input type="checkbox" id="an-ts-4" data-id="an-ts-4"><label for="an-ts-4">Blog outreach batch 2 (לא חופפים ל-Dispersion)</label><span class="due">4.6</span></li>
+        <li><input type="checkbox" id="an-ts-5" data-id="an-ts-5"><label for="an-ts-5">Omer on camera — "what does All Night feel like" (60-90s)</label><span class="due">5.6</span></li>
+        <li><input type="checkbox" id="an-ts-6" data-id="an-ts-6"><label for="an-ts-6">TrackStack — Batch 2 (50 נוספים)</label><span class="due">5.6</span></li>
+        <li><input type="checkbox" id="an-ts-7" data-id="an-ts-7"><label for="an-ts-7">"Where do you hear this one?" engagement post</label><span class="due">7.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-3 · 7.6</span>
+        <span class="pname">פאזה 5 — Final Push (T-3 → T-0)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-fp-1" data-id="an-fp-1"><label for="an-fp-1">Sound × Body — pre-release pillar</label><span class="due">7.6</span></li>
+        <li><input type="checkbox" id="an-fp-2" data-id="an-fp-2"><label for="an-fp-2">"Tomorrow." countdown story</label><span class="due">9.6</span></li>
+        <li><input type="checkbox" id="an-fp-3" data-id="an-fp-3"><label for="an-fp-3">לוודא טראק חי על כל הפלטפורמות</label><span class="due">10.6 בוקר</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-0 · 10.6</span>
+        <span class="pname">יום שחרור — 10.6 (Wed)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-rd-1" data-id="an-rd-1"><label for="an-rd-1">לוודא שהטראק חי ב-Beatport, Spotify, Apple Music</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-2" data-id="an-rd-2"><label for="an-rd-2">IG Feed post — ארטוורק + קפשן מלא</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-3" data-id="an-rd-3"><label for="an-rd-3">TikTok — animated loop</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-4" data-id="an-rd-4"><label for="an-rd-4">YouTube — visualizer מלא</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-5" data-id="an-rd-5"><label for="an-rd-5">SoundCloud — Public</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-6" data-id="an-rd-6"><label for="an-rd-6">IG Story #1 (בוקר): "It's out." + לינק</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-7" data-id="an-rd-7"><label for="an-rd-7">IG Story #2 (אחה"צ): preview clip + לינק</label><span class="due">אחה"צ</span></li>
+        <li><input type="checkbox" id="an-rd-8" data-id="an-rd-8"><label for="an-rd-8">IG Story #3 (ערב): "Save it. Play it loud."</label><span class="due">ערב</span></li>
+        <li><input type="checkbox" id="an-rd-9" data-id="an-rd-9"><label for="an-rd-9">אימייל VIP list (150) דרך DemoDrop</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-10" data-id="an-rd-10"><label for="an-rd-10">אימייל Hypeddit list (~2,000) — שעתיים אחרי VIP</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-11" data-id="an-rd-11"><label for="an-rd-11">WhatsApp Community broadcast (~400)</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="an-rd-12" data-id="an-rd-12"><label for="an-rd-12">לעדכן ביוס + linktree לכל הפלטפורמות</label><span class="due">צהריים</span></li>
+        <li><input type="checkbox" id="an-rd-13" data-id="an-rd-13"><label for="an-rd-13">פין על פוסט IG</label><span class="due">צהריים</span></li>
+        <li><input type="checkbox" id="an-rd-14" data-id="an-rd-14"><label for="an-rd-14">בדיקת מספרים 48 שעות</label><span class="due">12.6</span></li>
+        <li><input type="checkbox" id="an-rd-15" data-id="an-rd-15"><label for="an-rd-15">עדכון yaffarecords.com — להוסיף את הטראק</label><span class="due">צהריים</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T+1 → T+14</span>
+        <span class="pname">פוסט-ריליס</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="an-pr-1" data-id="an-pr-1"><label for="an-pr-1">IG Stories — first reactions + DMs (11.6)</label><span class="due">11.6</span></li>
+        <li><input type="checkbox" id="an-pr-2" data-id="an-pr-2"><label for="an-pr-2">Pony Riders cross-reference (אם הטראק בסט)</label><span class="due">12.6</span></li>
+        <li><input type="checkbox" id="an-pr-3" data-id="an-pr-3"><label for="an-pr-3">מספרים שבוע 1 (SoundCloud, Beatport, Spotify)</label><span class="due">17.6</span></li>
+        <li><input type="checkbox" id="an-pr-4" data-id="an-pr-4"><label for="an-pr-4">Press coverage logging</label><span class="due">לאורך</span></li>
+        <li><input type="checkbox" id="an-pr-5" data-id="an-pr-5"><label for="an-pr-5">Playlist additions tracking</label><span class="due">לאורך</span></li>
+        <li><input type="checkbox" id="an-pr-6" data-id="an-pr-6"><label for="an-pr-6">תודה ל-supporters ש-shared / featured</label><span class="due">לאורך</span></li>
+        <li><input type="checkbox" id="an-pr-7" data-id="an-pr-7"><label for="an-pr-7">Post-mortem ב-releases/oi-mosko-all-night.md</label><span class="due">24.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <h2 class="section">נכסים — קישורי הורדה/יצירה</h2>
+  <table class="data">
+    <thead><tr><th style="width: 24%;">נכס</th><th style="width: 11%;">סטטוס</th><th>קישור</th><th style="width: 11%;">אחריות</th></tr></thead>
+    <tbody>
+      <tr><td>Master WAV (Original)</td><td><span class="badge wip">WIP</span></td><td><input type="url" data-id="an-asset-master"></td><td>Oi</td></tr>
+      <tr><td>Master MP3 (320)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-mp3"></td><td>Oi</td></tr>
+      <tr><td>Cover artwork (3000×3000)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-cover"></td><td>Mosko</td></tr>
+      <tr><td>Story artwork (1080×1920)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-story"></td><td>Mosko</td></tr>
+      <tr><td>Reel cover (1080×1350)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-reel"></td><td>Mosko</td></tr>
+      <tr><td>Preview clip 30-60s</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-preview"></td><td>Mosko</td></tr>
+      <tr><td>TikTok loop 15s</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-tt"></td><td>Mosko</td></tr>
+      <tr><td>YouTube visualizer</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-yt"></td><td>Mosko</td></tr>
+      <tr><td>Press one-sheet</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-os"></td><td>Mosko</td></tr>
+      <tr><td>Studio BTS footage</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-bts"></td><td>Oi/Guy</td></tr>
+      <tr><td>Omer on camera 60-90s</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-cam"></td><td>Oi</td></tr>
+      <tr><td>קפשנים לכל הפלטפורמות</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="an-asset-cap"></td><td>Mosko</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">סרטוני תמיכת DJs</h2>
+  <table class="data" id="an-dj-table">
+    <thead><tr><th>DJ</th><th>פלטפורמה</th><th>קישור</th><th>תאריך</th><th>הורד?</th><th>הופץ?</th></tr></thead>
+    <tbody>
+      <tr><td><input type="text" data-id="an-dj-1-name" placeholder="שם DJ"></td><td><input type="text" data-id="an-dj-1-plat"></td><td><input type="url" data-id="an-dj-1-url"></td><td><input type="text" data-id="an-dj-1-date"></td><td><input type="checkbox" data-id="an-dj-1-dl"></td><td><input type="checkbox" data-id="an-dj-1-shared"></td></tr>
+      <tr><td><input type="text" data-id="an-dj-2-name"></td><td><input type="text" data-id="an-dj-2-plat"></td><td><input type="url" data-id="an-dj-2-url"></td><td><input type="text" data-id="an-dj-2-date"></td><td><input type="checkbox" data-id="an-dj-2-dl"></td><td><input type="checkbox" data-id="an-dj-2-shared"></td></tr>
+      <tr><td><input type="text" data-id="an-dj-3-name"></td><td><input type="text" data-id="an-dj-3-plat"></td><td><input type="url" data-id="an-dj-3-url"></td><td><input type="text" data-id="an-dj-3-date"></td><td><input type="checkbox" data-id="an-dj-3-dl"></td><td><input type="checkbox" data-id="an-dj-3-shared"></td></tr>
+      <tr><td><input type="text" data-id="an-dj-4-name"></td><td><input type="text" data-id="an-dj-4-plat"></td><td><input type="url" data-id="an-dj-4-url"></td><td><input type="text" data-id="an-dj-4-date"></td><td><input type="checkbox" data-id="an-dj-4-dl"></td><td><input type="checkbox" data-id="an-dj-4-shared"></td></tr>
+      <tr><td><input type="text" data-id="an-dj-5-name"></td><td><input type="text" data-id="an-dj-5-plat"></td><td><input type="url" data-id="an-dj-5-url"></td><td><input type="text" data-id="an-dj-5-date"></td><td><input type="checkbox" data-id="an-dj-5-dl"></td><td><input type="checkbox" data-id="an-dj-5-shared"></td></tr>
+    </tbody>
+  </table>
+  <button class="add-row-btn" data-add-row="an-dj-table" data-prefix="an-dj">+ הוסף שורה</button>
+
+  <h2 class="section">Outreach Log</h2>
+  <table class="data">
+    <thead><tr><th>נמען</th><th>סוג</th><th>נשלח</th><th>תגובה</th><th>סטטוס</th></tr></thead>
+    <tbody>
+      <tr><td>Dispersion PR</td><td>PR</td><td><input type="text" data-id="an-out-disp-sent" placeholder="DD.MM"></td><td><input type="text" data-id="an-out-disp-resp"></td><td><input type="text" data-id="an-out-disp-status"></td></tr>
+      <tr><td>FatDrop</td><td>DJ Promo</td><td><input type="text" data-id="an-out-fd-sent"></td><td><input type="text" data-id="an-out-fd-resp"></td><td><input type="text" data-id="an-out-fd-status"></td></tr>
+      <tr><td>Suprematic Sounds</td><td>Premiere</td><td><input type="text" data-id="an-out-ss-sent"></td><td><input type="text" data-id="an-out-ss-resp"></td><td><input type="text" data-id="an-out-ss-status"></td></tr>
+      <tr><td>Music Is 4 Lovers</td><td>Press</td><td><input type="text" data-id="an-out-mi4l-sent"></td><td><input type="text" data-id="an-out-mi4l-resp"></td><td><input type="text" data-id="an-out-mi4l-status"></td></tr>
+      <tr><td>Spotify Editorial (Proton)</td><td>Playlist</td><td><input type="text" data-id="an-out-spot-sent"></td><td><input type="text" data-id="an-out-spot-resp"></td><td><input type="text" data-id="an-out-spot-status"></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">מספרים — פוסט שחרור</h2>
+  <table class="data">
+    <thead><tr><th>מטריקה</th><th>יום 1</th><th>שבוע 1</th><th>חודש 1</th></tr></thead>
+    <tbody>
+      <tr><td>Beatport sales</td><td><input type="text" data-id="an-num-bp-1"></td><td><input type="text" data-id="an-num-bp-7"></td><td><input type="text" data-id="an-num-bp-30"></td></tr>
+      <tr><td>Spotify streams</td><td><input type="text" data-id="an-num-sp-1"></td><td><input type="text" data-id="an-num-sp-7"></td><td><input type="text" data-id="an-num-sp-30"></td></tr>
+      <tr><td>SoundCloud plays</td><td><input type="text" data-id="an-num-sc-1"></td><td><input type="text" data-id="an-num-sc-7"></td><td><input type="text" data-id="an-num-sc-30"></td></tr>
+      <tr><td>IG reach</td><td><input type="text" data-id="an-num-ig-1"></td><td><input type="text" data-id="an-num-ig-7"></td><td><input type="text" data-id="an-num-ig-30"></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">קפשנים — לעריכה ושמירה</h2>
+  <div class="captions-grid">
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Subject</span><button class="copy-btn" data-copy-target="an-cap-email-subj">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-email-subj" id="an-cap-email-subj" placeholder="כותרת אימייל..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Preheader</span><button class="copy-btn" data-copy-target="an-cap-email-pre">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-email-pre" id="an-cap-email-pre" placeholder="טקסט תצוגה מקדימה..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Feed</span><button class="copy-btn" data-copy-target="an-cap-ig">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-ig" id="an-cap-ig" placeholder="קפשן לפיד IG..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Stories</span><button class="copy-btn" data-copy-target="an-cap-igst">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-igst" id="an-cap-igst" placeholder="תיאור 3 הסטוריז..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">TikTok</span><button class="copy-btn" data-copy-target="an-cap-tt">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-tt" id="an-cap-tt" placeholder="קפשן TikTok..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Title</span><button class="copy-btn" data-copy-target="an-cap-yt-t">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-yt-t" id="an-cap-yt-t" placeholder="כותרת יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Description</span><button class="copy-btn" data-copy-target="an-cap-yt-d">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-yt-d" id="an-cap-yt-d" placeholder="תיאור יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">SoundCloud · Description</span><button class="copy-btn" data-copy-target="an-cap-sc">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-sc" id="an-cap-sc" placeholder="תיאור SoundCloud..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">WhatsApp Community</span><button class="copy-btn" data-copy-target="an-cap-wa">העתק</button></div>
+      <textarea class="caption-textarea" data-id="an-cap-wa" id="an-cap-wa" placeholder="הודעת WhatsApp..."></textarea>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== EMTA ========== -->
+<section class="tab-panel" id="tab-emta">
+
+  <div class="release-hero">
+    <div class="rh-left">
+      <h1>Emta</h1>
+      <div class="rh-sub">Oi · YFR009 · 2 versions · עונת חתונות</div>
+      <div class="rh-meta">
+        <div class="mitem"><span class="mlbl">Date</span><span class="mval">25.6.2026 (Thu)</span></div>
+        <div class="mitem"><span class="mlbl">Format</span><span class="mval">Single (2 versions)</span></div>
+        <div class="mitem"><span class="mlbl">Cat#</span><span class="mval">YFR009</span></div>
+        <div class="mitem"><span class="mlbl">Distributor</span><span class="mval">Proton</span></div>
+        <div class="mitem"><span class="mlbl">Angle</span><span class="mval">Wedding season</span></div>
+        <div class="mitem"><span class="mlbl">Status</span><span class="mval"><span class="badge ready">Ready (production)</span></span></div>
+      </div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-countdown" data-cd-big="2026-06-25">—</div>
+      <div class="rh-countdown-lbl">days to drop</div>
+      <div class="rh-date">25.6.2026 · יום חמישי</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="progress-pct">0%</div>
+    <div class="progress-counts"><span class="pc-done">0</span>/<span class="pc-total">0</span></div>
+  </div>
+
+  <div class="note">
+    <strong>נדחה מ-10.6 ל-25.6.</strong> 2 גרסאות — צריך להחליט מה ההבדל ביניהן עד 17.5 (Original + Radio Edit? Extended? Vocal + Instrumental?). <strong>קריטי — צילום אולפן עם שרון</strong>: שרון על תופים, Oi + Mosko שרים/עושים שטויות. לתאם דחוף עם Guy Guetta.
+  </div>
+
+  <details open class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">החלטות</span>
+        <span class="pname">החלטות פתוחות — לסגור עד 17.5</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="em-d-1" data-id="em-d-1"><label for="em-d-1">להחליט מה 2 הגרסאות (Original/Radio/Extended/Vocal/Instrumental)</label><span class="due urgent">17.5</span></li>
+        <li><input type="checkbox" id="em-d-2" data-id="em-d-2"><label for="em-d-2">להחליט: אותו ארטוורק לשתיהן או שונה</label><span class="due urgent">17.5</span></li>
+        <li><input type="checkbox" id="em-d-3" data-id="em-d-3"><label for="em-d-3">להחליט אם שתי הגרסאות יוצאות באותו יום או ברצף</label><span class="due urgent">17.5</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-40 → T-30</span>
+        <span class="pname">פרודקשן + צילום אולפן (T-40 → T-30)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="em-p-1" data-id="em-p-1"><label for="em-p-1">לתאם תאריך באולפן עם שרון</label><span class="due urgent">עד 17.5</span></li>
+        <li><input type="checkbox" id="em-p-2" data-id="em-p-2"><label for="em-p-2">לתאם Guy Guetta לצילום (או צילום עצמי)</label><span class="due urgent">עד 17.5</span></li>
+        <li><input type="checkbox" id="em-p-3" data-id="em-p-3"><label for="em-p-3">Shot list: שרון על תופים, vocals live, "behind the scenes", רגעי שטויות</label><span class="due">עד 20.5</span></li>
+        <li><input type="checkbox" id="em-p-4" data-id="em-p-4"><label for="em-p-4">תיאום outfits + props</label><span class="due">עד 22.5</span></li>
+        <li><input type="checkbox" id="em-p-5" data-id="em-p-5"><label for="em-p-5">סשן צילום באולפן (יום שלם)</label><span class="due">25.5 (T-31)</span></li>
+        <li><input type="checkbox" id="em-p-6" data-id="em-p-6"><label for="em-p-6">2 Masters סופיים מאושרים</label><span class="due">28.5 (T-28)</span></li>
+        <li><input type="checkbox" id="em-p-7" data-id="em-p-7"><label for="em-p-7">2 × ISRC דרך Proton</label><span class="due">30.5 (T-26)</span></li>
+        <li><input type="checkbox" id="em-p-8" data-id="em-p-8"><label for="em-p-8">מטה-דאטה לשתי הגרסאות</label><span class="due">30.5</span></li>
+        <li><input type="checkbox" id="em-p-9" data-id="em-p-9"><label for="em-p-9">Artwork(s) סופיים</label><span class="due">2.6 (T-23)</span></li>
+        <li><input type="checkbox" id="em-p-10" data-id="em-p-10"><label for="em-p-10">עריכת חומר וידאו מהסשן (BTS + clips)</label><span class="due">3.6 (T-22)</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-21 · 4.6</span>
+        <span class="pname">Distribution & PR (T-21 → T-15)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="em-dp-1" data-id="em-dp-1"><label for="em-dp-1">העלאה ל-Proton (שתי גרסאות)</label><span class="due">4.6</span></li>
+        <li><input type="checkbox" id="em-dp-2" data-id="em-dp-2"><label for="em-dp-2">Pre-save links (לכל גרסה)</label><span class="due">4.6</span></li>
+        <li><input type="checkbox" id="em-dp-3" data-id="em-dp-3"><label for="em-dp-3">Beatport pre-order</label><span class="due">4.6</span></li>
+        <li><input type="checkbox" id="em-dp-4" data-id="em-dp-4"><label for="em-dp-4">FatDrop campaign חי</label><span class="due">4.6</span></li>
+        <li><input type="checkbox" id="em-dp-5" data-id="em-dp-5"><label for="em-dp-5">PR החלטה: Dispersion / MGMT / Howarth — לבחור עד 1.6</label><span class="due">1.6</span></li>
+        <li><input type="checkbox" id="em-dp-6" data-id="em-dp-6"><label for="em-dp-6">PR brief נשלח</label><span class="due">5.6</span></li>
+        <li><input type="checkbox" id="em-dp-7" data-id="em-dp-7"><label for="em-dp-7">Spotify editorial pitch (זוית עונת חתונות)</label><span class="due">5.6</span></li>
+        <li><input type="checkbox" id="em-dp-8" data-id="em-dp-8"><label for="em-dp-8">Premiere blog נבחר</label><span class="due">6.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-14 · 11.6</span>
+        <span class="pname">Content Push (T-14 → T-8) — Sharon footage drops</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="em-c-1" data-id="em-c-1"><label for="em-c-1">Cover Reveal (T-14) — IG/TikTok/YT</label><span class="due">11.6</span></li>
+        <li><input type="checkbox" id="em-c-2" data-id="em-c-2"><label for="em-c-2">Sharon drum clip #1 — IG Reel</label><span class="due">12.6</span></li>
+        <li><input type="checkbox" id="em-c-3" data-id="em-c-3"><label for="em-c-3">Studio "שטויות" clip — TikTok</label><span class="due">13.6</span></li>
+        <li><input type="checkbox" id="em-c-4" data-id="em-c-4"><label for="em-c-4">Audio preview clip 30-60s</label><span class="due">14.6</span></li>
+        <li><input type="checkbox" id="em-c-5" data-id="em-c-5"><label for="em-c-5">Sharon × Oi vocal moment — Reel</label><span class="due">15.6</span></li>
+        <li><input type="checkbox" id="em-c-6" data-id="em-c-6"><label for="em-c-6">Sound × Body pillar — חיבור לעונת חתונות</label><span class="due">16.6</span></li>
+        <li><input type="checkbox" id="em-c-7" data-id="em-c-7"><label for="em-c-7">Behind the Concept — Omer + Mosko + Sharon על המאמא</label><span class="due">17.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-10 · 15.6</span>
+        <span class="pname">TrackStack + Final Outreach (T-10 → T-3)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="em-ts-1" data-id="em-ts-1"><label for="em-ts-1">TrackStack — Batch 1 (50 DJs)</label><span class="due">15.6</span></li>
+        <li><input type="checkbox" id="em-ts-2" data-id="em-ts-2"><label for="em-ts-2">Inflyte campaign</label><span class="due">15.6</span></li>
+        <li><input type="checkbox" id="em-ts-3" data-id="em-ts-3"><label for="em-ts-3">Animated preview push</label><span class="due">18.6</span></li>
+        <li><input type="checkbox" id="em-ts-4" data-id="em-ts-4"><label for="em-ts-4">TrackStack — Batch 2</label><span class="due">20.6</span></li>
+        <li><input type="checkbox" id="em-ts-5" data-id="em-ts-5"><label for="em-ts-5">"Where do you hear this one?" engagement</label><span class="due">22.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-3 → T-0</span>
+        <span class="pname">Final Push + יום שחרור</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="em-rd-1" data-id="em-rd-1"><label for="em-rd-1">"Tomorrow." countdown (T-1)</label><span class="due">24.6</span></li>
+        <li><input type="checkbox" id="em-rd-2" data-id="em-rd-2"><label for="em-rd-2">לוודא שתי הגרסאות חיות בכל הפלטפורמות</label><span class="due">25.6 בוקר</span></li>
+        <li><input type="checkbox" id="em-rd-3" data-id="em-rd-3"><label for="em-rd-3">IG Feed + Story #1 (בוקר)</label><span class="due">25.6 בוקר</span></li>
+        <li><input type="checkbox" id="em-rd-4" data-id="em-rd-4"><label for="em-rd-4">TikTok + YouTube (בוקר)</label><span class="due">25.6 בוקר</span></li>
+        <li><input type="checkbox" id="em-rd-5" data-id="em-rd-5"><label for="em-rd-5">SoundCloud Public</label><span class="due">25.6 בוקר</span></li>
+        <li><input type="checkbox" id="em-rd-6" data-id="em-rd-6"><label for="em-rd-6">אימייל VIP + Hypeddit</label><span class="due">25.6 בוקר</span></li>
+        <li><input type="checkbox" id="em-rd-7" data-id="em-rd-7"><label for="em-rd-7">WhatsApp Community</label><span class="due">25.6 בוקר</span></li>
+        <li><input type="checkbox" id="em-rd-8" data-id="em-rd-8"><label for="em-rd-8">Stories #2 + #3 (אחה"צ + ערב)</label><span class="due">25.6</span></li>
+        <li><input type="checkbox" id="em-rd-9" data-id="em-rd-9"><label for="em-rd-9">פין + עדכון ביוס</label><span class="due">25.6</span></li>
+        <li><input type="checkbox" id="em-rd-10" data-id="em-rd-10"><label for="em-rd-10">עדכון yaffarecords.com — להוסיף את שתי הגרסאות</label><span class="due">25.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <h2 class="section">נכסים — קישורי הורדה/יצירה</h2>
+  <table class="data">
+    <thead><tr><th style="width: 24%;">נכס</th><th style="width: 11%;">סטטוס</th><th>קישור</th><th style="width: 11%;">אחריות</th></tr></thead>
+    <tbody>
+      <tr><td>Master Version 1 (Original)</td><td><span class="badge ready">Ready</span></td><td><input type="url" data-id="em-asset-m1"></td><td>Oi</td></tr>
+      <tr><td>Master Version 2 (להגדיר)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-m2"></td><td>Oi</td></tr>
+      <tr><td>MP3 320 (× 2)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-mp3"></td><td>Oi</td></tr>
+      <tr><td>Cover artwork (3000×3000)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-cover"></td><td>Mosko</td></tr>
+      <tr><td>Story artwork</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-story"></td><td>Mosko</td></tr>
+      <tr><td>Reel cover</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-reel"></td><td>Mosko</td></tr>
+      <tr><td>Preview clip 30-60s</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-prev"></td><td>Mosko</td></tr>
+      <tr><td>Sharon drum clip — Reel #1</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-sh1"></td><td>Mosko</td></tr>
+      <tr><td>Sharon drum clip — Reel #2</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-sh2"></td><td>Mosko</td></tr>
+      <tr><td>Studio "שטויות" TikTok</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-tt"></td><td>Mosko</td></tr>
+      <tr><td>Sharon × Oi vocal moment</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-voc"></td><td>Mosko</td></tr>
+      <tr><td>Behind the Concept — 60-90s</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-btc"></td><td>Mosko</td></tr>
+      <tr><td>YouTube visualizer</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-yt"></td><td>Mosko</td></tr>
+      <tr><td>Press one-sheet (wedding angle)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-os"></td><td>Mosko</td></tr>
+      <tr><td>קפשנים לכל הפלטפורמות</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="em-asset-cap"></td><td>Mosko</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">סרטוני תמיכת DJs</h2>
+  <table class="data" id="em-dj-table">
+    <thead><tr><th>DJ</th><th>פלטפורמה</th><th>קישור</th><th>תאריך</th><th>הורד?</th><th>הופץ?</th></tr></thead>
+    <tbody>
+      <tr><td><input type="text" data-id="em-dj-1-name"></td><td><input type="text" data-id="em-dj-1-plat"></td><td><input type="url" data-id="em-dj-1-url"></td><td><input type="text" data-id="em-dj-1-date"></td><td><input type="checkbox" data-id="em-dj-1-dl"></td><td><input type="checkbox" data-id="em-dj-1-shared"></td></tr>
+      <tr><td><input type="text" data-id="em-dj-2-name"></td><td><input type="text" data-id="em-dj-2-plat"></td><td><input type="url" data-id="em-dj-2-url"></td><td><input type="text" data-id="em-dj-2-date"></td><td><input type="checkbox" data-id="em-dj-2-dl"></td><td><input type="checkbox" data-id="em-dj-2-shared"></td></tr>
+      <tr><td><input type="text" data-id="em-dj-3-name"></td><td><input type="text" data-id="em-dj-3-plat"></td><td><input type="url" data-id="em-dj-3-url"></td><td><input type="text" data-id="em-dj-3-date"></td><td><input type="checkbox" data-id="em-dj-3-dl"></td><td><input type="checkbox" data-id="em-dj-3-shared"></td></tr>
+      <tr><td><input type="text" data-id="em-dj-4-name"></td><td><input type="text" data-id="em-dj-4-plat"></td><td><input type="url" data-id="em-dj-4-url"></td><td><input type="text" data-id="em-dj-4-date"></td><td><input type="checkbox" data-id="em-dj-4-dl"></td><td><input type="checkbox" data-id="em-dj-4-shared"></td></tr>
+      <tr><td><input type="text" data-id="em-dj-5-name"></td><td><input type="text" data-id="em-dj-5-plat"></td><td><input type="url" data-id="em-dj-5-url"></td><td><input type="text" data-id="em-dj-5-date"></td><td><input type="checkbox" data-id="em-dj-5-dl"></td><td><input type="checkbox" data-id="em-dj-5-shared"></td></tr>
+    </tbody>
+  </table>
+  <button class="add-row-btn" data-add-row="em-dj-table" data-prefix="em-dj">+ הוסף שורה</button>
+
+  <h2 class="section">מספרים — פוסט שחרור</h2>
+  <table class="data">
+    <thead><tr><th>מטריקה</th><th>יום 1</th><th>שבוע 1</th><th>חודש 1</th></tr></thead>
+    <tbody>
+      <tr><td>Beatport sales (V1+V2)</td><td><input type="text" data-id="em-num-bp-1"></td><td><input type="text" data-id="em-num-bp-7"></td><td><input type="text" data-id="em-num-bp-30"></td></tr>
+      <tr><td>Spotify streams</td><td><input type="text" data-id="em-num-sp-1"></td><td><input type="text" data-id="em-num-sp-7"></td><td><input type="text" data-id="em-num-sp-30"></td></tr>
+      <tr><td>SoundCloud plays</td><td><input type="text" data-id="em-num-sc-1"></td><td><input type="text" data-id="em-num-sc-7"></td><td><input type="text" data-id="em-num-sc-30"></td></tr>
+      <tr><td>IG reach</td><td><input type="text" data-id="em-num-ig-1"></td><td><input type="text" data-id="em-num-ig-7"></td><td><input type="text" data-id="em-num-ig-30"></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">קפשנים — לעריכה ושמירה</h2>
+  <div class="captions-grid">
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Subject</span><button class="copy-btn" data-copy-target="em-cap-email-subj">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-email-subj" id="em-cap-email-subj" placeholder="כותרת אימייל..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Preheader</span><button class="copy-btn" data-copy-target="em-cap-email-pre">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-email-pre" id="em-cap-email-pre" placeholder="טקסט תצוגה מקדימה..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Feed</span><button class="copy-btn" data-copy-target="em-cap-ig">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-ig" id="em-cap-ig" placeholder="קפשן לפיד IG..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Stories</span><button class="copy-btn" data-copy-target="em-cap-igst">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-igst" id="em-cap-igst" placeholder="תיאור 3 הסטוריז..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">TikTok</span><button class="copy-btn" data-copy-target="em-cap-tt">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-tt" id="em-cap-tt" placeholder="קפשן TikTok..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Title</span><button class="copy-btn" data-copy-target="em-cap-yt-t">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-yt-t" id="em-cap-yt-t" placeholder="כותרת יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Description</span><button class="copy-btn" data-copy-target="em-cap-yt-d">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-yt-d" id="em-cap-yt-d" placeholder="תיאור יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">SoundCloud · Description</span><button class="copy-btn" data-copy-target="em-cap-sc">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-sc" id="em-cap-sc" placeholder="תיאור SoundCloud..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">WhatsApp Community</span><button class="copy-btn" data-copy-target="em-cap-wa">העתק</button></div>
+      <textarea class="caption-textarea" data-id="em-cap-wa" id="em-cap-wa" placeholder="הודעת WhatsApp..."></textarea>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== HIGHER ========== -->
+<section class="tab-panel" id="tab-higher">
+
+  <div class="release-hero">
+    <div class="rh-left">
+      <h1>Higher</h1>
+      <div class="rh-sub">Oi · YFR013 · maybe Mosko remix</div>
+      <div class="rh-meta">
+        <div class="mitem"><span class="mlbl">Date</span><span class="mval">15.7.2026 (Wed)</span></div>
+        <div class="mitem"><span class="mlbl">Format</span><span class="mval">Single / EP</span></div>
+        <div class="mitem"><span class="mlbl">Cat#</span><span class="mval">YFR013</span></div>
+        <div class="mitem"><span class="mlbl">Distributor</span><span class="mval">Proton</span></div>
+        <div class="mitem"><span class="mlbl">Production</span><span class="mval">Not started (Original) / TBD (Remix)</span></div>
+        <div class="mitem"><span class="mlbl">Status</span><span class="mval"><span class="badge wip">Pre-production</span></span></div>
+      </div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-countdown" data-cd-big="2026-07-15">—</div>
+      <div class="rh-countdown-lbl">days to drop</div>
+      <div class="rh-date">15.7.2026 · יום רביעי</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="progress-pct">0%</div>
+    <div class="progress-counts"><span class="pc-done">0</span>/<span class="pc-total">0</span></div>
+  </div>
+
+  <div class="note">
+    <strong>הוקדם מ-9.9.</strong> Production לא התחיל. החלטה ראשונית: האם מוסקו עושה רמיקס? עד 25.5 לסגור כדי שיהיה זמן.
+  </div>
+
+  <details open class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">החלטות</span>
+        <span class="pname">החלטות פתוחות</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="hi-d-1" data-id="hi-d-1"><label for="hi-d-1">להחליט: Mosko remix? (כן/לא)</label><span class="due soon">25.5 (T-51)</span></li>
+        <li><input type="checkbox" id="hi-d-2" data-id="hi-d-2"><label for="hi-d-2">אם כן: סשן יעודי + scope לרמיקס</label><span class="due">25.5</span></li>
+        <li><input type="checkbox" id="hi-d-3" data-id="hi-d-3"><label for="hi-d-3">להחליט PR partner (Dispersion / MGMT / Howarth)</label><span class="due">15.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-60 → T-30</span>
+        <span class="pname">פרודקשן (T-60 → T-30)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="hi-p-1" data-id="hi-p-1"><label for="hi-p-1">סשן 1 — Build Original (drums, bass, lead)</label><span class="due">25.5</span></li>
+        <li><input type="checkbox" id="hi-p-2" data-id="hi-p-2"><label for="hi-p-2">סשן 2 — Arrangement + breakdowns</label><span class="due">1.6</span></li>
+        <li><input type="checkbox" id="hi-p-3" data-id="hi-p-3"><label for="hi-p-3">Mix Original</label><span class="due">8.6</span></li>
+        <li><input type="checkbox" id="hi-p-4" data-id="hi-p-4"><label for="hi-p-4">Mosko Remix — סטמים + סשן (אם רלוונטי)</label><span class="due">10.6</span></li>
+        <li><input type="checkbox" id="hi-p-5" data-id="hi-p-5"><label for="hi-p-5">Mix Remix (אם רלוונטי)</label><span class="due">15.6</span></li>
+        <li><input type="checkbox" id="hi-p-6" data-id="hi-p-6"><label for="hi-p-6">Master (Original + Remix אם יש)</label><span class="due">22.6</span></li>
+        <li><input type="checkbox" id="hi-p-7" data-id="hi-p-7"><label for="hi-p-7">ISRC + מטה-דאטה</label><span class="due">23.6</span></li>
+        <li><input type="checkbox" id="hi-p-8" data-id="hi-p-8"><label for="hi-p-8">Artwork</label><span class="due">23.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-21 · 24.6</span>
+        <span class="pname">Distribution & PR (T-21 → T-15)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="hi-dp-1" data-id="hi-dp-1"><label for="hi-dp-1">העלאה ל-Proton</label><span class="due">24.6</span></li>
+        <li><input type="checkbox" id="hi-dp-2" data-id="hi-dp-2"><label for="hi-dp-2">Pre-save + Beatport pre-order</label><span class="due">24.6</span></li>
+        <li><input type="checkbox" id="hi-dp-3" data-id="hi-dp-3"><label for="hi-dp-3">FatDrop campaign</label><span class="due">24.6</span></li>
+        <li><input type="checkbox" id="hi-dp-4" data-id="hi-dp-4"><label for="hi-dp-4">PR brief נשלח</label><span class="due">25.6</span></li>
+        <li><input type="checkbox" id="hi-dp-5" data-id="hi-dp-5"><label for="hi-dp-5">Spotify editorial</label><span class="due">25.6</span></li>
+        <li><input type="checkbox" id="hi-dp-6" data-id="hi-dp-6"><label for="hi-dp-6">Premiere blog</label><span class="due">26.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-14 · 1.7</span>
+        <span class="pname">Content Push (T-14 → T-8)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="hi-c-1" data-id="hi-c-1"><label for="hi-c-1">Cover Reveal — IG/TikTok/YT</label><span class="due">1.7</span></li>
+        <li><input type="checkbox" id="hi-c-2" data-id="hi-c-2"><label for="hi-c-2">Studio BTS clip — Reel</label><span class="due">2.7</span></li>
+        <li><input type="checkbox" id="hi-c-3" data-id="hi-c-3"><label for="hi-c-3">Audio preview clip</label><span class="due">3.7</span></li>
+        <li><input type="checkbox" id="hi-c-4" data-id="hi-c-4"><label for="hi-c-4">Remix tease (אם רלוונטי) — Mosko angle</label><span class="due">4.7</span></li>
+        <li><input type="checkbox" id="hi-c-5" data-id="hi-c-5"><label for="hi-c-5">Sound × Body pillar</label><span class="due">6.7</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-10 · 5.7</span>
+        <span class="pname">TrackStack + Final (T-10 → T-3)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="hi-ts-1" data-id="hi-ts-1"><label for="hi-ts-1">TrackStack — Batch 1</label><span class="due">5.7</span></li>
+        <li><input type="checkbox" id="hi-ts-2" data-id="hi-ts-2"><label for="hi-ts-2">Inflyte campaign</label><span class="due">5.7</span></li>
+        <li><input type="checkbox" id="hi-ts-3" data-id="hi-ts-3"><label for="hi-ts-3">Animated preview push</label><span class="due">8.7</span></li>
+        <li><input type="checkbox" id="hi-ts-4" data-id="hi-ts-4"><label for="hi-ts-4">TrackStack — Batch 2</label><span class="due">10.7</span></li>
+        <li><input type="checkbox" id="hi-ts-5" data-id="hi-ts-5"><label for="hi-ts-5">"Where do you hear this one?" engagement</label><span class="due">12.7</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-0 · 15.7</span>
+        <span class="pname">יום שחרור</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="hi-rd-1" data-id="hi-rd-1"><label for="hi-rd-1">לוודא חי על כל הפלטפורמות</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="hi-rd-2" data-id="hi-rd-2"><label for="hi-rd-2">IG Feed + Stories #1-3</label><span class="due">לאורך היום</span></li>
+        <li><input type="checkbox" id="hi-rd-3" data-id="hi-rd-3"><label for="hi-rd-3">TikTok + YouTube</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="hi-rd-4" data-id="hi-rd-4"><label for="hi-rd-4">SoundCloud Public</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="hi-rd-5" data-id="hi-rd-5"><label for="hi-rd-5">אימייל VIP + Hypeddit</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="hi-rd-6" data-id="hi-rd-6"><label for="hi-rd-6">WhatsApp Community</label><span class="due">בוקר</span></li>
+        <li><input type="checkbox" id="hi-rd-7" data-id="hi-rd-7"><label for="hi-rd-7">פין + ביוס</label><span class="due">צהריים</span></li>
+        <li><input type="checkbox" id="hi-rd-8" data-id="hi-rd-8"><label for="hi-rd-8">עדכון yaffarecords.com — להוסיף את הטראק</label><span class="due">צהריים</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <h2 class="section">נכסים — קישורי הורדה/יצירה</h2>
+  <table class="data">
+    <thead><tr><th style="width: 24%;">נכס</th><th style="width: 11%;">סטטוס</th><th>קישור</th><th style="width: 11%;">אחריות</th></tr></thead>
+    <tbody>
+      <tr><td>Master WAV (Original)</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-master"></td><td>Oi</td></tr>
+      <tr><td>Master WAV (Mosko Remix)</td><td><span class="badge na">TBD</span></td><td><input type="url" data-id="hi-asset-remix"></td><td>Mosko</td></tr>
+      <tr><td>Cover artwork</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-cover"></td><td>Mosko</td></tr>
+      <tr><td>Story artwork</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-story"></td><td>Mosko</td></tr>
+      <tr><td>Reel cover</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-reel"></td><td>Mosko</td></tr>
+      <tr><td>Preview clip</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-prev"></td><td>Mosko</td></tr>
+      <tr><td>Studio BTS</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-bts"></td><td>Oi</td></tr>
+      <tr><td>YouTube visualizer</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-yt"></td><td>Mosko</td></tr>
+      <tr><td>Press one-sheet</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-os"></td><td>Mosko</td></tr>
+      <tr><td>קפשנים</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="hi-asset-cap"></td><td>Mosko</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">סרטוני תמיכת DJs</h2>
+  <table class="data" id="hi-dj-table">
+    <thead><tr><th>DJ</th><th>פלטפורמה</th><th>קישור</th><th>תאריך</th><th>הורד?</th><th>הופץ?</th></tr></thead>
+    <tbody>
+      <tr><td><input type="text" data-id="hi-dj-1-name"></td><td><input type="text" data-id="hi-dj-1-plat"></td><td><input type="url" data-id="hi-dj-1-url"></td><td><input type="text" data-id="hi-dj-1-date"></td><td><input type="checkbox" data-id="hi-dj-1-dl"></td><td><input type="checkbox" data-id="hi-dj-1-shared"></td></tr>
+      <tr><td><input type="text" data-id="hi-dj-2-name"></td><td><input type="text" data-id="hi-dj-2-plat"></td><td><input type="url" data-id="hi-dj-2-url"></td><td><input type="text" data-id="hi-dj-2-date"></td><td><input type="checkbox" data-id="hi-dj-2-dl"></td><td><input type="checkbox" data-id="hi-dj-2-shared"></td></tr>
+      <tr><td><input type="text" data-id="hi-dj-3-name"></td><td><input type="text" data-id="hi-dj-3-plat"></td><td><input type="url" data-id="hi-dj-3-url"></td><td><input type="text" data-id="hi-dj-3-date"></td><td><input type="checkbox" data-id="hi-dj-3-dl"></td><td><input type="checkbox" data-id="hi-dj-3-shared"></td></tr>
+    </tbody>
+  </table>
+  <button class="add-row-btn" data-add-row="hi-dj-table" data-prefix="hi-dj">+ הוסף שורה</button>
+
+  <h2 class="section">קפשנים — לעריכה ושמירה</h2>
+  <div class="captions-grid">
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Subject</span><button class="copy-btn" data-copy-target="hi-cap-email-subj">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-email-subj" id="hi-cap-email-subj" placeholder="כותרת אימייל..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Preheader</span><button class="copy-btn" data-copy-target="hi-cap-email-pre">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-email-pre" id="hi-cap-email-pre" placeholder="טקסט תצוגה מקדימה..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Feed</span><button class="copy-btn" data-copy-target="hi-cap-ig">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-ig" id="hi-cap-ig" placeholder="קפשן לפיד IG..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Stories</span><button class="copy-btn" data-copy-target="hi-cap-igst">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-igst" id="hi-cap-igst" placeholder="תיאור 3 הסטוריז..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">TikTok</span><button class="copy-btn" data-copy-target="hi-cap-tt">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-tt" id="hi-cap-tt" placeholder="קפשן TikTok..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Title</span><button class="copy-btn" data-copy-target="hi-cap-yt-t">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-yt-t" id="hi-cap-yt-t" placeholder="כותרת יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Description</span><button class="copy-btn" data-copy-target="hi-cap-yt-d">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-yt-d" id="hi-cap-yt-d" placeholder="תיאור יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">SoundCloud · Description</span><button class="copy-btn" data-copy-target="hi-cap-sc">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-sc" id="hi-cap-sc" placeholder="תיאור SoundCloud..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">WhatsApp Community</span><button class="copy-btn" data-copy-target="hi-cap-wa">העתק</button></div>
+      <textarea class="caption-textarea" data-id="hi-cap-wa" id="hi-cap-wa" placeholder="הודעת WhatsApp..."></textarea>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== SMELLS LIKE TEEN SPIRIT ========== -->
+<section class="tab-panel" id="tab-slts">
+
+  <div class="release-hero">
+    <div class="rh-left">
+      <h1>Smells Like Teen Spirit EDIT</h1>
+      <div class="rh-sub">Nirvana × Oi Yaffa Edit · maybe shorter version</div>
+      <div class="rh-meta">
+        <div class="mitem"><span class="mlbl">Date</span><span class="mval">29.7.2026 (Wed)</span></div>
+        <div class="mitem"><span class="mlbl">Format</span><span class="mval">Free Edit</span></div>
+        <div class="mitem"><span class="mlbl">Cat#</span><span class="mval">—</span></div>
+        <div class="mitem"><span class="mlbl">Artist</span><span class="mval">Oi</span></div>
+        <div class="mitem"><span class="mlbl">Platforms</span><span class="mval">SoundCloud + Hypeddit</span></div>
+        <div class="mitem"><span class="mlbl">Status</span><span class="mval"><span class="badge ready">Ready (long)</span></span></div>
+      </div>
+    </div>
+    <div class="rh-right">
+      <div class="rh-countdown" data-cd-big="2026-07-29">—</div>
+      <div class="rh-countdown-lbl">days to drop</div>
+      <div class="rh-date">29.7.2026 · יום רביעי</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="progress-pct">0%</div>
+    <div class="progress-counts"><span class="pc-done">0</span>/<span class="pc-total">0</span></div>
+  </div>
+
+  <div class="note">
+    <strong>הוזז מ-13.5 ל-29.7.</strong> Production נגמר. שיקול: גרסה קצרה יותר לטיק-טוק/רדיו אדיט. להחליט עד 14.6.
+  </div>
+
+  <details open class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">החלטות</span>
+        <span class="pname">החלטות פתוחות</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="ts-d-1" data-id="ts-d-1"><label for="ts-d-1">להחליט: גרסה קצרה כן/לא</label><span class="due">14.6 (T-45)</span></li>
+        <li><input type="checkbox" id="ts-d-2" data-id="ts-d-2"><label for="ts-d-2">אם כן: סשן עריכה לגרסה קצרה</label><span class="due">20.6</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-30 → T-22</span>
+        <span class="pname">Pre-Production</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="ts-p-1" data-id="ts-p-1"><label for="ts-p-1">Master Final (לוודא מאושר)</label><span class="due">29.6</span></li>
+        <li><input type="checkbox" id="ts-p-2" data-id="ts-p-2"><label for="ts-p-2">גרסה קצרה (אם בחרנו)</label><span class="due">5.7</span></li>
+        <li><input type="checkbox" id="ts-p-3" data-id="ts-p-3"><label for="ts-p-3">Artwork</label><span class="due">5.7</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-21 · 8.7</span>
+        <span class="pname">Distribution (Free Edit flow)</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="ts-d2-1" data-id="ts-d2-1"><label for="ts-d2-1">Hypeddit gate setup (Pixel + Tag)</label><span class="due">8.7</span></li>
+        <li><input type="checkbox" id="ts-d2-2" data-id="ts-d2-2"><label for="ts-d2-2">SoundCloud upload (Private)</label><span class="due">8.7</span></li>
+        <li><input type="checkbox" id="ts-d2-3" data-id="ts-d2-3"><label for="ts-d2-3">TrackStack list בנוי (target 70+)</label><span class="due">15.7</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-14 · 15.7</span>
+        <span class="pname">Content Push</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="ts-c-1" data-id="ts-c-1"><label for="ts-c-1">Cover Reveal — IG/TikTok/YT</label><span class="due">15.7</span></li>
+        <li><input type="checkbox" id="ts-c-2" data-id="ts-c-2"><label for="ts-c-2">Preview clip 15s (Nirvana hook)</label><span class="due">17.7</span></li>
+        <li><input type="checkbox" id="ts-c-3" data-id="ts-c-3"><label for="ts-c-3">TrackStack — Batch 1</label><span class="due">19.7</span></li>
+        <li><input type="checkbox" id="ts-c-4" data-id="ts-c-4"><label for="ts-c-4">Animated preview Reel</label><span class="due">22.7</span></li>
+        <li><input type="checkbox" id="ts-c-5" data-id="ts-c-5"><label for="ts-c-5">TrackStack — Batch 2</label><span class="due">25.7</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="phase">
+    <summary>
+      <div class="phase-title">
+        <span class="ptag">T-3 → T-0</span>
+        <span class="pname">Final Push + יום שחרור</span>
+      </div>
+      <span class="phase-progress" data-phase-progress></span>
+    </summary>
+    <div class="phase-body">
+      <ul class="checklist">
+        <li><input type="checkbox" id="ts-rd-1" data-id="ts-rd-1"><label for="ts-rd-1">"Tomorrow" countdown (T-1)</label><span class="due">28.7</span></li>
+        <li><input type="checkbox" id="ts-rd-2" data-id="ts-rd-2"><label for="ts-rd-2">SoundCloud Public</label><span class="due">29.7 בוקר</span></li>
+        <li><input type="checkbox" id="ts-rd-3" data-id="ts-rd-3"><label for="ts-rd-3">IG Feed + Stories</label><span class="due">29.7</span></li>
+        <li><input type="checkbox" id="ts-rd-4" data-id="ts-rd-4"><label for="ts-rd-4">TikTok + YouTube</label><span class="due">29.7</span></li>
+        <li><input type="checkbox" id="ts-rd-5" data-id="ts-rd-5"><label for="ts-rd-5">אימייל VIP + Hypeddit list</label><span class="due">29.7 בוקר</span></li>
+        <li><input type="checkbox" id="ts-rd-6" data-id="ts-rd-6"><label for="ts-rd-6">WhatsApp Community</label><span class="due">29.7</span></li>
+        <li><input type="checkbox" id="ts-rd-7" data-id="ts-rd-7"><label for="ts-rd-7">עדכון yaffarecords.com — להוסיף את הטראק</label><span class="due">29.7</span></li>
+      </ul>
+    </div>
+  </details>
+
+  <h2 class="section">נכסים — קישורי הורדה/יצירה</h2>
+  <table class="data">
+    <thead><tr><th style="width: 24%;">נכס</th><th style="width: 11%;">סטטוס</th><th>קישור</th><th style="width: 11%;">אחריות</th></tr></thead>
+    <tbody>
+      <tr><td>Master WAV (Long)</td><td><span class="badge ready">Ready</span></td><td><input type="url" data-id="ts-asset-master"></td><td>Oi</td></tr>
+      <tr><td>Master WAV (Short) — אם רלוונטי</td><td><span class="badge na">TBD</span></td><td><input type="url" data-id="ts-asset-short"></td><td>Oi</td></tr>
+      <tr><td>Cover artwork</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="ts-asset-cover"></td><td>Mosko</td></tr>
+      <tr><td>Story artwork</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="ts-asset-story"></td><td>Mosko</td></tr>
+      <tr><td>Preview clip</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="ts-asset-prev"></td><td>Mosko</td></tr>
+      <tr><td>YouTube visualizer</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="ts-asset-yt"></td><td>Mosko</td></tr>
+      <tr><td>קפשנים</td><td><span class="badge missing">Missing</span></td><td><input type="url" data-id="ts-asset-cap"></td><td>Mosko</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">סרטוני תמיכת DJs</h2>
+  <table class="data" id="ts-dj-table">
+    <thead><tr><th>DJ</th><th>פלטפורמה</th><th>קישור</th><th>תאריך</th><th>הורד?</th><th>הופץ?</th></tr></thead>
+    <tbody>
+      <tr><td><input type="text" data-id="ts-dj-1-name"></td><td><input type="text" data-id="ts-dj-1-plat"></td><td><input type="url" data-id="ts-dj-1-url"></td><td><input type="text" data-id="ts-dj-1-date"></td><td><input type="checkbox" data-id="ts-dj-1-dl"></td><td><input type="checkbox" data-id="ts-dj-1-shared"></td></tr>
+      <tr><td><input type="text" data-id="ts-dj-2-name"></td><td><input type="text" data-id="ts-dj-2-plat"></td><td><input type="url" data-id="ts-dj-2-url"></td><td><input type="text" data-id="ts-dj-2-date"></td><td><input type="checkbox" data-id="ts-dj-2-dl"></td><td><input type="checkbox" data-id="ts-dj-2-shared"></td></tr>
+      <tr><td><input type="text" data-id="ts-dj-3-name"></td><td><input type="text" data-id="ts-dj-3-plat"></td><td><input type="url" data-id="ts-dj-3-url"></td><td><input type="text" data-id="ts-dj-3-date"></td><td><input type="checkbox" data-id="ts-dj-3-dl"></td><td><input type="checkbox" data-id="ts-dj-3-shared"></td></tr>
+    </tbody>
+  </table>
+  <button class="add-row-btn" data-add-row="ts-dj-table" data-prefix="ts-dj">+ הוסף שורה</button>
+
+  <h2 class="section">קפשנים — לעריכה ושמירה</h2>
+  <div class="captions-grid">
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Subject</span><button class="copy-btn" data-copy-target="ts-cap-email-subj">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-email-subj" id="ts-cap-email-subj" placeholder="כותרת אימייל..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Email · Preheader</span><button class="copy-btn" data-copy-target="ts-cap-email-pre">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-email-pre" id="ts-cap-email-pre" placeholder="טקסט תצוגה מקדימה..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Feed</span><button class="copy-btn" data-copy-target="ts-cap-ig">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-ig" id="ts-cap-ig" placeholder="קפשן לפיד IG..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">Instagram · Stories</span><button class="copy-btn" data-copy-target="ts-cap-igst">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-igst" id="ts-cap-igst" placeholder="תיאור 3 הסטוריז..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">TikTok</span><button class="copy-btn" data-copy-target="ts-cap-tt">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-tt" id="ts-cap-tt" placeholder="קפשן TikTok..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Title</span><button class="copy-btn" data-copy-target="ts-cap-yt-t">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-yt-t" id="ts-cap-yt-t" placeholder="כותרת יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">YouTube · Description</span><button class="copy-btn" data-copy-target="ts-cap-yt-d">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-yt-d" id="ts-cap-yt-d" placeholder="תיאור יוטיוב..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">SoundCloud · Description</span><button class="copy-btn" data-copy-target="ts-cap-sc">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-sc" id="ts-cap-sc" placeholder="תיאור SoundCloud..."></textarea>
+    </div>
+    <div class="caption-block">
+      <div class="caption-hdr"><span class="caption-label">WhatsApp Community</span><button class="copy-btn" data-copy-target="ts-cap-wa">העתק</button></div>
+      <textarea class="caption-textarea" data-id="ts-cap-wa" id="ts-cap-wa" placeholder="הודעת WhatsApp..."></textarea>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== FREE EDITS POOL ========== -->
+<section class="tab-panel" id="tab-pool">
+
+  <h2 class="section">פרי אדיטים מוכנים — מחכים לסלוט</h2>
+  <div class="note">
+    אלה Free Edits שהפרודקשן שלהם נסגר אבל אין תאריך שחרור. אפשר לשבץ ביוני-יולי-אוגוסט כשמתאים.
+  </div>
+
+  <table class="data">
+    <thead><tr><th>טראק</th><th>סטטוס</th><th>סלוט פוטנציאלי</th><th>הערות</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>italove EDIT (Emanuelle)</td>
+        <td><span class="badge ready">Master Ready</span></td>
+        <td><input type="text" data-id="pool-italove-slot" placeholder="DD.MM"></td>
+        <td>היה אמור לצאת 29.4, לא יצא. TrackStack כבר נשלח (16 sent, 52 genre-mismatch).</td>
+      </tr>
+      <tr>
+        <td>Arabian Nights Edit</td>
+        <td><span class="badge ready">Ready</span></td>
+        <td><input type="text" data-id="pool-arab-slot" placeholder="DD.MM"></td>
+        <td>היה 24.6. עם 25.6 Emta — אולי לדחות לאוגוסט.</td>
+      </tr>
+      <tr>
+        <td>Santa Esmeralda — Don't Let Me Be Misunderstood EDIT</td>
+        <td><span class="badge wip">First Export</span></td>
+        <td><input type="text" data-id="pool-santa-slot" placeholder="DD.MM"></td>
+        <td>Dancefloor-ready מ-6.4. אין סלוט.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">פרי אדיטים שכבר יצאו (לרפרנס)</h2>
+  <table class="data">
+    <thead><tr><th>טראק</th><th>תאריך</th><th>אמצעי</th></tr></thead>
+    <tbody>
+      <tr><td>Freddie Mercury — Living On My Own EDIT</td><td>1.4.2026</td><td>Hypeddit + SoundCloud</td></tr>
+      <tr><td>Missy Elliott — Lose It EDIT</td><td>4.3.2026</td><td>Hypeddit + SoundCloud</td></tr>
+      <tr><td>Lose Control EDIT</td><td>11.2.2026</td><td>Hypeddit + SoundCloud</td></tr>
+      <tr><td>Steve Angello — Darkness In Me EDIT</td><td>2025</td><td>Hypeddit + SoundCloud</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">אופישלס יצאו ב-2026 (לרפרנס)</h2>
+  <table class="data">
+    <thead><tr><th>טראק</th><th>Cat#</th><th>תאריך</th></tr></thead>
+    <tbody>
+      <tr><td>Oi — Move It EP (+ remixes)</td><td>YFR007</td><td>22.4.2026</td></tr>
+      <tr><td>Oi & Mosko — Hide U feat. Naama Gali</td><td>YFR006</td><td>18.3.2026</td></tr>
+      <tr><td>Mishell & Oi — EGO</td><td>YFR002</td><td>18.2.2026</td></tr>
+      <tr><td>Mosko — In The Dust EP</td><td>YFR004</td><td>4.2.2026</td></tr>
+    </tbody>
+  </table>
+
+</section>
+
+<!-- ========== LEGEND ========== -->
+<section class="tab-panel" id="tab-legend">
+
+  <h2 class="section">איך משתמשים בעמוד</h2>
+  <div class="note">
+    כל סימון V וכל קישור נשמרים אוטומטית בדפדפן (localStorage). תפתח את הקובץ באותו דפדפן בכל פעם — הסימונים יישארו. אם תפתח בדפדפן אחר תתחיל מאפס.
+  </div>
+
+  <h2 class="section">משמעות הסטטוסים</h2>
+  <table class="data">
+    <thead><tr><th>Badge</th><th>משמעות</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge ready">Ready</span></td><td>הנכס מוכן ונגיש — מותר להשתמש</td></tr>
+      <tr><td><span class="badge wip">WIP</span></td><td>בתהליך, צריך לבדוק/לעדכן</td></tr>
+      <tr><td><span class="badge missing">Missing</span></td><td>חסר — צריך ליצור / להוריד / לתאם</td></tr>
+      <tr><td><span class="badge na">TBD</span></td><td>תלוי החלטה</td></tr>
+      <tr><td><span class="badge done">Done</span></td><td>בוצע, סגור</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">משמעות צבעי דדליין</h2>
+  <table class="data">
+    <thead><tr><th>צבע</th><th>משמעות</th></tr></thead>
+    <tbody>
+      <tr><td><span class="due urgent">דחוף</span></td><td>תוך 3 ימים</td></tr>
+      <tr><td><span class="due today">היום</span></td><td>היום</td></tr>
+      <tr><td><span class="due soon">קרוב</span></td><td>תוך שבוע</td></tr>
+      <tr><td><span class="due done">בוצע</span></td><td>סומן</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">חוקי קאדנס</h2>
+  <div class="note">
+    <strong>שחרור אחד כל שבועיים</strong>, יום רביעי (אלא אם צוין אחרת — Bulletproof בחמישי, Emta בחמישי).
+    <br><strong>3-4 שבועות הכנה לפני</strong> — מאסטר, מטה-דאטה, ארטוורק, פרי-סייב, PR ו-content T-14 לכל הפלטפורמות.
+    <br><strong>Cape Town profit</strong>: 3,300 ₪ ב-PayPal — מיועד להוצאות.
+    <br><strong>AfrikaBurn buzz</strong>: ניצול לקמפיינים הקרובים, לקטלג סטילס/וידאו.
+  </div>
+
+  <h2 class="section">איפוס נתונים</h2>
+  <div class="row">
+    <button class="add-row-btn" id="reset-btn">מחק את כל הסימונים (לא ניתן לבטל)</button>
+    <button class="add-row-btn" id="export-btn">ייצא את כל הנתונים ל-JSON</button>
+  </div>
+
+</section>
+
+</main>
+
+<footer class="app-foot">
+  YAFFA RECORDS · INTERNAL · last codebase update <span class="mono">12.5.2026</span> · בנוי על ידי Mosko + Claude
+</footer>
+
+<script>
+(function() {
+  const PREFIX = 'yaffa-ops-v1-';
+
+  // ===== DATE / COUNTDOWN =====
+  function today() {
+    const t = new Date(2026, 4, 12); // override for the simulated environment? Use real date instead:
+    return new Date();
+  }
+  const TODAY = today();
+  TODAY.setHours(0, 0, 0, 0);
+
+  function fmtDate(d) {
+    return d.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  }
+  document.getElementById('today-str').textContent = fmtDate(TODAY);
+
+  function daysUntil(dateStr) {
+    const target = new Date(dateStr);
+    target.setHours(0, 0, 0, 0);
+    return Math.round((target - TODAY) / (1000 * 60 * 60 * 24));
+  }
+
+  function setCountdown(el, dateStr, isBig) {
+    const d = daysUntil(dateStr);
+    if (d > 0) {
+      el.textContent = isBig ? d : 'T-' + d;
+      el.classList.remove('today', 'urgent');
+      if (d <= 3) el.classList.add('urgent');
+    } else if (d === 0) {
+      el.textContent = isBig ? '0' : 'TODAY';
+      el.classList.add('today');
+    } else {
+      el.textContent = isBig ? '·' : 'PAST';
+      el.classList.add('urgent');
+    }
+  }
+
+  document.querySelectorAll('[data-cd]').forEach(el => setCountdown(el, el.dataset.cd, false));
+  document.querySelectorAll('[data-cd-big]').forEach(el => setCountdown(el, el.dataset.cdBig, true));
+
+  // ===== TAB SWITCHING =====
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // ===== STATE PERSISTENCE =====
+  function loadState(id) {
+    return localStorage.getItem(PREFIX + id);
+  }
+  function saveState(id, val) {
+    localStorage.setItem(PREFIX + id, val);
+  }
+
+  // Restore checkboxes
+  document.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+    const stored = loadState(cb.dataset.id);
+    if (stored === 'true') cb.checked = true;
+    cb.addEventListener('change', () => {
+      saveState(cb.dataset.id, cb.checked);
+      updateProgress();
+    });
+  });
+
+  // Restore text/url inputs and textareas
+  document.querySelectorAll('input[type="text"][data-id], input[type="url"][data-id], textarea[data-id]').forEach(inp => {
+    const stored = loadState(inp.dataset.id);
+    if (stored !== null) inp.value = stored;
+    inp.addEventListener('change', () => saveState(inp.dataset.id, inp.value));
+    inp.addEventListener('blur', () => saveState(inp.dataset.id, inp.value));
+    inp.addEventListener('input', () => saveState(inp.dataset.id, inp.value));
+  });
+
+  // Render embedded email templates into iframe preview + source pre
+  document.querySelectorAll('script[type="text/x-html-template"]').forEach(tpl => {
+    const id = tpl.id;
+    if (!id || !id.endsWith('-html-template')) return;
+    const base = id.replace('-html-template', '');
+    const html = tpl.textContent.trim();
+    const frame = document.getElementById(base + '-preview');
+    const source = document.getElementById(base + '-source');
+    if (frame) frame.srcdoc = html;
+    if (source) source.textContent = html;
+  });
+
+  // Copy buttons (for caption blocks)
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = document.getElementById(btn.dataset.copyTarget);
+      if (!target) return;
+      const text = (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT') ? target.value : target.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        const orig = btn.textContent;
+        btn.textContent = 'הועתק ✓';
+        btn.classList.add('done');
+        setTimeout(() => { btn.textContent = orig; btn.classList.remove('done'); }, 1500);
+      } catch (err) {
+        // Fallback for older browsers / file:// origins
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); btn.textContent = 'הועתק ✓'; btn.classList.add('done'); setTimeout(() => { btn.textContent = 'העתק'; btn.classList.remove('done'); }, 1500); } catch (e) { alert('לא הצליח להעתיק. בחר ידנית.'); }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  // ===== PROGRESS =====
+  function updateProgress() {
+    let allTotal = 0, allDone = 0;
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      const cbs = panel.querySelectorAll('input[type="checkbox"][data-id]');
+      if (cbs.length === 0) return;
+      const done = panel.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
+      const pct = Math.round((done / cbs.length) * 100);
+      const bar = panel.querySelector('.progress-fill');
+      const pctSpan = panel.querySelector('.progress-pct');
+      const pcDone = panel.querySelector('.pc-done');
+      const pcTotal = panel.querySelector('.pc-total');
+      if (bar) bar.style.width = pct + '%';
+      if (pctSpan) pctSpan.textContent = pct + '%';
+      if (pcDone) pcDone.textContent = done;
+      if (pcTotal) pcTotal.textContent = cbs.length;
+      allTotal += cbs.length;
+      allDone += done;
+
+      // Per-phase progress
+      panel.querySelectorAll('details.phase').forEach(phase => {
+        const pcbs = phase.querySelectorAll('input[type="checkbox"][data-id]');
+        const pdone = phase.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
+        const tag = phase.querySelector('[data-phase-progress]');
+        if (tag && pcbs.length > 0) {
+          tag.textContent = pdone + '/' + pcbs.length;
+          tag.classList.toggle('done', pdone === pcbs.length);
+        }
+      });
+    });
+    const op = allTotal > 0 ? Math.round((allDone / allTotal) * 100) : 0;
+    document.getElementById('overall-pct').textContent = op + '%';
+  }
+  updateProgress();
+
+  // ===== OVERVIEW CARDS =====
+  const releases = [
+    { id: 'bulletproof', title: 'Bulletproof EDIT', date: '2026-05-14', sub: 'Free · La Roux × Yaffa', format: 'free' },
+    { id: 'all-night', title: 'All Night', date: '2026-06-10', sub: 'YFR010 · Oi & Mosko', format: 'official' },
+    { id: 'emta', title: 'Emta', date: '2026-06-25', sub: 'YFR009 · Oi · 2 versions', format: 'official' },
+    { id: 'higher', title: 'Higher', date: '2026-07-15', sub: 'YFR013 · Oi · maybe Mosko remix', format: 'official' },
+    { id: 'slts', title: 'Smells Like Teen Spirit', date: '2026-07-29', sub: 'Free · Nirvana × Yaffa', format: 'free' }
+  ];
+
+  const ovGrid = document.getElementById('ov-grid');
+  releases.forEach(r => {
+    const d = daysUntil(r.date);
+    const panel = document.getElementById('tab-' + r.id);
+    const cbs = panel.querySelectorAll('input[type="checkbox"][data-id]');
+    const done = panel.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
+    const pct = cbs.length > 0 ? Math.round((done / cbs.length) * 100) : 0;
+    const cdClass = d <= 0 ? 'today' : d <= 3 ? 'urgent' : '';
+    const cdText = d > 0 ? d + 'd' : d === 0 ? 'TODAY' : '·';
+    const dt = new Date(r.date);
+    const card = document.createElement('div');
+    card.className = 'ov-card';
+    card.innerHTML = `
+      <div class="ov-card-hdr">
+        <div class="ov-card-title">${r.title}</div>
+        <div class="ov-card-cd ${cdClass}">${cdText}</div>
+      </div>
+      <div class="ov-card-sub">${r.sub}</div>
+      <div class="ov-card-bar"><div style="width: ${pct}%"></div></div>
+      <div class="ov-card-foot">
+        <span>${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</span>
+        <span><span class="badge ${r.format}">${r.format === 'free' ? 'Free Edit' : 'Official'}</span> · ${pct}%</span>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      document.querySelector(`.tab-btn[data-tab="${r.id}"]`).click();
+    });
+    ovGrid.appendChild(card);
+  });
+
+  // ===== TIMELINE =====
+  const tl = document.getElementById('timeline-track');
+  const tlReleases = [
+    { date: '2026-05-14', name: 'Bulletproof', free: true },
+    { date: '2026-06-10', name: 'All Night', free: false },
+    { date: '2026-06-25', name: 'Emta', free: false },
+    { date: '2026-07-15', name: 'Higher', free: false },
+    { date: '2026-07-29', name: 'SLTS', free: true }
+  ];
+  const minDate = new Date('2026-05-12');
+  const maxDate = new Date('2026-08-05');
+  const span = maxDate - minDate;
+
+  // Today marker
+  const todayPct = ((TODAY - minDate) / span) * 100;
+  const todayEv = document.createElement('div');
+  todayEv.className = 'timeline-event';
+  todayEv.style.left = todayPct + '%';
+  todayEv.innerHTML = `<div class="timeline-dot today"></div><div class="timeline-label"><div>היום</div><div class="tl-date">${TODAY.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</div></div>`;
+  tl.appendChild(todayEv);
+
+  tlReleases.forEach((r, i) => {
+    const dt = new Date(r.date);
+    const pct = ((dt - minDate) / span) * 100;
+    const ev = document.createElement('div');
+    ev.className = 'timeline-event' + (i % 2 === 1 ? ' bottom' : '');
+    ev.style.left = pct + '%';
+    ev.innerHTML = `<div class="timeline-dot ${r.free ? 'free' : ''}"></div><div class="timeline-label"><div>${r.name}</div><div class="tl-date">${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</div></div>`;
+    tl.appendChild(ev);
+  });
+
+  // ===== ADD ROW =====
+  document.querySelectorAll('.add-row-btn[data-add-row]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tableId = btn.dataset.addRow;
+      const prefix = btn.dataset.prefix;
+      const table = document.getElementById(tableId);
+      const tbody = table.querySelector('tbody');
+      const num = tbody.querySelectorAll('tr').length + 1;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text" data-id="${prefix}-${num}-name" placeholder="שם DJ"></td>
+        <td><input type="text" data-id="${prefix}-${num}-plat" placeholder="IG / TikTok"></td>
+        <td><input type="url" data-id="${prefix}-${num}-url" placeholder="קישור"></td>
+        <td><input type="text" data-id="${prefix}-${num}-date" placeholder="DD.MM"></td>
+        <td><input type="checkbox" data-id="${prefix}-${num}-dl"></td>
+        <td><input type="checkbox" data-id="${prefix}-${num}-shared"></td>
+      `;
+      tbody.appendChild(tr);
+      // Wire up new inputs
+      tr.querySelectorAll('input[type="text"][data-id], input[type="url"][data-id]').forEach(inp => {
+        const stored = loadState(inp.dataset.id);
+        if (stored !== null) inp.value = stored;
+        inp.addEventListener('change', () => saveState(inp.dataset.id, inp.value));
+        inp.addEventListener('blur', () => saveState(inp.dataset.id, inp.value));
+      });
+      tr.querySelectorAll('input[type="checkbox"][data-id]').forEach(cb => {
+        const stored = loadState(cb.dataset.id);
+        if (stored === 'true') cb.checked = true;
+        cb.addEventListener('change', () => {
+          saveState(cb.dataset.id, cb.checked);
+          updateProgress();
+        });
+      });
+    });
+  });
+
+  // ===== RESET / EXPORT =====
+  const resetBtn = document.getElementById('reset-btn');
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    if (!confirm('למחוק את כל הסימונים והקישורים? לא ניתן לבטל.')) return;
+    Object.keys(localStorage).forEach(k => { if (k.startsWith(PREFIX)) localStorage.removeItem(k); });
+    location.reload();
+  });
+  const exportBtn = document.getElementById('export-btn');
+  if (exportBtn) exportBtn.addEventListener('click', () => {
+    const data = {};
+    Object.keys(localStorage).forEach(k => {
+      if (k.startsWith(PREFIX)) data[k.replace(PREFIX, '')] = localStorage.getItem(k);
+    });
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `yaffa-ops-export-${TODAY.toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+</body>
+</html>

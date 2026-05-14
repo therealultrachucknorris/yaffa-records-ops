@@ -1,0 +1,28 @@
+# EXCLUDE EVERYTHING by default
+*
+
+# Whitelist only the files we want public
+!docs/
+!docs/**
+!README.md
+!.gitignore
+
+# Never commit, even if accidentally added
+**/lists/
+**/*.csv
+**/*.xlsx
+**/*.docx
+**/*-pnl.html
+**/*-list.html
+**/workout-*
+**/cape-town-*
+**/artist-statement-*
+**/trackstack_api_*
+**/setup_trackstack_*
+**/yaffa_custom_audience*
+**/yaffa_customer_match*
+.DS_Store
+*.env
+*.env.*
+.credentials/
+yaffa-ops-export-*.json
