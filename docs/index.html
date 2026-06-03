@@ -944,6 +944,26 @@
   .cal-modal-actions .cal-btn { flex: 1; text-align: center; }
   .cal-btn.cal-danger { border-color: rgba(193,59,46,0.6); color: #E07A6E; }
   .cal-btn.cal-danger:hover { background: rgba(193,59,46,0.15); }
+  .cal-view-switch { display: flex; gap: 6px; }
+  .cal-view-btn.active { background: var(--gold, #BF9830); color: #080809; border-color: var(--gold, #BF9830); font-weight: 600; }
+  .cal-multi { display: grid; gap: 14px; }
+  .cal-multi-3 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+  .cal-multi-6 { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  .cal-multi-12 { grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); }
+  .cal-mini { background: var(--surface, #16161C); border: 1px solid var(--border, rgba(237,232,220,0.12)); border-radius: 4px; padding: 10px; }
+  .cal-mini-title { font-family: 'Cinzel', serif; color: var(--gold, #BF9830); font-size: 14px; margin-bottom: 8px; cursor: pointer; text-align: center; }
+  .cal-mini-title:hover { text-decoration: underline; }
+  .cal-mini-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal-mini-dow { text-align: center; font-size: 9px; color: var(--ivory-dim, #B5B0A4); padding: 2px 0; }
+  .cal-mini-day { min-height: 26px; border-radius: 2px; padding: 2px; cursor: pointer; border: 1px solid transparent; display: flex; flex-direction: column; gap: 1px; overflow: hidden; }
+  .cal-mini-day:hover { border-color: rgba(191,152,48,0.4); }
+  .cal-mini-day .cal-daynum { font-size: 9px; }
+  .cal-mini-day.cal-today { border-color: var(--gold, #BF9830); }
+  .cal-mini-day.cal-other { opacity: 0.25; }
+  .cal-mini-tall { min-height: 54px; }
+  .cal-chip-sm { font-size: 9px; padding: 1px 4px; border-radius: 2px; }
+  .cal-dotrow { display: flex; gap: 2px; flex-wrap: wrap; }
+  .cal-dot-sm { width: 7px; height: 7px; border-radius: 50%; display: inline-block; padding: 0 !important; }
 </style>
 <section class="tab-panel" id="tab-calendar">
 
@@ -952,6 +972,12 @@
     <button class="cal-btn" id="cal-prev">‹ הקודם</button>
     <button class="cal-btn" id="cal-today-btn">היום</button>
     <button class="cal-btn" id="cal-next">הבא ›</button>
+    <div class="cal-view-switch">
+      <button class="cal-btn cal-view-btn" data-view="1">חודש</button>
+      <button class="cal-btn cal-view-btn" data-view="3">3 חודשים</button>
+      <button class="cal-btn cal-view-btn" data-view="6">חצי שנה</button>
+      <button class="cal-btn cal-view-btn" data-view="12">שנה</button>
+    </div>
     <div style="flex: 1;"></div>
     <button class="cal-btn cal-add" id="cal-add-btn">+ הוספה</button>
   </div>
@@ -3214,9 +3240,56 @@ Defiance turned dancefloor.</pre>
   const calGrid = document.getElementById('cal-grid');
   const calTitle = document.getElementById('cal-title');
 
+  let calView = parseInt(localStorage.getItem(PREFIX + 'cal-view') || '1', 10);
+  if ([1, 3, 6, 12].indexOf(calView) === -1) calView = 1;
+  function calSetView(n) { calView = n; localStorage.setItem(PREFIX + 'cal-view', String(n)); calRender(); }
+
+  function calEventsOn(dStr) { return calEvents.filter(ev => ev.date === dStr); }
+  function calChipClass(ev) {
+    return ev.type === 'official' ? 'cal-official' : ev.type === 'free' ? 'cal-free' : ev.type === 'event' ? 'cal-event' : 'cal-other-type';
+  }
+  function calMakeChip(ev, small) {
+    const chip = document.createElement('div');
+    chip.className = 'cal-chip ' + (small ? 'cal-chip-sm ' : '') + calChipClass(ev);
+    chip.textContent = ev.title;
+    chip.title = ev.title + (ev.notes ? ' — ' + ev.notes : '');
+    chip.draggable = true;
+    chip.addEventListener('click', e => { e.stopPropagation(); calOpenModal(ev.id, null); });
+    chip.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', ev.id);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    return chip;
+  }
+  function calBindDrop(cell, dStr) {
+    cell.addEventListener('dragover', e => { e.preventDefault(); cell.classList.add('cal-dragover'); });
+    cell.addEventListener('dragleave', () => cell.classList.remove('cal-dragover'));
+    cell.addEventListener('drop', e => {
+      e.preventDefault();
+      cell.classList.remove('cal-dragover');
+      const id = e.dataTransfer.getData('text/plain');
+      const ev = calEvents.find(x => x.id === id);
+      if (ev && ev.date !== dStr) { ev.date = dStr; calSave(); calRender(); }
+    });
+  }
+
   function calRender() {
     if (!calGrid) return;
+    document.querySelectorAll('.cal-view-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.view, 10) === calView));
+    calDowRow.style.display = calView === 1 ? '' : 'none';
     calGrid.innerHTML = '';
+    if (calView === 1) { calRenderSingleMonth(); return; }
+    calGrid.className = 'cal-multi cal-multi-' + calView;
+    const startY = calCursor.getFullYear(), startM = calCursor.getMonth();
+    const endD = new Date(startY, startM + calView - 1, 1);
+    calTitle.textContent = HE_MONTHS[startM] + ' ' + startY + ' – ' + HE_MONTHS[endD.getMonth()] + ' ' + endD.getFullYear();
+    for (let m = 0; m < calView; m++) {
+      calGrid.appendChild(calBuildMini(new Date(startY, startM + m, 1), calView === 3));
+    }
+  }
+
+  function calRenderSingleMonth() {
+    calGrid.className = 'cal-grid';
     calTitle.textContent = HE_MONTHS[calCursor.getMonth()] + ' ' + calCursor.getFullYear();
     const first = new Date(calCursor.getFullYear(), calCursor.getMonth(), 1);
     const start = new Date(first);
@@ -3234,32 +3307,74 @@ Defiance turned dancefloor.</pre>
       num.className = 'cal-daynum';
       num.textContent = d.getDate();
       cell.appendChild(num);
-      calEvents.filter(ev => ev.date === dStr).forEach(ev => {
-        const chip = document.createElement('div');
-        const typeClass = ev.type === 'official' ? 'cal-official' : ev.type === 'free' ? 'cal-free' : ev.type === 'event' ? 'cal-event' : 'cal-other-type';
-        chip.className = 'cal-chip ' + typeClass;
-        chip.textContent = ev.title;
-        chip.title = ev.title + (ev.notes ? ' — ' + ev.notes : '');
-        chip.draggable = true;
-        chip.addEventListener('click', e => { e.stopPropagation(); calOpenModal(ev.id, null); });
-        chip.addEventListener('dragstart', e => {
-          e.dataTransfer.setData('text/plain', ev.id);
-          e.dataTransfer.effectAllowed = 'move';
-        });
-        cell.appendChild(chip);
-      });
+      calEventsOn(dStr).forEach(ev => cell.appendChild(calMakeChip(ev, false)));
       cell.addEventListener('click', () => calOpenModal(null, dStr));
-      cell.addEventListener('dragover', e => { e.preventDefault(); cell.classList.add('cal-dragover'); });
-      cell.addEventListener('dragleave', () => cell.classList.remove('cal-dragover'));
-      cell.addEventListener('drop', e => {
-        e.preventDefault();
-        cell.classList.remove('cal-dragover');
-        const id = e.dataTransfer.getData('text/plain');
-        const ev = calEvents.find(x => x.id === id);
-        if (ev && ev.date !== dStr) { ev.date = dStr; calSave(); calRender(); }
-      });
+      calBindDrop(cell, dStr);
       calGrid.appendChild(cell);
     }
+  }
+
+  function calBuildMini(monthDate, withChips) {
+    const wrap = document.createElement('div');
+    wrap.className = 'cal-mini';
+    const t = document.createElement('div');
+    t.className = 'cal-mini-title';
+    t.textContent = HE_MONTHS[monthDate.getMonth()] + ' ' + monthDate.getFullYear();
+    t.title = 'מעבר לתצוגת חודש';
+    t.addEventListener('click', () => { calCursor = new Date(monthDate); calSetView(1); });
+    wrap.appendChild(t);
+    const dow = document.createElement('div');
+    dow.className = 'cal-mini-grid';
+    ['א','ב','ג','ד','ה','ו','ש'].forEach(dn => {
+      const s = document.createElement('div');
+      s.className = 'cal-mini-dow';
+      s.textContent = dn;
+      dow.appendChild(s);
+    });
+    wrap.appendChild(dow);
+    const g = document.createElement('div');
+    g.className = 'cal-mini-grid';
+    const first = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+    const start = new Date(first);
+    start.setDate(first.getDate() - first.getDay());
+    const todayStr = calFmt(TODAY);
+    for (let i = 0; i < 42; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      const dStr = calFmt(d);
+      const inMonth = d.getMonth() === monthDate.getMonth();
+      const cell = document.createElement('div');
+      cell.className = 'cal-mini-day' + (inMonth ? '' : ' cal-other') + (dStr === todayStr ? ' cal-today' : '') + (withChips ? ' cal-mini-tall' : '');
+      const num = document.createElement('div');
+      num.className = 'cal-daynum';
+      num.textContent = d.getDate();
+      cell.appendChild(num);
+      if (inMonth) {
+        const evs = calEventsOn(dStr);
+        if (withChips) {
+          evs.forEach(ev => cell.appendChild(calMakeChip(ev, true)));
+          cell.addEventListener('click', () => calOpenModal(null, dStr));
+          calBindDrop(cell, dStr);
+        } else {
+          if (evs.length) {
+            const row = document.createElement('div');
+            row.className = 'cal-dotrow';
+            evs.slice(0, 4).forEach(ev => {
+              const dot = document.createElement('span');
+              dot.className = 'cal-dot-sm ' + calChipClass(ev);
+              dot.title = ev.title;
+              row.appendChild(dot);
+            });
+            cell.appendChild(row);
+            cell.title = evs.map(e2 => e2.title).join(' · ');
+          }
+          cell.addEventListener('click', () => { calCursor = new Date(monthDate); calSetView(1); });
+        }
+      }
+      g.appendChild(cell);
+    }
+    wrap.appendChild(g);
+    return wrap;
   }
 
   const calOverlay = document.getElementById('cal-modal-overlay');
@@ -3305,10 +3420,11 @@ Defiance turned dancefloor.</pre>
   calOverlay.addEventListener('click', e => { if (e.target === calOverlay) calCloseModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') calCloseModal(); });
 
-  document.getElementById('cal-prev').addEventListener('click', () => { calCursor.setMonth(calCursor.getMonth() - 1); calRender(); });
-  document.getElementById('cal-next').addEventListener('click', () => { calCursor.setMonth(calCursor.getMonth() + 1); calRender(); });
+  document.getElementById('cal-prev').addEventListener('click', () => { calCursor.setMonth(calCursor.getMonth() - calView); calRender(); });
+  document.getElementById('cal-next').addEventListener('click', () => { calCursor.setMonth(calCursor.getMonth() + calView); calRender(); });
   document.getElementById('cal-today-btn').addEventListener('click', () => { calCursor = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); calRender(); });
   document.getElementById('cal-add-btn').addEventListener('click', () => calOpenModal(null, calFmt(TODAY)));
+  document.querySelectorAll('.cal-view-btn').forEach(b => b.addEventListener('click', () => calSetView(parseInt(b.dataset.view, 10))));
 
   calRender();
   renderTimeline();
