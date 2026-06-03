@@ -802,6 +802,10 @@
     <span class="tname">Overview</span>
     <span class="tcd">6 releases</span>
   </button>
+  <button class="tab-btn" data-tab="calendar">
+    <span class="tname">לוח שנה</span>
+    <span class="tcd">📅</span>
+  </button>
   <button class="tab-btn" data-tab="bulletproof">
     <span class="tname">Bulletproof EDIT</span>
     <span class="tcd" data-cd="2026-05-14">—</span>
@@ -900,6 +904,101 @@
     <br><strong>Cadence:</strong> שחרור אחד כל שבועיים, יום רביעי (אלא אם צוין אחרת).
     <br><strong>הפצה:</strong> Proton בלבד לאופישלס. SoundCloud + Hypeddit לפרי אדיטים.
     <br><strong>צ׳קליסט שמור:</strong> כל סימון V נשמר בדפדפן (localStorage). פתח את הקובץ באותו דפדפן בכל פעם.
+  </div>
+
+</section>
+
+<!-- ========== CALENDAR ========== -->
+<style>
+  .cal-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .cal-toolbar h2 { font-family: 'Cinzel', serif; font-size: 22px; color: var(--ivory, #EDE8DC); margin: 0; min-width: 180px; }
+  .cal-btn { background: var(--surface, #16161C); border: 1px solid var(--border, rgba(237,232,220,0.18)); color: var(--ivory, #EDE8DC); padding: 7px 14px; font-size: 13px; cursor: pointer; border-radius: 3px; }
+  .cal-btn:hover { border-color: var(--gold, #BF9830); color: var(--gold, #BF9830); }
+  .cal-btn.cal-add { background: var(--gold, #BF9830); color: #080809; font-weight: 600; border-color: var(--gold, #BF9830); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-size: 11px; letter-spacing: 0.15em; color: var(--ivory-dim, #B5B0A4); text-transform: uppercase; padding: 6px 0; }
+  .cal-day { min-height: 96px; background: var(--surface, #16161C); border: 1px solid var(--border, rgba(237,232,220,0.12)); border-radius: 3px; padding: 5px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; overflow: hidden; transition: border-color .12s; }
+  .cal-day:hover { border-color: rgba(191,152,48,0.45); }
+  .cal-day.cal-other { opacity: 0.35; }
+  .cal-day.cal-today { border-color: var(--gold, #BF9830); box-shadow: inset 0 0 0 1px var(--gold, #BF9830); }
+  .cal-day.cal-dragover { border-color: var(--gold, #BF9830); background: rgba(191,152,48,0.08); }
+  .cal-daynum { font-size: 12px; color: var(--ivory-dim, #B5B0A4); }
+  .cal-today .cal-daynum { color: var(--gold, #BF9830); font-weight: 700; }
+  .cal-chip { font-size: 11px; line-height: 1.3; padding: 3px 6px; border-radius: 3px; cursor: grab; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cal-chip:active { cursor: grabbing; }
+  .cal-chip.cal-official { background: var(--gold, #BF9830); color: #080809; font-weight: 600; }
+  .cal-chip.cal-free { background: rgba(63,160,96,0.25); color: #7BC796; border: 1px solid rgba(63,160,96,0.5); }
+  .cal-chip.cal-event { background: rgba(193,59,46,0.22); color: #E07A6E; border: 1px solid rgba(193,59,46,0.5); }
+  .cal-chip.cal-other-type { background: rgba(237,232,220,0.1); color: var(--ivory-dim, #B5B0A4); border: 1px solid var(--border, rgba(237,232,220,0.18)); }
+  .cal-legend { display: flex; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--ivory-dim, #B5B0A4); flex-wrap: wrap; }
+  .cal-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .cal-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  #cal-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(8,8,9,0.82); z-index: 9999; align-items: center; justify-content: center; }
+  #cal-modal-overlay.open { display: flex; }
+  .cal-modal { background: var(--surface, #16161C); border: 1px solid var(--border, rgba(237,232,220,0.2)); border-radius: 6px; padding: 24px; width: min(420px, 92vw); display: flex; flex-direction: column; gap: 12px; }
+  .cal-modal h3 { margin: 0 0 4px; font-family: 'Cinzel', serif; color: var(--gold, #BF9830); font-size: 18px; }
+  .cal-modal label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ivory-dim, #B5B0A4); display: block; margin-bottom: 4px; }
+  .cal-modal input, .cal-modal select, .cal-modal textarea { width: 100%; box-sizing: border-box; background: #0E0E12; border: 1px solid var(--border, rgba(237,232,220,0.18)); color: var(--ivory, #EDE8DC); padding: 9px 10px; font-size: 14px; border-radius: 3px; font-family: inherit; }
+  .cal-modal textarea { min-height: 60px; resize: vertical; }
+  .cal-modal-actions { display: flex; gap: 10px; margin-top: 6px; }
+  .cal-modal-actions .cal-btn { flex: 1; text-align: center; }
+  .cal-btn.cal-danger { border-color: rgba(193,59,46,0.6); color: #E07A6E; }
+  .cal-btn.cal-danger:hover { background: rgba(193,59,46,0.15); }
+</style>
+<section class="tab-panel" id="tab-calendar">
+
+  <div class="cal-toolbar">
+    <h2 id="cal-title">—</h2>
+    <button class="cal-btn" id="cal-prev">‹ הקודם</button>
+    <button class="cal-btn" id="cal-today-btn">היום</button>
+    <button class="cal-btn" id="cal-next">הבא ›</button>
+    <div style="flex: 1;"></div>
+    <button class="cal-btn cal-add" id="cal-add-btn">+ הוספה</button>
+  </div>
+
+  <div class="cal-grid" id="cal-dow-row"></div>
+  <div class="cal-grid" id="cal-grid"></div>
+
+  <div class="cal-legend">
+    <span><span class="cal-dot" style="background: var(--gold, #BF9830);"></span> ריליס רשמי</span>
+    <span><span class="cal-dot" style="background: rgba(63,160,96,0.7);"></span> פרי אדיט</span>
+    <span><span class="cal-dot" style="background: rgba(193,59,46,0.7);"></span> אירוע / הופעה</span>
+    <span><span class="cal-dot" style="background: rgba(237,232,220,0.25);"></span> אחר</span>
+  </div>
+  <div class="note" style="margin-top: 14px;">
+    לחיצה על יום = הוספה. לחיצה על אייטם = עריכה/מחיקה. גרירה של אייטם ליום אחר = שינוי תאריך. הכל נשמר ומסונכרן (Firebase) בין כל מי שמחובר לדשבורד.
+  </div>
+
+  <div id="cal-modal-overlay">
+    <div class="cal-modal">
+      <h3 id="cal-modal-title">אירוע חדש</h3>
+      <div>
+        <label for="cal-f-title">כותרת</label>
+        <input type="text" id="cal-f-title" placeholder="למשל: All Night · YFR010">
+      </div>
+      <div>
+        <label for="cal-f-date">תאריך</label>
+        <input type="date" id="cal-f-date">
+      </div>
+      <div>
+        <label for="cal-f-type">סוג</label>
+        <select id="cal-f-type">
+          <option value="official">ריליס רשמי</option>
+          <option value="free">פרי אדיט</option>
+          <option value="event">אירוע / הופעה</option>
+          <option value="other">אחר</option>
+        </select>
+      </div>
+      <div>
+        <label for="cal-f-notes">הערות</label>
+        <textarea id="cal-f-notes" placeholder="אופציונלי"></textarea>
+      </div>
+      <div class="cal-modal-actions">
+        <button class="cal-btn cal-add" id="cal-save-btn">שמירה</button>
+        <button class="cal-btn cal-danger" id="cal-delete-btn">מחיקה</button>
+        <button class="cal-btn" id="cal-cancel-btn">ביטול</button>
+      </div>
+    </div>
   </div>
 
 </section>
@@ -2760,6 +2859,15 @@ Defiance turned dancefloor.</pre>
 
   // Apply a value coming from the shared DB onto the matching element
   function applyRemote(id, val) {
+    if (id === 'calendar-events-v1') {
+      const v = (val == null ? '' : String(val));
+      if (v && v !== loadState('calendar-events-v1')) {
+        saveLocal('calendar-events-v1', v);
+        try { calEvents = JSON.parse(v); } catch (e) {}
+        if (typeof calRender === 'function') calRender();
+      }
+      return;
+    }
     const cb = document.querySelector('input[type="checkbox"][data-id="' + CSS.escape(id) + '"]');
     if (cb) {
       const on = (val === true || val === 'true');
@@ -2786,6 +2894,10 @@ Defiance turned dancefloor.</pre>
       textInputs.forEach(inp => {
         if (!(inp.dataset.id in remote) && inp.value) updates[inp.dataset.id] = inp.value;
       });
+      if (!('calendar-events-v1' in remote)) {
+        const localCal = loadState('calendar-events-v1');
+        if (localCal) updates['calendar-events-v1'] = localCal;
+      }
       if (Object.keys(updates).length) dbRef.update(updates);
     }).catch(e => console.warn('Firebase initial read failed', e));
 
@@ -3003,6 +3115,142 @@ Defiance turned dancefloor.</pre>
     a.click();
     URL.revokeObjectURL(url);
   });
+
+  // ===== CALENDAR =====
+  const CAL_KEY = 'calendar-events-v1';
+  const CAL_SEED = [
+    { id: 'cal-bulletproof', title: 'Bulletproof EDIT (יצא)', date: '2026-05-14', type: 'free', notes: '3k+ plays, #9 Hypeddit Indie Dance' },
+    { id: 'cal-all-night', title: 'All Night · YFR010', date: '2026-06-10', type: 'official', notes: 'Oi & Mosko. Dispersion booked. Spotify pitched 2.6.' },
+    { id: 'cal-emta', title: 'Emta · YFR009', date: '2026-06-25', type: 'official', notes: 'Oi. 2 versions. Artwork + Sharon shoot needed.' },
+    { id: 'cal-higher', title: 'Higher · YFR013', date: '2026-07-15', type: 'official', notes: 'Oi. Production not started.' },
+    { id: 'cal-slts', title: 'SLTS EDIT', date: '2026-07-29', type: 'free', notes: 'Nirvana × Yaffa. Consider shorter version.' },
+    { id: 'cal-jonah', title: 'Jonah EP · YFR014', date: '2026-08-12', type: 'official', notes: 'New signing. Contract first.' }
+  ];
+  var calEvents = null;
+  (function calLoad() {
+    const stored = loadState(CAL_KEY);
+    if (stored) { try { calEvents = JSON.parse(stored); } catch (e) { calEvents = null; } }
+    if (!Array.isArray(calEvents)) calEvents = CAL_SEED.slice();
+  })();
+  function calSave() { saveState(CAL_KEY, JSON.stringify(calEvents)); }
+
+  const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+  const HE_DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+  let calCursor = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+  let calEditingId = null;
+
+  function calFmt(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  const calDowRow = document.getElementById('cal-dow-row');
+  HE_DAYS.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow';
+    el.textContent = d;
+    calDowRow.appendChild(el);
+  });
+
+  const calGrid = document.getElementById('cal-grid');
+  const calTitle = document.getElementById('cal-title');
+
+  function calRender() {
+    if (!calGrid) return;
+    calGrid.innerHTML = '';
+    calTitle.textContent = HE_MONTHS[calCursor.getMonth()] + ' ' + calCursor.getFullYear();
+    const first = new Date(calCursor.getFullYear(), calCursor.getMonth(), 1);
+    const start = new Date(first);
+    start.setDate(first.getDate() - first.getDay()); // back to Sunday
+    const todayStr = calFmt(TODAY);
+    for (let i = 0; i < 42; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      const dStr = calFmt(d);
+      const cell = document.createElement('div');
+      cell.className = 'cal-day';
+      if (d.getMonth() !== calCursor.getMonth()) cell.classList.add('cal-other');
+      if (dStr === todayStr) cell.classList.add('cal-today');
+      const num = document.createElement('div');
+      num.className = 'cal-daynum';
+      num.textContent = d.getDate();
+      cell.appendChild(num);
+      calEvents.filter(ev => ev.date === dStr).forEach(ev => {
+        const chip = document.createElement('div');
+        const typeClass = ev.type === 'official' ? 'cal-official' : ev.type === 'free' ? 'cal-free' : ev.type === 'event' ? 'cal-event' : 'cal-other-type';
+        chip.className = 'cal-chip ' + typeClass;
+        chip.textContent = ev.title;
+        chip.title = ev.title + (ev.notes ? ' — ' + ev.notes : '');
+        chip.draggable = true;
+        chip.addEventListener('click', e => { e.stopPropagation(); calOpenModal(ev.id, null); });
+        chip.addEventListener('dragstart', e => {
+          e.dataTransfer.setData('text/plain', ev.id);
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        cell.appendChild(chip);
+      });
+      cell.addEventListener('click', () => calOpenModal(null, dStr));
+      cell.addEventListener('dragover', e => { e.preventDefault(); cell.classList.add('cal-dragover'); });
+      cell.addEventListener('dragleave', () => cell.classList.remove('cal-dragover'));
+      cell.addEventListener('drop', e => {
+        e.preventDefault();
+        cell.classList.remove('cal-dragover');
+        const id = e.dataTransfer.getData('text/plain');
+        const ev = calEvents.find(x => x.id === id);
+        if (ev && ev.date !== dStr) { ev.date = dStr; calSave(); calRender(); }
+      });
+      calGrid.appendChild(cell);
+    }
+  }
+
+  const calOverlay = document.getElementById('cal-modal-overlay');
+  const calFTitle = document.getElementById('cal-f-title');
+  const calFDate = document.getElementById('cal-f-date');
+  const calFType = document.getElementById('cal-f-type');
+  const calFNotes = document.getElementById('cal-f-notes');
+  const calDeleteBtn = document.getElementById('cal-delete-btn');
+
+  function calOpenModal(id, dateStr) {
+    calEditingId = id;
+    const ev = id ? calEvents.find(x => x.id === id) : null;
+    document.getElementById('cal-modal-title').textContent = ev ? 'עריכה' : 'אירוע חדש';
+    calFTitle.value = ev ? ev.title : '';
+    calFDate.value = ev ? ev.date : (dateStr || calFmt(TODAY));
+    calFType.value = ev ? ev.type : 'official';
+    calFNotes.value = ev ? (ev.notes || '') : '';
+    calDeleteBtn.style.display = ev ? '' : 'none';
+    calOverlay.classList.add('open');
+    calFTitle.focus();
+  }
+  function calCloseModal() { calOverlay.classList.remove('open'); calEditingId = null; }
+
+  document.getElementById('cal-save-btn').addEventListener('click', () => {
+    const title = calFTitle.value.trim();
+    const date = calFDate.value;
+    if (!title || !date) { alert('צריך כותרת ותאריך'); return; }
+    if (calEditingId) {
+      const ev = calEvents.find(x => x.id === calEditingId);
+      if (ev) { ev.title = title; ev.date = date; ev.type = calFType.value; ev.notes = calFNotes.value.trim(); }
+    } else {
+      calEvents.push({ id: 'cal-' + Date.now(), title: title, date: date, type: calFType.value, notes: calFNotes.value.trim() });
+    }
+    calSave(); calRender(); calCloseModal();
+  });
+  calDeleteBtn.addEventListener('click', () => {
+    if (!calEditingId) return;
+    if (!confirm('למחוק את האייטם?')) return;
+    calEvents = calEvents.filter(x => x.id !== calEditingId);
+    calSave(); calRender(); calCloseModal();
+  });
+  document.getElementById('cal-cancel-btn').addEventListener('click', calCloseModal);
+  calOverlay.addEventListener('click', e => { if (e.target === calOverlay) calCloseModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') calCloseModal(); });
+
+  document.getElementById('cal-prev').addEventListener('click', () => { calCursor.setMonth(calCursor.getMonth() - 1); calRender(); });
+  document.getElementById('cal-next').addEventListener('click', () => { calCursor.setMonth(calCursor.getMonth() + 1); calRender(); });
+  document.getElementById('cal-today-btn').addEventListener('click', () => { calCursor = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); calRender(); });
+  document.getElementById('cal-add-btn').addEventListener('click', () => calOpenModal(null, calFmt(TODAY)));
+
+  calRender();
 })();
 </script>
 </body>
