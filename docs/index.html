@@ -2865,6 +2865,7 @@ Defiance turned dancefloor.</pre>
         saveLocal('calendar-events-v1', v);
         try { calEvents = JSON.parse(v); } catch (e) {}
         if (typeof calRender === 'function') calRender();
+        if (typeof renderTimeline === 'function') renderTimeline();
       }
       return;
     }
@@ -3026,37 +3027,46 @@ Defiance turned dancefloor.</pre>
   }
   renderOverview();
 
-  // ===== TIMELINE =====
+  // ===== TIMELINE (driven by the calendar — future items only) =====
   const tl = document.getElementById('timeline-track');
-  const tlReleases = [
-    { date: '2026-05-14', name: 'Bulletproof', free: true },
-    { date: '2026-06-10', name: 'All Night', free: false },
-    { date: '2026-06-25', name: 'Emta', free: false },
-    { date: '2026-07-15', name: 'Higher', free: false },
-    { date: '2026-07-29', name: 'SLTS', free: true },
-    { date: '2026-08-12', name: 'Jonah EP', free: false }
-  ];
-  const minDate = new Date('2026-05-12');
-  const maxDate = new Date('2026-08-05');
-  const span = maxDate - minDate;
+  function renderTimeline() {
+    if (!tl) return;
+    tl.innerHTML = '<div class="timeline-axis"></div>';
+    const todayMid = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+    const items = (Array.isArray(calEvents) ? calEvents : [])
+      .filter(ev => ev.date && new Date(ev.date + 'T00:00:00') >= todayMid)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    // dynamic range: a couple of days before today until the last future item (+padding)
+    const minDate = new Date(todayMid); minDate.setDate(minDate.getDate() - 2);
+    let maxDate = new Date(todayMid); maxDate.setDate(maxDate.getDate() + 30);
+    if (items.length) {
+      const last = new Date(items[items.length - 1].date + 'T00:00:00');
+      if (last > maxDate) maxDate = last;
+    }
+    maxDate.setDate(maxDate.getDate() + 6);
+    const span = maxDate - minDate;
 
-  // Today marker
-  const todayPct = ((TODAY - minDate) / span) * 100;
-  const todayEv = document.createElement('div');
-  todayEv.className = 'timeline-event';
-  todayEv.style.left = todayPct + '%';
-  todayEv.innerHTML = `<div class="timeline-dot today"></div><div class="timeline-label"><div>היום</div><div class="tl-date">${TODAY.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</div></div>`;
-  tl.appendChild(todayEv);
+    const todayPct = ((todayMid - minDate) / span) * 100;
+    const todayEv = document.createElement('div');
+    todayEv.className = 'timeline-event';
+    todayEv.style.left = todayPct + '%';
+    todayEv.innerHTML = `<div class="timeline-dot today"></div><div class="timeline-label"><div>היום</div><div class="tl-date">${TODAY.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</div></div>`;
+    tl.appendChild(todayEv);
 
-  tlReleases.forEach((r, i) => {
-    const dt = new Date(r.date);
-    const pct = ((dt - minDate) / span) * 100;
-    const ev = document.createElement('div');
-    ev.className = 'timeline-event' + (i % 2 === 1 ? ' bottom' : '');
-    ev.style.left = pct + '%';
-    ev.innerHTML = `<div class="timeline-dot ${r.free ? 'free' : ''}"></div><div class="timeline-label"><div>${r.name}</div><div class="tl-date">${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</div></div>`;
-    tl.appendChild(ev);
-  });
+    items.forEach((r, i) => {
+      const dt = new Date(r.date + 'T00:00:00');
+      const pct = ((dt - minDate) / span) * 100;
+      const ev = document.createElement('div');
+      ev.className = 'timeline-event' + (i % 2 === 1 ? ' bottom' : '');
+      ev.style.left = pct + '%';
+      const dotClass = r.type === 'free' ? ' free' : '';
+      const dotStyle = r.type === 'event' ? ' style="background: var(--red); box-shadow: 0 0 0 2px var(--red);"'
+        : r.type === 'other' ? ' style="background: var(--ivory-dim); box-shadow: 0 0 0 2px var(--ivory-dim); opacity: 0.6;"' : '';
+      const safeTitle = String(r.title || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      ev.innerHTML = `<div class="timeline-dot${dotClass}"${dotStyle}></div><div class="timeline-label"><div>${safeTitle}</div><div class="tl-date">${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</div></div>`;
+      tl.appendChild(ev);
+    });
+  }
 
   // ===== ADD ROW =====
   document.querySelectorAll('.add-row-btn[data-add-row]').forEach(btn => {
@@ -3132,7 +3142,7 @@ Defiance turned dancefloor.</pre>
     if (stored) { try { calEvents = JSON.parse(stored); } catch (e) { calEvents = null; } }
     if (!Array.isArray(calEvents)) calEvents = CAL_SEED.slice();
   })();
-  function calSave() { saveState(CAL_KEY, JSON.stringify(calEvents)); }
+  function calSave() { saveState(CAL_KEY, JSON.stringify(calEvents)); renderTimeline(); }
 
   const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
   const HE_DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
@@ -3251,6 +3261,7 @@ Defiance turned dancefloor.</pre>
   document.getElementById('cal-add-btn').addEventListener('click', () => calOpenModal(null, calFmt(TODAY)));
 
   calRender();
+  renderTimeline();
 })();
 </script>
 </body>
