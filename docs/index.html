@@ -793,7 +793,7 @@
 <div class="today-bar">
   <div class="pulse"></div>
   <div>
-    <strong>היום:</strong> Bulletproof T-2 — Hypeddit gate active, VIP email queued. All Night T-29 — סשן אולפן לסיים drum pattern. Emta T-44 — לתאם צילום שרון.
+    <strong>הקרובים:</strong> <span id="today-bar-text">…</span>
   </div>
 </div>
 
@@ -2866,6 +2866,8 @@ Defiance turned dancefloor.</pre>
         try { calEvents = JSON.parse(v); } catch (e) {}
         if (typeof calRender === 'function') calRender();
         if (typeof renderTimeline === 'function') renderTimeline();
+        if (typeof renderOverview === 'function') renderOverview();
+        if (typeof renderTodayBar === 'function') renderTodayBar();
       }
       return;
     }
@@ -2983,49 +2985,97 @@ Defiance turned dancefloor.</pre>
   }
   updateProgress();
 
-  // ===== OVERVIEW CARDS =====
-  const releases = [
-    { id: 'bulletproof', title: 'Bulletproof EDIT', date: '2026-05-14', sub: 'Free · La Roux × Yaffa', format: 'free' },
-    { id: 'all-night', title: 'All Night', date: '2026-06-10', sub: 'YFR010 · Oi & Mosko', format: 'official' },
-    { id: 'emta', title: 'Emta', date: '2026-06-25', sub: 'YFR009 · Oi · 2 versions', format: 'official' },
-    { id: 'higher', title: 'Higher', date: '2026-07-15', sub: 'YFR013 · Oi · maybe Mosko remix', format: 'official' },
-    { id: 'slts', title: 'Smells Like Teen Spirit', date: '2026-07-29', sub: 'Free · Nirvana × Yaffa', format: 'free' },
-    { id: 'jonah', title: 'Jonah EP', date: '2026-08-12', sub: 'YFR014 (מוצע) · Jonah · NEW SIGNING', format: 'official' }
-  ];
-
+  // ===== OVERVIEW CARDS (driven by the calendar — future items only, nearest first) =====
+  // Calendar items that have a full tab with checklists:
+  const CAL_TAB_MAP = {
+    'cal-bulletproof': 'bulletproof',
+    'cal-all-night': 'all-night',
+    'cal-emta': 'emta',
+    'cal-higher': 'higher',
+    'cal-slts': 'slts',
+    'cal-jonah': 'jonah'
+  };
   const ovGrid = document.getElementById('ov-grid');
+  function daysExact(dateStr) {
+    const todayMid = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+    return Math.round((new Date(dateStr + 'T00:00:00') - todayMid) / 86400000);
+  }
+  function escHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+  function calFuture() {
+    const todayMid = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+    return (Array.isArray(calEvents) ? calEvents : [])
+      .filter(ev => ev.date && new Date(ev.date + 'T00:00:00') >= todayMid)
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }
   function renderOverview() {
+    if (!ovGrid) return;
     ovGrid.innerHTML = '';
-    releases.forEach(r => {
-      const d = daysUntil(r.date);
-      const panel = document.getElementById('tab-' + r.id);
-      const cbs = panel.querySelectorAll('input[type="checkbox"][data-id]');
-      const done = panel.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
-      const pct = cbs.length > 0 ? Math.round((done / cbs.length) * 100) : 0;
+    const items = calFuture();
+    items.forEach(r => {
+      const d = daysExact(r.date);
+      const tabId = CAL_TAB_MAP[r.id] || null;
+      let pct = null;
+      if (tabId) {
+        const panel = document.getElementById('tab-' + tabId);
+        if (panel) {
+          const cbs = panel.querySelectorAll('input[type="checkbox"][data-id]');
+          const done = panel.querySelectorAll('input[type="checkbox"][data-id]:checked').length;
+          pct = cbs.length > 0 ? Math.round((done / cbs.length) * 100) : 0;
+        }
+      }
       const cdClass = d <= 0 ? 'today' : d <= 3 ? 'urgent' : '';
       const cdText = d > 0 ? d + 'd' : d === 0 ? 'TODAY' : '·';
-      const dt = new Date(r.date);
+      const dt = new Date(r.date + 'T00:00:00');
+      const badge = r.type === 'official' ? '<span class="badge official">Official</span>'
+        : r.type === 'free' ? '<span class="badge free">Free Edit</span>'
+        : r.type === 'event' ? '<span class="badge" style="background: rgba(193,59,46,0.25); color: #E07A6E;">אירוע</span>'
+        : '<span class="badge na">אחר</span>';
       const card = document.createElement('div');
       card.className = 'ov-card';
       card.innerHTML = `
         <div class="ov-card-hdr">
-          <div class="ov-card-title">${r.title}</div>
+          <div class="ov-card-title">${escHtml(r.title)}</div>
           <div class="ov-card-cd ${cdClass}">${cdText}</div>
         </div>
-        <div class="ov-card-sub">${r.sub}</div>
-        <div class="ov-card-bar"><div style="width: ${pct}%"></div></div>
+        <div class="ov-card-sub">${escHtml(r.notes || '')}</div>
+        <div class="ov-card-bar"><div style="width: ${pct == null ? 0 : pct}%"></div></div>
         <div class="ov-card-foot">
           <span>${dt.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' })}</span>
-          <span><span class="badge ${r.format}">${r.format === 'free' ? 'Free Edit' : 'Official'}</span> · ${pct}%</span>
+          <span>${badge}${pct == null ? '' : ' · ' + pct + '%'}</span>
         </div>
       `;
       card.addEventListener('click', () => {
-        document.querySelector(`.tab-btn[data-tab="${r.id}"]`).click();
+        const btn = document.querySelector(`.tab-btn[data-tab="${tabId || 'calendar'}"]`);
+        if (btn) btn.click();
       });
       ovGrid.appendChild(card);
     });
+    const ovCount = document.querySelector('.tab-btn[data-tab="overview"] .tcd');
+    if (ovCount) ovCount.textContent = items.length + ' upcoming';
   }
   renderOverview();
+
+  // ===== TODAY BAR (dynamic from calendar) =====
+  function renderTodayBar() {
+    const el = document.getElementById('today-bar-text');
+    if (!el) return;
+    const items = calFuture().slice(0, 3);
+    if (!items.length) { el.textContent = 'אין אייטמים קרובים בלוח השנה.'; return; }
+    el.textContent = items.map(r => {
+      const d = daysExact(r.date);
+      return r.title + (d === 0 ? ' — היום!' : ' T-' + d);
+    }).join(' · ');
+  }
+
+  // ===== HIDE PAST RELEASE TABS =====
+  document.querySelectorAll('.tab-btn .tcd[data-cd]').forEach(span => {
+    if (daysExact(span.dataset.cd) < 0) {
+      const btn = span.closest('.tab-btn');
+      if (btn && !btn.classList.contains('active')) btn.style.display = 'none';
+    }
+  });
 
   // ===== TIMELINE (driven by the calendar — future items only) =====
   const tl = document.getElementById('timeline-track');
@@ -3142,7 +3192,7 @@ Defiance turned dancefloor.</pre>
     if (stored) { try { calEvents = JSON.parse(stored); } catch (e) { calEvents = null; } }
     if (!Array.isArray(calEvents)) calEvents = CAL_SEED.slice();
   })();
-  function calSave() { saveState(CAL_KEY, JSON.stringify(calEvents)); renderTimeline(); }
+  function calSave() { saveState(CAL_KEY, JSON.stringify(calEvents)); renderTimeline(); renderOverview(); renderTodayBar(); }
 
   const HE_MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
   const HE_DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
@@ -3262,6 +3312,8 @@ Defiance turned dancefloor.</pre>
 
   calRender();
   renderTimeline();
+  renderOverview();
+  renderTodayBar();
 })();
 </script>
 </body>
