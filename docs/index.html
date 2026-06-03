@@ -963,7 +963,11 @@
   .cal-mini-tall { min-height: 54px; }
   .cal-chip-sm { font-size: 9px; padding: 1px 4px; border-radius: 2px; }
   .cal-dotrow { display: flex; gap: 2px; flex-wrap: wrap; }
-  .cal-dot-sm { width: 7px; height: 7px; border-radius: 50%; display: inline-block; padding: 0 !important; }
+  .cal-dot-sm { width: 7px; height: 7px; border-radius: 50%; display: inline-block; padding: 0 !important; border: none !important; }
+  .cal-dot-sm.cal-official { background: var(--gold, #BF9830); }
+  .cal-dot-sm.cal-free { background: #5BBF82; }
+  .cal-dot-sm.cal-event { background: #E07A6E; }
+  .cal-dot-sm.cal-other-type { background: rgba(237,232,220,0.55); }
 </style>
 <section class="tab-panel" id="tab-calendar">
 
