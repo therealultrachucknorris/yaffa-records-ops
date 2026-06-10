@@ -806,6 +806,10 @@
     <span class="tname">לוח שנה</span>
     <span class="tcd">📅</span>
   </button>
+  <button class="tab-btn" data-tab="notes">
+    <span class="tname">פתקים</span>
+    <span class="tcd">📝</span>
+  </button>
   <button class="tab-btn" data-tab="bulletproof">
     <span class="tname">Bulletproof EDIT</span>
     <span class="tcd" data-cd="2026-05-14">—</span>
@@ -899,16 +903,16 @@
   </div>
 
   <h2 class="section">פתקים ותזכורות</h2>
-  <div style="background: var(--surface); border: 1px solid var(--border); padding: 18px; border-radius: 4px; margin-bottom: 8px;">
+  <div class="notes-card" style="background: var(--surface); border: 1px solid var(--border); padding: 18px; border-radius: 4px; margin-bottom: 8px;">
     <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
-      <input type="text" id="notes-input" placeholder="מה צריך לזכור? (למשל: לסגור רישוי Santa Esmeralda)" style="flex: 2; min-width: 220px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 9px 10px; font-size: 14px; border-radius: 3px; font-family: inherit;">
-      <input type="datetime-local" id="notes-remind" title="תזכורת לנייד (אופציונלי, עד 3 ימים קדימה)" style="flex: 1; min-width: 170px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory-dim); padding: 8px 10px; font-size: 13px; border-radius: 3px; font-family: inherit;">
-      <button class="cal-btn cal-add" id="notes-add-btn" type="button">+ הוסף</button>
+      <input type="text" class="notes-input" placeholder="מה צריך לזכור? (למשל: לסגור רישוי Santa Esmeralda)" style="flex: 2; min-width: 220px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 9px 10px; font-size: 14px; border-radius: 3px; font-family: inherit;">
+      <input type="datetime-local" class="notes-remind" title="תזכורת לנייד (אופציונלי, עד 3 ימים קדימה)" style="flex: 1; min-width: 170px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory-dim); padding: 8px 10px; font-size: 13px; border-radius: 3px; font-family: inherit;">
+      <button class="cal-btn cal-add notes-add-btn" type="button">+ הוסף</button>
     </div>
-    <div id="notes-list" style="display: flex; flex-direction: column; gap: 6px;"></div>
+    <div class="notes-list" style="display: flex; flex-direction: column; gap: 6px;"></div>
     <div style="display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
       <span style="font-size: 11px; color: var(--ivory-dim); letter-spacing: 0.08em;">ntfy topic לדחיפות לנייד:</span>
-      <input type="text" id="ntfy-topic" placeholder="למשל: yaffa-ops-2026" style="width: 180px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 6px 8px; font-size: 12px; border-radius: 3px; font-family: inherit;">
+      <input type="text" class="ntfy-topic" placeholder="yaffayaffa20262026" style="width: 180px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 6px 8px; font-size: 12px; border-radius: 3px; font-family: inherit;">
       <span style="font-size: 11px; color: var(--ivory-dim);">מתקינים את אפליקציית ntfy בנייד, נרשמים לאותו topic, וכל 📲 מגיע כפוש. תזכורת עם תאריך נשלחת מתוזמנת (מגבלת ntfy.sh: עד 3 ימים קדימה).</span>
     </div>
   </div>
@@ -1049,6 +1053,23 @@
 </section>
 
 <!-- ========== BULLETPROOF ========== -->
+<section class="tab-panel" id="tab-notes">
+  <h2 class="section">פתקים ותזכורות</h2>
+  <div class="notes-card" style="background: var(--surface); border: 1px solid var(--border); padding: 18px; border-radius: 4px; margin-bottom: 8px;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+      <input type="text" class="notes-input" placeholder="מה צריך לזכור? (למשל: לסגור רישוי Santa Esmeralda)" style="flex: 2; min-width: 220px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 9px 10px; font-size: 14px; border-radius: 3px; font-family: inherit;">
+      <input type="datetime-local" class="notes-remind" title="תזכורת לנייד (אופציונלי, עד 3 ימים קדימה)" style="flex: 1; min-width: 170px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory-dim); padding: 8px 10px; font-size: 13px; border-radius: 3px; font-family: inherit;">
+      <button class="cal-btn cal-add notes-add-btn" type="button">+ הוסף</button>
+    </div>
+    <div class="notes-list" style="display: flex; flex-direction: column; gap: 6px;"></div>
+    <div style="display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
+      <span style="font-size: 11px; color: var(--ivory-dim); letter-spacing: 0.08em;">ntfy topic לדחיפות לנייד:</span>
+      <input type="text" class="ntfy-topic" placeholder="yaffayaffa20262026" style="width: 180px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 6px 8px; font-size: 12px; border-radius: 3px; font-family: inherit;">
+      <span style="font-size: 11px; color: var(--ivory-dim);">ברירת מחדל: yaffayaffa20262026. מתקינים את אפליקציית ntfy בנייד, נרשמים לאותו topic, וכל 📲 מגיע כפוש. תזכורת עם תאריך = פוש מתוזמן (עד 3 ימים קדימה ב-ntfy.sh).</span>
+    </div>
+  </div>
+</section>
+
 <section class="tab-panel" id="tab-bulletproof">
 
   <div class="release-hero">
@@ -2927,8 +2948,9 @@ Defiance turned dancefloor.</pre>
     }
     if (id === 'ntfy-topic-v1') {
       saveLocal('ntfy-topic-v1', val == null ? '' : String(val));
-      const nt = document.getElementById('ntfy-topic');
-      if (nt && document.activeElement !== nt) nt.value = (val == null ? '' : String(val));
+      document.querySelectorAll('.ntfy-topic').forEach(nt => {
+        if (document.activeElement !== nt) nt.value = (val == null ? '' : String(val));
+      });
       return;
     }
     const cb = document.querySelector('input[type="checkbox"][data-id="' + CSS.escape(id) + '"]');
@@ -2977,17 +2999,21 @@ Defiance turned dancefloor.</pre>
   // ===== NOTES + REMINDERS (synced via Firebase, push via ntfy) =====
   let notes = [];
   try { notes = JSON.parse(loadState('notes-v1') || '[]'); } catch (e) { notes = []; }
-  const notesListEl = document.getElementById('notes-list');
-  const notesInputEl = document.getElementById('notes-input');
-  const notesRemindEl = document.getElementById('notes-remind');
-  const ntfyTopicEl = document.getElementById('ntfy-topic');
-  if (ntfyTopicEl) {
-    ntfyTopicEl.value = loadState('ntfy-topic-v1') || '';
-    ntfyTopicEl.addEventListener('change', () => saveState('ntfy-topic-v1', ntfyTopicEl.value.trim()));
-  }
+  const NTFY_DEFAULT = 'yaffayaffa20262026';
+  const ntfyTopicEls = document.querySelectorAll('.ntfy-topic');
+  function ntfyTopicVal() { return (loadState('ntfy-topic-v1') || NTFY_DEFAULT).trim() || NTFY_DEFAULT; }
+  ntfyTopicEls.forEach(el => {
+    el.value = ntfyTopicVal();
+    el.addEventListener('change', () => {
+      saveState('ntfy-topic-v1', el.value.trim() || NTFY_DEFAULT);
+      ntfyTopicEls.forEach(o => { if (o !== el) o.value = el.value.trim() || NTFY_DEFAULT; });
+    });
+  });
   function notesSave() { saveState('notes-v1', JSON.stringify(notes)); notesRender(); }
   function notesRender() {
-    if (!notesListEl) return;
+    document.querySelectorAll('.notes-list').forEach(listEl => notesRenderInto(listEl));
+  }
+  function notesRenderInto(notesListEl) {
     notesListEl.innerHTML = '';
     if (!notes.length) {
       notesListEl.innerHTML = '<div style="font-size:12px;color:var(--ivory-dim);opacity:0.7;">אין פתקים. תוסיף משהו למעלה.</div>';
@@ -3018,8 +3044,7 @@ Defiance turned dancefloor.</pre>
     });
   }
   async function ntfyPush(note) {
-    const topic = (ntfyTopicEl && ntfyTopicEl.value.trim()) || loadState('ntfy-topic-v1') || '';
-    if (!topic) { alert('קודם קובעים ntfy topic (השדה מתחת לפתקים) ונרשמים אליו באפליקציית ntfy בנייד.'); return; }
+    const topic = ntfyTopicVal();
     const headers = { 'Title': 'Yaffa Ops', 'Tags': 'memo' };
     let scheduled = false;
     if (note.remindAt) {
@@ -3032,19 +3057,23 @@ Defiance turned dancefloor.</pre>
       alert(scheduled ? 'תזכורת תוזמנה לנייד ✓' : 'נשלח לנייד ✓');
     } catch (e) { alert('שליחה נכשלה: ' + e.message); }
   }
-  function notesAdd() {
-    if (!notesInputEl) return;
-    const text = notesInputEl.value.trim();
+  function notesAddFrom(card) {
+    const inp = card.querySelector('.notes-input');
+    const rem = card.querySelector('.notes-remind');
+    const text = inp ? inp.value.trim() : '';
     if (!text) return;
-    const n = { id: 'n' + Date.now(), text, created: new Date().toISOString().slice(0, 10), remindAt: (notesRemindEl && notesRemindEl.value) || '', done: false };
+    const n = { id: 'n' + Date.now(), text, created: new Date().toISOString().slice(0, 10), remindAt: (rem && rem.value) || '', done: false };
     notes.unshift(n);
-    notesInputEl.value = ''; if (notesRemindEl) notesRemindEl.value = '';
+    if (inp) inp.value = ''; if (rem) rem.value = '';
     notesSave();
     if (n.remindAt) ntfyPush(n);
   }
-  const notesAddBtn = document.getElementById('notes-add-btn');
-  if (notesAddBtn) notesAddBtn.addEventListener('click', notesAdd);
-  if (notesInputEl) notesInputEl.addEventListener('keydown', e => { if (e.key === 'Enter') notesAdd(); });
+  document.querySelectorAll('.notes-card').forEach(card => {
+    const btn = card.querySelector('.notes-add-btn');
+    const inp = card.querySelector('.notes-input');
+    if (btn) btn.addEventListener('click', () => notesAddFrom(card));
+    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') notesAddFrom(card); });
+  });
   notesRender();
 
   // Render embedded email templates into iframe preview + source pre
