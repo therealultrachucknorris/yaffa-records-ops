@@ -898,6 +898,21 @@
     </div>
   </div>
 
+  <h2 class="section">פתקים ותזכורות</h2>
+  <div style="background: var(--surface); border: 1px solid var(--border); padding: 18px; border-radius: 4px; margin-bottom: 8px;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+      <input type="text" id="notes-input" placeholder="מה צריך לזכור? (למשל: לסגור רישוי Santa Esmeralda)" style="flex: 2; min-width: 220px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 9px 10px; font-size: 14px; border-radius: 3px; font-family: inherit;">
+      <input type="datetime-local" id="notes-remind" title="תזכורת לנייד (אופציונלי, עד 3 ימים קדימה)" style="flex: 1; min-width: 170px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory-dim); padding: 8px 10px; font-size: 13px; border-radius: 3px; font-family: inherit;">
+      <button class="cal-btn cal-add" id="notes-add-btn" type="button">+ הוסף</button>
+    </div>
+    <div id="notes-list" style="display: flex; flex-direction: column; gap: 6px;"></div>
+    <div style="display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap;">
+      <span style="font-size: 11px; color: var(--ivory-dim); letter-spacing: 0.08em;">ntfy topic לדחיפות לנייד:</span>
+      <input type="text" id="ntfy-topic" placeholder="למשל: yaffa-ops-2026" style="width: 180px; background: #0E0E12; border: 1px solid var(--border); color: var(--ivory); padding: 6px 8px; font-size: 12px; border-radius: 3px; font-family: inherit;">
+      <span style="font-size: 11px; color: var(--ivory-dim);">מתקינים את אפליקציית ntfy בנייד, נרשמים לאותו topic, וכל 📲 מגיע כפוש. תזכורת עם תאריך נשלחת מתוזמנת (מגבלת ntfy.sh: עד 3 ימים קדימה).</span>
+    </div>
+  </div>
+
   <h2 class="section">חוקי משחק</h2>
   <div class="note">
     <strong>3-4 שבועות לפני:</strong> כל ריליס צריך להיות מוכן 3-4 שבועות לפני התאריך — מאסטר סופי, מטה-דאטה, ארטוורק, פרי-סייב, PR, וקונטנט T-14 לכל הפלטפורמות.
@@ -2901,6 +2916,21 @@ Defiance turned dancefloor.</pre>
       }
       return;
     }
+    if (id === 'notes-v1') {
+      const v = (val == null ? '[]' : String(val));
+      if (v !== loadState('notes-v1')) {
+        saveLocal('notes-v1', v);
+        try { notes = JSON.parse(v); } catch (e) {}
+        if (typeof notesRender === 'function') notesRender();
+      }
+      return;
+    }
+    if (id === 'ntfy-topic-v1') {
+      saveLocal('ntfy-topic-v1', val == null ? '' : String(val));
+      const nt = document.getElementById('ntfy-topic');
+      if (nt && document.activeElement !== nt) nt.value = (val == null ? '' : String(val));
+      return;
+    }
     const cb = document.querySelector('input[type="checkbox"][data-id="' + CSS.escape(id) + '"]');
     if (cb) {
       const on = (val === true || val === 'true');
@@ -2943,6 +2973,79 @@ Defiance turned dancefloor.</pre>
       renderOverview();
     });
   }
+
+  // ===== NOTES + REMINDERS (synced via Firebase, push via ntfy) =====
+  let notes = [];
+  try { notes = JSON.parse(loadState('notes-v1') || '[]'); } catch (e) { notes = []; }
+  const notesListEl = document.getElementById('notes-list');
+  const notesInputEl = document.getElementById('notes-input');
+  const notesRemindEl = document.getElementById('notes-remind');
+  const ntfyTopicEl = document.getElementById('ntfy-topic');
+  if (ntfyTopicEl) {
+    ntfyTopicEl.value = loadState('ntfy-topic-v1') || '';
+    ntfyTopicEl.addEventListener('change', () => saveState('ntfy-topic-v1', ntfyTopicEl.value.trim()));
+  }
+  function notesSave() { saveState('notes-v1', JSON.stringify(notes)); notesRender(); }
+  function notesRender() {
+    if (!notesListEl) return;
+    notesListEl.innerHTML = '';
+    if (!notes.length) {
+      notesListEl.innerHTML = '<div style="font-size:12px;color:var(--ivory-dim);opacity:0.7;">אין פתקים. תוסיף משהו למעלה.</div>';
+      return;
+    }
+    notes.forEach(n => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;background:#0E0E12;border:1px solid var(--border);border-radius:3px;padding:8px 10px;';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.checked = !!n.done; cb.title = 'בוצע';
+      cb.addEventListener('change', () => { n.done = cb.checked; notesSave(); });
+      const txt = document.createElement('span');
+      txt.textContent = n.text;
+      txt.style.cssText = 'flex:1;font-size:14px;color:var(--ivory);' + (n.done ? 'text-decoration:line-through;opacity:0.45;' : '');
+      const meta = document.createElement('span');
+      meta.style.cssText = 'font-size:11px;color:var(--ivory-dim);white-space:nowrap;';
+      meta.textContent = (n.remindAt ? '⏰ ' + n.remindAt.replace('T', ' ') + ' · ' : '') + (n.created || '');
+      const push = document.createElement('button');
+      push.type = 'button'; push.textContent = '📲'; push.title = 'שלח/תזמן לנייד (ntfy)';
+      push.style.cssText = 'background:none;border:1px solid var(--border);border-radius:3px;cursor:pointer;font-size:13px;padding:3px 8px;color:var(--ivory);';
+      push.addEventListener('click', () => ntfyPush(n));
+      const del = document.createElement('button');
+      del.type = 'button'; del.textContent = '✕'; del.title = 'מחק';
+      del.style.cssText = 'background:none;border:1px solid rgba(193,59,46,0.5);border-radius:3px;cursor:pointer;font-size:12px;padding:3px 8px;color:#E07A6E;';
+      del.addEventListener('click', () => { notes = notes.filter(x => x.id !== n.id); notesSave(); });
+      row.append(cb, txt, meta, push, del);
+      notesListEl.appendChild(row);
+    });
+  }
+  async function ntfyPush(note) {
+    const topic = (ntfyTopicEl && ntfyTopicEl.value.trim()) || loadState('ntfy-topic-v1') || '';
+    if (!topic) { alert('קודם קובעים ntfy topic (השדה מתחת לפתקים) ונרשמים אליו באפליקציית ntfy בנייד.'); return; }
+    const headers = { 'Title': 'Yaffa Ops', 'Tags': 'memo' };
+    let scheduled = false;
+    if (note.remindAt) {
+      const t = Math.floor(new Date(note.remindAt).getTime() / 1000);
+      if (t > (Date.now() / 1000) + 60) { headers['X-Delay'] = String(t); scheduled = true; }
+    }
+    try {
+      const res = await fetch('https://ntfy.sh/' + encodeURIComponent(topic), { method: 'POST', body: note.text, headers });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      alert(scheduled ? 'תזכורת תוזמנה לנייד ✓' : 'נשלח לנייד ✓');
+    } catch (e) { alert('שליחה נכשלה: ' + e.message); }
+  }
+  function notesAdd() {
+    if (!notesInputEl) return;
+    const text = notesInputEl.value.trim();
+    if (!text) return;
+    const n = { id: 'n' + Date.now(), text, created: new Date().toISOString().slice(0, 10), remindAt: (notesRemindEl && notesRemindEl.value) || '', done: false };
+    notes.unshift(n);
+    notesInputEl.value = ''; if (notesRemindEl) notesRemindEl.value = '';
+    notesSave();
+    if (n.remindAt) ntfyPush(n);
+  }
+  const notesAddBtn = document.getElementById('notes-add-btn');
+  if (notesAddBtn) notesAddBtn.addEventListener('click', notesAdd);
+  if (notesInputEl) notesInputEl.addEventListener('keydown', e => { if (e.key === 'Enter') notesAdd(); });
+  notesRender();
 
   // Render embedded email templates into iframe preview + source pre
   document.querySelectorAll('script[type="text/x-html-template"]').forEach(tpl => {
