@@ -745,7 +745,7 @@
     const g = document.getElementById('auth-gate'); if (g) g.remove();
     return;
   }
-  async async function check() {
+  async function check() {
     const pw = document.getElementById('auth-input').value;
     const errEl = document.getElementById('auth-err');
     if (errEl) errEl.textContent = '';
