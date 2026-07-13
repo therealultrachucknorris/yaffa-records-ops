@@ -838,6 +838,10 @@
     <span class="tname">Free Edits Pool</span>
     <span class="tcd">3 ready</span>
   </button>
+  <button class="tab-btn" data-tab="studio">
+    <span class="tname">Studio Pipeline</span>
+    <span class="tcd">9 WIP</span>
+  </button>
   <button class="tab-btn" data-tab="legend">
     <span class="tname">לגיין</span>
     <span class="tcd">help</span>
@@ -2762,6 +2766,97 @@ Defiance turned dancefloor.</pre>
       <tr><td>Oi & Mosko — Hide U feat. Naama Gali</td><td>YFR006</td><td>18.3.2026</td></tr>
       <tr><td>Mishell & Oi — EGO</td><td>YFR002</td><td>18.2.2026</td></tr>
       <tr><td>Mosko — In The Dust EP</td><td>YFR004</td><td>4.2.2026</td></tr>
+    </tbody>
+  </table>
+
+</section>
+
+<!-- ========== STUDIO PIPELINE ========== -->
+<section class="tab-panel" id="tab-studio">
+
+  <h2 class="section">Studio Pipeline — tracks in production</h2>
+  <p style="color:var(--text-dim); font-size:12px; margin:0 0 16px; max-width:760px;">
+    Unreleased material in the works. Stage and next-step fields save live and sync to everyone on the dashboard (same as the calendar). Tick Ready when a track is done and cleared to schedule. Pistolero is a rework, streaming clearance still needs checking (same route as Santa Esmeralda).
+  </p>
+
+  <table class="data" style="direction:ltr;">
+    <thead><tr><th style="width:18%;">Track</th><th style="width:14%;">Artist</th><th style="width:16%;">Stage</th><th>What's left / next</th><th style="width:8%;">Ready</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Your Mind</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-yourmind-stage" value="Finishing"></td>
+        <td><input type="text" data-id="studio-yourmind-next" value="Final touches"></td>
+        <td><input type="checkbox" data-id="studio-yourmind-ready"></td>
+      </tr>
+      <tr>
+        <td>Talk To You</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-talktoyou-stage" value="Revision"></td>
+        <td><input type="text" data-id="studio-talktoyou-next" value="Redo the drop at the end, make it less melodic"></td>
+        <td><input type="checkbox" data-id="studio-talktoyou-ready"></td>
+      </tr>
+      <tr>
+        <td>Trips</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-trips-stage" value="FX"></td>
+        <td><input type="text" data-id="studio-trips-next" value="Finishing touches incl FX, replace Suno sounds"></td>
+        <td><input type="checkbox" data-id="studio-trips-ready"></td>
+      </tr>
+      <tr>
+        <td>Pistolero (Rework)</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-pistolero-stage" value="Clearance"></td>
+        <td><input type="text" data-id="studio-pistolero-next" value="Confirm it can release for streaming as a rework (Santa Esmeralda route). Investigate."></td>
+        <td><input type="checkbox" data-id="studio-pistolero-ready"></td>
+      </tr>
+      <tr>
+        <td>Slow</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-slow-stage" value="Finishing"></td>
+        <td><input type="text" data-id="studio-slow-next" value="Finish"></td>
+        <td><input type="checkbox" data-id="studio-slow-ready"></td>
+      </tr>
+      <tr>
+        <td>Let It Go</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-letitgo-stage" value="Finishing"></td>
+        <td><input type="text" data-id="studio-letitgo-next" value="Finish"></td>
+        <td><input type="checkbox" data-id="studio-letitgo-ready"></td>
+      </tr>
+      <tr>
+        <td>Pressure</td><td>Oi &amp; Mosko</td>
+        <td><input type="text" data-id="studio-pressure-stage" value="Finishing"></td>
+        <td><input type="text" data-id="studio-pressure-next" value="Finishing"></td>
+        <td><input type="checkbox" data-id="studio-pressure-ready"></td>
+      </tr>
+      <tr>
+        <td>Wild West</td><td>Oi</td>
+        <td><input type="text" data-id="studio-wildwest-stage" value="WIP"></td>
+        <td><input type="text" data-id="studio-wildwest-next" placeholder="next step"></td>
+        <td><input type="checkbox" data-id="studio-wildwest-ready"></td>
+      </tr>
+      <tr>
+        <td>Shuli San</td><td>Oi</td>
+        <td><input type="text" data-id="studio-shulisan-stage" value="WIP"></td>
+        <td><input type="text" data-id="studio-shulisan-next" placeholder="next step"></td>
+        <td><input type="checkbox" data-id="studio-shulisan-ready"></td>
+      </tr>
+      <tr>
+        <td><input type="text" data-id="studio-spare1-name" placeholder="new track"></td>
+        <td><input type="text" data-id="studio-spare1-artist" placeholder="artist"></td>
+        <td><input type="text" data-id="studio-spare1-stage" placeholder="stage"></td>
+        <td><input type="text" data-id="studio-spare1-next" placeholder="next step"></td>
+        <td><input type="checkbox" data-id="studio-spare1-ready"></td>
+      </tr>
+      <tr>
+        <td><input type="text" data-id="studio-spare2-name" placeholder="new track"></td>
+        <td><input type="text" data-id="studio-spare2-artist" placeholder="artist"></td>
+        <td><input type="text" data-id="studio-spare2-stage" placeholder="stage"></td>
+        <td><input type="text" data-id="studio-spare2-next" placeholder="next step"></td>
+        <td><input type="checkbox" data-id="studio-spare2-ready"></td>
+      </tr>
+      <tr>
+        <td><input type="text" data-id="studio-spare3-name" placeholder="new track"></td>
+        <td><input type="text" data-id="studio-spare3-artist" placeholder="artist"></td>
+        <td><input type="text" data-id="studio-spare3-stage" placeholder="stage"></td>
+        <td><input type="text" data-id="studio-spare3-next" placeholder="next step"></td>
+        <td><input type="checkbox" data-id="studio-spare3-ready"></td>
+      </tr>
     </tbody>
   </table>
 
