@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SIN CITY · P&amp;L · Private</title>
+<meta name="theme-color" content="#080809">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Heebo:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#080809;--deep:#0E0E12;--surface:#16161C;--surface-2:#1E1E26;--surface-3:#2A2A33;
+  --ivory:#EDE8DC;--ivory-dim:#B5B0A4;--muted:#7A7770;--faint:#4A4844;
+  --gold:#BF9830;--gold-light:#D4AC46;--gold-soft:rgba(191,152,48,.12);
+  --red:#C13B2E;--red-soft:rgba(193,59,46,.12);--red-line:rgba(193,59,46,.35);
+  --green:#2A7A52;--border:rgba(237,232,220,.08);--border-strong:rgba(237,232,220,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ivory);font-family:'Heebo','Inter',sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+body[data-lang="en"]{direction:ltr;font-family:'Inter','Heebo',sans-serif}
+body[data-lang="en"] .he{display:none!important}
+body[data-lang="he"] .en{display:none!important}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+#auth-gate{display:flex;position:fixed;inset:0;background:#080809;color:#EDE8DC;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:-apple-system,sans-serif;z-index:99999}
+#auth-gate input{background:#16161C;border:1px solid rgba(237,232,220,.18);color:#EDE8DC;padding:12px 16px;font-size:14px;border-radius:4px;width:240px;text-align:center;font-family:monospace}
+#auth-gate button{background:#BF9830;border:none;color:#080809;padding:10px 24px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:2px}
+#auth-gate .err{color:#C13B2E;font-size:12px;min-height:16px}
+body:not(.auth-ok)>header,body:not(.auth-ok)>main,body:not(.auth-ok)>footer,body:not(.auth-ok)>.topbar{display:none!important}
+
+.topbar{background:var(--deep);border-bottom:1px solid var(--border);padding:10px 0}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.crumbs{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.crumbs a{color:var(--gold);text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.langbtn{background:var(--surface);border:1px solid var(--border-strong);color:var(--ivory-dim);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;padding:7px 14px;border-radius:3px;cursor:pointer}
+.langbtn:hover{border-color:var(--gold);color:var(--gold)}
+.privtag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#e0574a;background:var(--red-soft);border:1px solid var(--red-line);padding:5px 11px;border-radius:3px;text-transform:uppercase}
+
+header{padding:46px 0 30px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+header:before{content:'';position:absolute;top:-190px;left:50%;transform:translateX(-50%);width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(191,152,48,.14),transparent 68%);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+h1{font-family:'Cinzel',serif;font-size:clamp(34px,6vw,58px);font-weight:700;letter-spacing:.06em;line-height:1.05;margin:12px 0 6px}
+h1 .c{color:var(--gold)}
+.tagline{font-size:16px;color:var(--ivory-dim)}
+
+section{padding:48px 0;border-bottom:1px solid var(--border)}
+.stag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:9px}
+h2{font-family:'Cinzel',serif;font-size:28px;font-weight:600;letter-spacing:.04em;margin-bottom:9px}
+h3{font-family:'Cinzel',serif;font-size:17px;font-weight:600;margin:28px 0 10px}
+h4{font-size:13.5px;font-weight:600;margin:18px 0 7px;color:var(--gold)}
+.lede{font-size:16px;color:var(--ivory-dim);max-width:800px;margin-bottom:22px}
+p{margin-bottom:10px;color:#c6c2ba;font-size:14px}
+ul{margin:9px 20px 14px}
+body[data-lang="he"] ul{margin:9px 20px 14px 0}
+li{margin-bottom:6px;color:#c6c2ba;font-size:14px}
+li::marker{color:var(--gold)}
+strong{color:var(--ivory);font-weight:500}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:18px 16px;position:relative;overflow:hidden}
+.kpi:before{content:'';position:absolute;top:0;inset-inline-start:0;width:2px;height:32px;background:var(--gold)}
+.kpi .n{font-family:'Cinzel',serif;font-size:26px;font-weight:700;line-height:1.1;direction:ltr;color:var(--gold)}
+body[data-lang="he"] .kpi .n{text-align:right}
+.kpi .l{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-top:6px}
+.kpi .h{font-size:11.5px;color:var(--faint);margin-top:4px}
+.kpi.r:before{background:var(--red)}.kpi.r .n{color:#e0574a}
+.kpi.n2:before{background:var(--border-strong)}.kpi.n2 .n{color:var(--ivory)}
+
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:4px}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{background:var(--surface-2);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;padding:11px 13px;text-align:start;font-weight:400;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:10px 13px;font-size:13.5px;color:#c6c2ba;border-bottom:1px solid rgba(237,232,220,.05);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(191,152,48,.04)}
+td.num{font-family:'JetBrains Mono',monospace;direction:ltr;color:var(--ivory);white-space:nowrap;text-align:end}
+td.k{color:var(--ivory);font-weight:500}
+tr.tot td{background:var(--gold-soft);color:var(--gold);font-weight:500;border-top:1px solid rgba(191,152,48,.3)}
+tr.sub td{background:rgba(237,232,220,.03);color:var(--ivory)}
+.tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;padding:2px 7px;border-radius:2px;text-transform:uppercase}
+.tag.known{background:rgba(42,122,82,.16);color:#4cbd85;border:1px solid rgba(42,122,82,.4)}
+.tag.est{background:var(--surface-3);color:var(--muted);border:1px solid var(--border-strong)}
+.tag.open{background:var(--red-soft);color:#e0574a;border:1px solid var(--red-line)}
+
+/* CALCULATOR */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.cbox{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px}
+.cbox.out{border-color:rgba(191,152,48,.3)}
+.frow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(237,232,220,.05)}
+.frow:last-child{border-bottom:none}
+.frow label{font-size:13.5px;color:#c6c2ba;flex:1}
+.frow .hint{display:block;font-size:11px;color:var(--faint);font-family:'JetBrains Mono',monospace}
+.frow input{background:var(--surface-2);border:1px solid var(--border-strong);color:var(--ivory);padding:7px 10px;border-radius:3px;width:110px;font-family:'JetBrains Mono',monospace;font-size:13px;text-align:end;direction:ltr}
+.frow input:focus{outline:none;border-color:var(--gold)}
+.orow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px solid rgba(237,232,220,.05)}
+.orow:last-child{border-bottom:none}
+.orow .ol{font-size:13.5px;color:#c6c2ba}
+.orow .ov{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--ivory);direction:ltr}
+.orow.big{padding:14px 0;border-top:1px solid rgba(191,152,48,.3);margin-top:6px}
+.orow.big .ol{font-family:'Cinzel',serif;font-size:16px;color:var(--gold)}
+.orow.big .ov{font-size:23px;color:var(--gold);font-weight:500}
+.orow.neg .ov{color:#e0574a}
+.orow.split .ov{color:var(--gold-light)}
+
+.call{background:linear-gradient(180deg,rgba(193,59,46,.10),rgba(193,59,46,.03));border:1px solid var(--red-line);border-radius:4px;padding:18px 20px;margin:18px 0}
+.call.g{background:linear-gradient(180deg,rgba(191,152,48,.10),rgba(191,152,48,.03));border-color:rgba(191,152,48,.32)}
+.call .t{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#e0574a;margin-bottom:7px}
+.call.g .t{color:var(--gold)}
+.call p:last-child,.call ul:last-child{margin-bottom:0}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px}
+.card h4{margin-top:0}
+.card.win{border-inline-start:3px solid var(--gold)}
+.card.lose{border-inline-start:3px solid var(--red)}
+
+footer{padding:38px 0 48px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+@media(max-width:820px){.calc,.g2{grid-template-columns:1fr}section{padding:36px 0}}
+</style>
+</head>
+<body data-lang="he">
+
+<div id="auth-gate">
+  <div style="font-family:'Cinzel',serif;font-size:22px;letter-spacing:.18em;color:#BF9830">YAFFA RECORDS</div>
+  <div style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#B5B0A4">Sin City · P&amp;L · Private</div>
+  <input id="auth-input" type="password" placeholder="password" autofocus>
+  <button id="auth-btn">Enter</button>
+  <div class="err" id="auth-err"></div>
+</div>
+
+<div class="topbar"><div class="wrap">
+  <div class="crumbs"><a href="./index.html">← Release Ops</a> <span style="color:var(--faint)">/</span> <a href="./sin-city.html">SIN CITY</a> <span style="color:var(--faint)">/</span> P&amp;L</div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="privtag"><span class="he">עומר ומוסקו בלבד</span><span class="en">Omer and Mosko only</span></span>
+    <button class="langbtn" id="langbtn">EN</button>
+  </div>
+</div></div>
+
+<header><div class="wrap">
+  <div class="eyebrow">Yaffa Records × Haoman 17 · 19.09.2026</div>
+  <h1>SIN CITY <span class="c">P&amp;L</span></h1>
+  <div class="tagline"><span class="he">מודל עלויות, הכנסות ורווח. בסיס עלות 100,000 ₪, יעד 1000 כרטיסים.</span><span class="en">Cost, revenue and profit model. 100,000 ₪ cost basis, 1,000 ticket target.</span></div>
+</div></header>
+
+<main>
+
+<!-- ===== SUMMARY ===== -->
+<section><div class="wrap">
+  <div class="stag">Summary</div>
+  <h2><span class="he">השורה התחתונה</span><span class="en">The bottom line</span></h2>
+  <div class="kpis">
+    <div class="kpi n2"><div class="n">₪100,000</div><div class="l"><span class="he">עלות הפקה</span><span class="en">production cost</span></div><div class="h"><span class="he">כולל 10% רזרבה</span><span class="en">incl 10% contingency</span></div></div>
+    <div class="kpi r"><div class="n">412</div><div class="l"><span class="he">נקודת איזון</span><span class="en">breakeven</span></div><div class="h"><span class="he">כרטיסים</span><span class="en">tickets</span></div></div>
+    <div class="kpi n2"><div class="n">₪243</div><div class="l"><span class="he">תרומה לראש</span><span class="en">contribution / head</span></div><div class="h"><span class="he">כרטיס נטו + בר</span><span class="en">net ticket + bar</span></div></div>
+    <div class="kpi"><div class="n">₪115,650</div><div class="l"><span class="he">רווח נקי ב־1000</span><span class="en">net profit at 1,000</span></div><div class="h"><span class="he">אחרי Electric People</span><span class="en">after Electric People</span></div></div>
+    <div class="kpi"><div class="n">69K / 46K</div><div class="l"><span class="he">עומר 60 / מוסקו 40</span><span class="en">Omer 60 / Mosko 40</span></div><div class="h"><span class="he">לפני מיסים</span><span class="en">pre-tax</span></div></div>
+  </div>
+  <div class="call">
+    <div class="t"><span class="he">שני מספרים לזכור</span><span class="en">Two numbers to remember</span></div>
+    <p class="he"><strong>412</strong> כרטיסים זה הרגע שבו הפסקנו לממן מסיבה. <strong>620</strong> כרטיסים זה נקודת החצייה שבה הצעה A ל־Electric People הופכת לזולה יותר מהצעה B. כל החלטה בקמפיין נגזרת מהשניים האלה.</p>
+    <p class="en"><strong>412</strong> tickets is the moment we stop funding a party. <strong>620</strong> tickets is the crossover where Offer A to Electric People becomes cheaper than Offer B. Every campaign decision derives from those two.</p>
+  </div>
+</div></section>
+
+<!-- ===== COSTS ===== -->
+<section><div class="wrap">
+  <div class="stag">Costs</div>
+  <h2><span class="he">פירוט העלויות</span><span class="en">Cost breakdown</span></h2>
+  <p class="lede"><span class="he">שני מספרים בלבד ידועים בוודאות. כל השאר הערכות, וההערכה המסוכנת ביותר היא בן קריתי, כי היא לא נסגרה בכלל.</span><span class="en">Only two numbers are known for certain. Everything else is an estimate, and the riskiest one is Ben Kriyati, because it has not been closed at all.</span></p>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">סעיף</span><span class="en">Line</span></th>
+      <th><span class="he">סכום</span><span class="en">Amount</span></th>
+      <th><span class="he">סטטוס</span><span class="en">Status</span></th>
+      <th><span class="he">הערה</span><span class="en">Note</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">מקום, האומן 17, כולל מע"מ</span><span class="en">Venue, Haoman 17, incl VAT</span></td><td class="num">30,000</td><td><span class="tag known"><span class="he">ידוע</span><span class="en">known</span></span></td><td><span class="he">האנגר. אנחנו מקבלים 100% מהכרטיסים ו־65-70% מהבר.</span><span class="en">The hangar. We keep 100% of tickets and 65-70% of bar.</span></td></tr>
+      <tr><td class="k"><span class="he">אבטחה</span><span class="en">Security</span></td><td class="num">7,000</td><td><span class="tag known"><span class="he">ידוע</span><span class="en">known</span></span></td><td><span class="he">לפי הקיבולת המאושרת. אם הקיבולת עולה, זה עולה.</span><span class="en">Per approved capacity. If capacity rises, so does this.</span></td></tr>
+      <tr><td class="k"><span class="he">צוות הפקה: בר, דלת, לוגיסטיקה</span><span class="en">Production crew: bar, door, logistics</span></td><td class="num">12,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">9 שעות אירוע. אירוע ארוך עולה יותר בשעות צוות.</span><span class="en">A 9 hour event. Long events cost more in crew hours.</span></td></tr>
+      <tr><td class="k"><span class="he">תא ווידוי ועיצוב חלל</span><span class="en">Confession booth and space design</span></td><td class="num">8,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">בנייה, וילון, אור, ציוד הקלטה, מפעיל. הלב של הקונספט.</span><span class="en">Build, curtain, lighting, recording gear, an operator. The heart of the concept.</span></td></tr>
+      <tr><td class="k"><span class="he">סאונד וטק, רחבה שנייה</span><span class="en">Sound and tech, second room</span></td><td class="num">6,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">מוגדר מראש בהסכם עם Electric People.</span><span class="en">Pre-defined in the Electric People agreement.</span></td></tr>
+      <tr><td class="k"><span class="he">תוכן, צילום ווידאו</span><span class="en">Content, photo and video</span></td><td class="num">6,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">צלם ווידאו בערב עצמו. הריקאפ הוא הנכס לאירוע הבא.</span><span class="en">Photo and video on the night. The recap is the asset for the next event.</span></td></tr>
+      <tr><td class="k"><span class="he">אמנים וצוות</span><span class="en">Artists and crew</span></td><td class="num">5,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">ליינאפ פנימי, אין תקלוט חיצוני. לא כולל Electric People.</span><span class="en">In-house lineup, no external fees. Excludes Electric People.</span></td></tr>
+      <tr><td class="k"><span class="he">עיצוב ונכסים</span><span class="en">Design and assets</span></td><td class="num">4,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">פוסטר, קי-ויזואל, 8 גדלים, דפוס לשילוט באירוע.</span><span class="en">Poster, key visual, 8 sizes, print for on-site signage.</span></td></tr>
+      <tr><td class="k"><span class="he">תאורה וויזואלס, בן קריתי</span><span class="en">Lighting and visuals, Ben Kriyati</span></td><td class="num">3,000</td><td><span class="tag open"><span class="he">לא נסגר</span><span class="en">open</span></span></td><td><span class="he"><strong>הסיכון הכי גדול במודל.</strong> אם זה 15,000, נקודת האיזון עולה ל־461.</span><span class="en"><strong>The biggest risk in the model.</strong> At 15,000 the breakeven rises to 461.</span></td></tr>
+      <tr><td class="k"><span class="he">רישוי וביטוח</span><span class="en">Permits and insurance</span></td><td class="num">3,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">לוודא מה כלול במחיר האולם ומה עלינו.</span><span class="en">Confirm what the venue price covers and what falls on us.</span></td></tr>
+      <tr><td class="k"><span class="he">שיווק, אורגני ודפוס</span><span class="en">Marketing, organic and print</span></td><td class="num">3,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he"><strong>אפס מדיה ממומנת.</strong> זה עריכה, דפוס וכיבודים לשגרירים.</span><span class="en"><strong>Zero paid media.</strong> This is editing, print and ambassador perks.</span></td></tr>
+      <tr><td class="k"><span class="he">שונות</span><span class="en">Miscellaneous</span></td><td class="num">3,000</td><td><span class="tag est"><span class="he">הערכה</span><span class="en">est</span></span></td><td><span class="he">מה שתמיד צץ ביום האירוע.</span><span class="en">Whatever always appears on the day.</span></td></tr>
+      <tr class="sub"><td class="k"><span class="he">סה"כ לפני רזרבה</span><span class="en">Subtotal before contingency</span></td><td class="num">90,000</td><td></td><td></td></tr>
+      <tr><td class="k"><span class="he">רזרבה</span><span class="en">Contingency</span></td><td class="num">10,000</td><td><span class="tag est">11%</span></td><td><span class="he">אל תיגע בזה עד 10.09. רזרבה שנוגסים בה מוקדם היא לא רזרבה.</span><span class="en">Do not touch until 10.09. A contingency you dip into early is not a contingency.</span></td></tr>
+      <tr class="tot"><td class="k"><span class="he">סה"כ עלות הפקה</span><span class="en">Total production cost</span></td><td class="num">100,000</td><td></td><td><span class="he">בסיס התמחור שנקבע 27.07.26</span><span class="en">Pricing basis set 27.07.26</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- ===== REVENUE ===== -->
+<section><div class="wrap">
+  <div class="stag">Revenue</div>
+  <h2><span class="he">מודל ההכנסות</span><span class="en">Revenue model</span></h2>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">שורה</span><span class="en">Line</span></th>
+      <th><span class="he">חישוב</span><span class="en">Calculation</span></th>
+      <th><span class="he">ב־1000 כרטיסים</span><span class="en">At 1,000 tickets</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">כרטיסים ברוטו</span><span class="en">Tickets gross</span></td><td><span class="he">1000 × 209 ממוצע (160/200/250/280)</span><span class="en">1,000 × 209 avg (160/200/250/280)</span></td><td class="num">209,000</td></tr>
+      <tr><td class="k"><span class="he">הנחות קוד</span><span class="en">Code discounts</span></td><td><span class="he">400 כרטיסים דרך קוד × 25 ₪ ממוצע</span><span class="en">400 code tickets × 25 ₪ avg</span></td><td class="num" style="color:#e0574a">-10,000</td></tr>
+      <tr><td class="k"><span class="he">עמלת פלטפורמה</span><span class="en">Platform fee</span></td><td>Selector, 5%</td><td class="num" style="color:#e0574a">-9,950</td></tr>
+      <tr class="sub"><td class="k"><span class="he">כרטיסים נטו</span><span class="en">Tickets net</span></td><td></td><td class="num">189,050</td></tr>
+      <tr><td class="k"><span class="he">חלקנו בבר</span><span class="en">Our bar share</span></td><td><span class="he">80 ₪ לראש × 67%</span><span class="en">80 ₪ per head × 67%</span></td><td class="num">53,600</td></tr>
+      <tr class="tot"><td class="k"><span class="he">סה"כ הכנסות</span><span class="en">Total revenue</span></td><td></td><td class="num">242,650</td></tr>
+      <tr><td class="k"><span class="he">עלות הפקה</span><span class="en">Production cost</span></td><td></td><td class="num" style="color:#e0574a">-100,000</td></tr>
+      <tr class="sub"><td class="k"><span class="he">רווח גולמי</span><span class="en">Gross profit</span></td><td></td><td class="num">142,650</td></tr>
+      <tr><td class="k">Electric People <span class="he">הצעה A</span><span class="en">Offer A</span></td><td><span class="he">6,000 תקלוט + 400×45 עמלה + 3,000 בונוס</span><span class="en">6,000 fee + 400×45 commission + 3,000 bonus</span></td><td class="num" style="color:#e0574a">-27,000</td></tr>
+      <tr class="tot"><td class="k"><span class="he">רווח נקי</span><span class="en">Net profit</span></td><td></td><td class="num">115,650</td></tr>
+      <tr><td class="k"><span class="he">עומר 60%</span><span class="en">Omer 60%</span></td><td></td><td class="num">69,390</td></tr>
+      <tr><td class="k"><span class="he">מוסקו 40%</span><span class="en">Mosko 40%</span></td><td></td><td class="num">46,260</td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:12.5px;color:var(--faint)"><span class="he">כל המספרים לפני מס. הכנסות הבר מגיעות מהאולם בהתחשבנות אחרי האירוע, לא במזומן בערב.</span><span class="en">All figures pre-tax. Bar revenue settles with the venue after the event, not in cash on the night.</span></p>
+
+  <div class="call g">
+    <div class="t"><span class="he">אסטרטגיית בר</span><span class="en">Bar strategy</span></div>
+    <p class="he">וודקה אנרגיה ב־55 במקום 75 שהמקום גובה, מים ב־10 עד 12 במקום 18. מחירים שפויים אומרים שהמקום גובה עלות מזון גבוהה יותר, ולכן אנחנו נשארים על 65% ולא 70%. ההפרש הוא כ־4,000 ₪ ב־1000 ראשים, וזה שווה את המוניטין ואת הנפח בשנה ראשונה. <strong>לוודא מול האולם איפה בדיוק עובר הסף בין 65 ל־70.</strong></p>
+    <p class="en">Vodka energy at 55 instead of the venue's 75, water at 10 to 12 instead of 18. Sane prices mean the venue charges a higher food cost, so we sit at 65% not 70%. The difference is about 4,000 ₪ across 1,000 heads, and it is worth the reputation and the volume in year one. <strong>Confirm with the venue exactly where the 65 to 70 threshold falls.</strong></p>
+  </div>
+</div></section>
+
+<!-- ===== CALCULATOR ===== -->
+<section><div class="wrap">
+  <div class="stag">Live Model</div>
+  <h2><span class="he">מחשבון חי</span><span class="en">Live calculator</span></h2>
+  <p class="lede"><span class="he">שנה כל מספר וראה מיד את הרווח ואת החלוקה. השדות נשמרים בדפדפן.</span><span class="en">Change any number and see profit and split update immediately. Fields persist in your browser.</span></p>
+
+  <div class="calc">
+    <div class="cbox">
+      <h4><span class="he">קלט</span><span class="en">Inputs</span></h4>
+      <div class="frow"><label><span class="he">כרטיסים שנמכרו</span><span class="en">Tickets sold</span><span class="hint">target 1000 / cap 1200</span></label><input type="number" id="i_tix" value="1000"></div>
+      <div class="frow"><label><span class="he">מחיר כרטיס ממוצע</span><span class="en">Avg ticket price</span><span class="hint">160/200/250/280 mix</span></label><input type="number" id="i_price" value="209"></div>
+      <div class="frow"><label><span class="he">כרטיסים דרך קוד</span><span class="en">Tickets on a code</span><span class="hint">Electric People + ambassadors</span></label><input type="number" id="i_code" value="400"></div>
+      <div class="frow"><label><span class="he">הנחת קוד ממוצעת</span><span class="en">Avg code discount</span><span class="hint">20 / 25 / 30 by tier</span></label><input type="number" id="i_disc" value="25"></div>
+      <div class="frow"><label><span class="he">עמלת פלטפורמה %</span><span class="en">Platform fee %</span><span class="hint">Selector</span></label><input type="number" id="i_fee" value="5" step="0.5"></div>
+      <div class="frow"><label><span class="he">הוצאת בר לראש</span><span class="en">Bar spend per head</span><span class="hint">₪</span></label><input type="number" id="i_bar" value="80"></div>
+      <div class="frow"><label><span class="he">חלקנו בבר %</span><span class="en">Our bar share %</span><span class="hint">65 or 70</span></label><input type="number" id="i_share" value="67"></div>
+      <div class="frow"><label><span class="he">עלות הפקה</span><span class="en">Production cost</span><span class="hint">₪ fixed</span></label><input type="number" id="i_cost" value="100000"></div>
+      <div class="frow"><label><span class="he">Electric People: תקלוט</span><span class="en">Electric People: crew fee</span><span class="hint">Offer A · 0 for Offer B</span></label><input type="number" id="i_fee2" value="6000"></div>
+      <div class="frow"><label><span class="he">Electric People: מודל</span><span class="en">Electric People: model</span><span class="hint">A=ladder · B=35% · 0=none</span></label><input type="text" id="i_model" value="A"></div>
+    </div>
+
+    <div class="cbox out">
+      <h4><span class="he">תוצאה</span><span class="en">Output</span></h4>
+      <div class="orow"><span class="ol"><span class="he">כרטיסים ברוטו</span><span class="en">Tickets gross</span></span><span class="ov" id="o_gross">—</span></div>
+      <div class="orow neg"><span class="ol"><span class="he">הנחות קוד</span><span class="en">Code discounts</span></span><span class="ov" id="o_disc">—</span></div>
+      <div class="orow neg"><span class="ol"><span class="he">עמלת פלטפורמה</span><span class="en">Platform fee</span></span><span class="ov" id="o_fee">—</span></div>
+      <div class="orow"><span class="ol"><span class="he">כרטיסים נטו</span><span class="en">Tickets net</span></span><span class="ov" id="o_net">—</span></div>
+      <div class="orow"><span class="ol"><span class="he">חלקנו בבר</span><span class="en">Our bar share</span></span><span class="ov" id="o_bar">—</span></div>
+      <div class="orow"><span class="ol"><span class="he">סה"כ הכנסות</span><span class="en">Total revenue</span></span><span class="ov" id="o_rev">—</span></div>
+      <div class="orow neg"><span class="ol"><span class="he">עלות הפקה</span><span class="en">Production cost</span></span><span class="ov" id="o_cost">—</span></div>
+      <div class="orow"><span class="ol"><span class="he">רווח גולמי</span><span class="en">Gross profit</span></span><span class="ov" id="o_gp">—</span></div>
+      <div class="orow neg"><span class="ol">Electric People</span><span class="ov" id="o_ep">—</span></div>
+      <div class="orow big"><span class="ol"><span class="he">רווח נקי</span><span class="en">Net profit</span></span><span class="ov" id="o_np">—</span></div>
+      <div class="orow split"><span class="ol"><span class="he">עומר 60%</span><span class="en">Omer 60%</span></span><span class="ov" id="o_omer">—</span></div>
+      <div class="orow split"><span class="ol"><span class="he">מוסקו 40%</span><span class="en">Mosko 40%</span></span><span class="ov" id="o_mosko">—</span></div>
+      <div class="orow"><span class="ol"><span class="he">תרומה לראש</span><span class="en">Contribution per head</span></span><span class="ov" id="o_contrib">—</span></div>
+      <div class="orow"><span class="ol"><span class="he">נקודת איזון</span><span class="en">Breakeven</span></span><span class="ov" id="o_be">—</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===== SCENARIOS ===== -->
+<section><div class="wrap">
+  <div class="stag">Scenarios</div>
+  <h2><span class="he">תרחישים</span><span class="en">Scenarios</span></h2>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">כרטיסים</span><span class="en">Tickets</span></th>
+      <th><span class="he">הכנסות</span><span class="en">Revenue</span></th>
+      <th><span class="he">רווח גולמי</span><span class="en">Gross profit</span></th>
+      <th>Electric People A</th>
+      <th><span class="he">רווח נקי</span><span class="en">Net profit</span></th>
+      <th><span class="he">עומר / מוסקו</span><span class="en">Omer / Mosko</span></th>
+      <th><span class="he">מה זה אומר</span><span class="en">What it means</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="num">300</td><td class="num">72,800</td><td class="num" style="color:#e0574a">-27,200</td><td class="num">-8,400</td><td class="num" style="color:#e0574a">-35,600</td><td class="num">-21,400 / -14,200</td><td><span class="he">הפסד ממשי. מכיסנו.</span><span class="en">Real loss. Out of our pocket.</span></td></tr>
+      <tr><td class="num">412</td><td class="num">100,000</td><td class="num">0</td><td class="num">-11,500</td><td class="num" style="color:#e0574a">-11,500</td><td class="num">-6,900 / -4,600</td><td><span class="he">איזון תפעולי, אבל העמלה עדיין נגסת. זה הצד המסוכן של הצעה A.</span><span class="en">Operationally flat, but the commission still bites. This is the dangerous side of Offer A.</span></td></tr>
+      <tr><td class="num">500</td><td class="num">121,300</td><td class="num">21,300</td><td class="num">-14,000</td><td class="num">7,300</td><td class="num">4,400 / 2,900</td><td><span class="he">בקושי. אירוע שלא הצדיק את ההאנגר.</span><span class="en">Barely. An event that did not justify the hangar.</span></td></tr>
+      <tr><td class="num">700</td><td class="num">169,900</td><td class="num">69,900</td><td class="num">-20,000</td><td class="num">49,900</td><td class="num">29,900 / 20,000</td><td><span class="he">בסדר גמור. זו הרצפה שמתכננים אליה.</span><span class="en">Perfectly fine. This is the floor we plan against.</span></td></tr>
+      <tr><td class="num">800</td><td class="num">194,100</td><td class="num">94,100</td><td class="num">-23,500</td><td class="num">70,600</td><td class="num">42,400 / 28,200</td><td><span class="he">אירוע טוב באמת.</span><span class="en">A genuinely good event.</span></td></tr>
+      <tr class="tot"><td class="num">1,000</td><td class="num">242,650</td><td class="num">142,650</td><td class="num">-27,000</td><td class="num">115,650</td><td class="num">69,390 / 46,260</td><td><span class="he">היעד.</span><span class="en">The target.</span></td></tr>
+      <tr><td class="num">1,200</td><td class="num">291,200</td><td class="num">191,200</td><td class="num">-30,500</td><td class="num">160,700</td><td class="num">96,400 / 64,300</td><td><span class="he">סולד אאוט. אז מדברים על מהדורה שנייה.</span><span class="en">Sold out. Then we talk about a second edition.</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call">
+    <div class="t"><span class="he">הצוק בהצעה A</span><span class="en">The cliff in Offer A</span></div>
+    <p class="he">העמלה רטרואקטיבית, ולכן כל חציית סף מעדכנת את כל הכרטיסים הקודמים. הכרטיס ה־400 דרך הקוד מוסיף כ־2,000 בעמלה ומכניס כ־243, כלומר צוק של כ־1,750. זה המחיר של המוטיבציה והוא ידוע וחסום. הבעיה האמיתית היא אחרת: <strong>מתחת ל־500 כרטיסים, הצעה A משלמת להם גם כשאנחנו מפסידים.</strong> לכן נקודת הביקורת של 07.09 היא לא בירוקרטיה.</p>
+    <p class="en">The commission is retroactive, so crossing a threshold reprices every prior ticket. The 400th code ticket adds roughly 2,000 in commission and brings in roughly 243, a cliff of about 1,750. That is the price of motivation and it is known and capped. The real problem is different: <strong>under 500 tickets, Offer A pays them even while we lose money.</strong> That is why the 07.09 checkpoint is not bureaucracy.</p>
+  </div>
+</div></section>
+
+<!-- ===== OFFERS ===== -->
+<section><div class="wrap">
+  <div class="stag">Partner</div>
+  <h2><span class="he">Electric People · A מול B</span><span class="en">Electric People · A vs B</span></h2>
+  <div class="g2">
+    <div class="card win">
+      <h4><span class="he">הצעה A · מדרגות</span><span class="en">Offer A · ladder</span></h4>
+      <ul>
+        <li><span class="he">6,000 ₪ תקלוט מובטח לקרו</span><span class="en">6,000 ₪ guaranteed crew fee</span></li>
+        <li><span class="he">סולם עמלות רטרואקטיבי 20/25/30/35/40/45/50 ₪ לכרטיס</span><span class="en">Retroactive ladder 20/25/30/35/40/45/50 ₪ per ticket</span></li>
+        <li><span class="he">בונוס 3,000 ₪ ב־400 כרטיסים דרך הקוד</span><span class="en">3,000 ₪ bonus at 400 code tickets</span></li>
+        <li><span class="he"><strong>ב־1000 כרטיסים: 27,000 ₪ אליהם, 115,650 ₪ לנו</strong></span><span class="en"><strong>At 1,000 tickets: 27,000 ₪ to them, 115,650 ₪ to us</strong></span></li>
+      </ul>
+    </div>
+    <div class="card lose">
+      <h4><span class="he">הצעה B · שותפות 35%</span><span class="en">Offer B · 35% partnership</span></h4>
+      <ul>
+        <li><span class="he">מממנים עד 35% מהתקציב מראש, עד 35,000 ₪</span><span class="en">They fund up to 35% of budget up front, up to 35,000 ₪</span></li>
+        <li><span class="he">ההון חוזר פרו רטה ראשון, ואז 35% מהרווח</span><span class="en">Capital returns pro rata first, then 35% of profit</span></li>
+        <li><span class="he">בלי תקלוט, בלי עמלה, ספרים פתוחים, החלטות מעל 5,000 בהסכמה</span><span class="en">No fee, no commission, open books, decisions over 5,000 need both sides</span></li>
+        <li><span class="he"><strong>ב־1000 כרטיסים: 49,900 ₪ אליהם, 92,750 ₪ לנו</strong></span><span class="en"><strong>At 1,000 tickets: 49,900 ₪ to them, 92,750 ₪ to us</strong></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">כרטיסים</span><span class="en">Tickets</span></th>
+      <th><span class="he">עולה לנו · A</span><span class="en">Costs us · A</span></th>
+      <th><span class="he">עולה לנו · B</span><span class="en">Costs us · B</span></th>
+      <th><span class="he">מי עדיף לנו</span><span class="en">Better for us</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="num">400</td><td class="num">11,200</td><td class="num" style="color:#4cbd85">-1,000</td><td><span class="he">B, בפער גדול. הם סופגים איתנו.</span><span class="en">B, by a lot. They absorb the loss with us.</span></td></tr>
+      <tr><td class="num">500</td><td class="num">14,000</td><td class="num">7,500</td><td><span class="he">B</span><span class="en">B</span></td></tr>
+      <tr><td class="num">620</td><td class="num">17,400</td><td class="num">17,300</td><td><span class="he">שווה. נקודת החצייה.</span><span class="en">Even. The crossover.</span></td></tr>
+      <tr><td class="num">800</td><td class="num">23,500</td><td class="num">32,900</td><td><span class="he">A</span><span class="en">A</span></td></tr>
+      <tr class="tot"><td class="num">1,000</td><td class="num">27,000</td><td class="num">49,900</td><td><span class="he">A, בפער של 22,900 ₪</span><span class="en">A, by 22,900 ₪</span></td></tr>
+      <tr><td class="num">1,200</td><td class="num">30,500</td><td class="num">66,900</td><td><span class="he">A, בפער של 36,400 ₪</span><span class="en">A, by 36,400 ₪</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call g">
+    <div class="t"><span class="he">ההחלטה</span><span class="en">The call</span></div>
+    <p class="he">אנחנו מתכננים ל־1000, ולכן <strong>A</strong>. אם הם מהססים, תציג את A כמו שהיא באמת: תקרה גבוהה יותר עבורם אם הם מוכרים. מי שבטוח ביכולת שלו לוקח את A, ומי שלא בטוח מבקש את B, וזה בעצמו מידע שכדאי לנו לדעת עליהם.</p>
+    <p class="en">We are planning for 1,000, so <strong>A</strong>. If they hesitate, present A honestly: a higher ceiling for them if they sell. Anyone confident in their reach takes A, anyone who is not asks for B, and that itself tells us something useful about them.</p>
+  </div>
+</div></section>
+
+<!-- ===== SENSITIVITY ===== -->
+<section><div class="wrap">
+  <div class="stag">Sensitivity</div>
+  <h2><span class="he">מה מזיז את נקודת האיזון</span><span class="en">What moves the breakeven</span></h2>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">שינוי</span><span class="en">Change</span></th>
+      <th><span class="he">נקודת איזון חדשה</span><span class="en">New breakeven</span></th>
+      <th><span class="he">השפעה</span><span class="en">Impact</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">בסיס</span><span class="en">Base case</span></td><td class="num">412</td><td><span class="he">100,000 עלות, כרטיס 209, בר 80 ב־67%</span><span class="en">100,000 cost, 209 ticket, 80 bar at 67%</span></td></tr>
+      <tr><td class="k"><span class="he">בן קריתי עולה 15,000 ולא 3,000</span><span class="en">Ben Kriyati at 15,000 not 3,000</span></td><td class="num" style="color:#e0574a">462</td><td><span class="he">+50 כרטיסים. זה הסעיף הכי לא ידוע ולכן הכי מסוכן.</span><span class="en">+50 tickets. The least known line, therefore the riskiest.</span></td></tr>
+      <tr><td class="k"><span class="he">בר בפועל 60 ולא 80 לראש</span><span class="en">Bar comes in at 60 not 80</span></td><td class="num" style="color:#e0574a">440</td><td><span class="he">+28. מסיבת יום שותה פחות מלילית. שווה להיות שמרן.</span><span class="en">+28. A day party drinks less than a night one. Worth being conservative.</span></td></tr>
+      <tr><td class="k"><span class="he">חלקנו בבר 65% ולא 67%</span><span class="en">Bar share at 65% not 67%</span></td><td class="num">418</td><td><span class="he">+6. זניח. אל תילחם על זה מול האולם.</span><span class="en">+6. Negligible. Do not fight the venue over it.</span></td></tr>
+      <tr><td class="k"><span class="he">כרטיס ממוצע 185 (סבב 1 נמכר יותר)</span><span class="en">Avg ticket 185 (tier 1 oversells)</span></td><td class="num" style="color:#e0574a">452</td><td><span class="he">+40. זו הסיבה ש־250 ב־Early Bird זו כמות קשיחה שלא מאריכים.</span><span class="en">+40. This is why 250 at Early Bird is a hard cap you never extend.</span></td></tr>
+      <tr><td class="k"><span class="he">50% מהכרטיסים דרך קוד ולא 40%</span><span class="en">50% on codes instead of 40%</span></td><td class="num">425</td><td><span class="he">+13. הקוד עובד בשבילנו, לא נגדנו, כל עוד הוא רק בערוצים שלהם.</span><span class="en">+13. The code works for us, not against us, as long as it only runs on their channels.</span></td></tr>
+      <tr><td class="k"><span class="he">רזרבה 10,000 נוצלה במלואה</span><span class="en">Full 10,000 contingency spent</span></td><td class="num">412</td><td><span class="he">כלול כבר בבסיס. אם לא נוצלה, זה 10,000 ישר לרווח.</span><span class="en">Already in the base. If unspent, that is 10,000 straight to profit.</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call">
+    <div class="t"><span class="he">שלושה דברים שסוגרים החודש משנים את כל המודל</span><span class="en">Three things closing this month change the whole model</span></div>
+    <ul>
+      <li><span class="he"><strong>עלות בן קריתי.</strong> טווח של 12,000 ₪ שאנחנו לא יודעים. 50 כרטיסים.</span><span class="en"><strong>Ben Kriyati cost.</strong> A 12,000 ₪ range we do not know. 50 tickets.</span></li>
+      <li><span class="he"><strong>סף הבר 65 מול 70.</strong> לוודא בכתב מול האולם, לא בשיחה.</span><span class="en"><strong>The 65 vs 70 bar threshold.</strong> Confirm in writing with the venue, not in conversation.</span></li>
+      <li><span class="he"><strong>Electric People A או B.</strong> פער של עד 36,000 ₪ תלוי בכמה נמכור.</span><span class="en"><strong>Electric People A or B.</strong> A gap of up to 36,000 ₪ depending on how much we sell.</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ===== CASHFLOW ===== -->
+<section><div class="wrap">
+  <div class="stag">Cash</div>
+  <h2><span class="he">תזרים, לא רק רווח</span><span class="en">Cash flow, not just profit</span></h2>
+  <p class="lede"><span class="he">אירוע רווחי יכול להיות בעיית תזרים. חלק גדול מהעלויות משולם לפני שרואים שקל מהבר.</span><span class="en">A profitable event can still be a cash problem. A large share of costs is paid before a shekel of bar money arrives.</span></p>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">מתי</span><span class="en">When</span></th>
+      <th><span class="he">יוצא</span><span class="en">Out</span></th>
+      <th><span class="he">נכנס</span><span class="en">In</span></th>
+      <th><span class="he">הערה</span><span class="en">Note</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">אוגוסט</span><span class="en">August</span></td><td class="num">~40,000</td><td class="num"><span class="he">כרטיסים מצטברים</span><span class="en">tickets accruing</span></td><td><span class="he">מקדמה לאולם, עיצוב, תא ווידוי, ציוד.</span><span class="en">Venue deposit, design, booth build, gear.</span></td></tr>
+      <tr><td class="k"><span class="he">ספטמבר, לפני</span><span class="en">September, before</span></td><td class="num">~45,000</td><td class="num"><span class="he">רוב המכירה</span><span class="en">bulk of sales</span></td><td><span class="he">יתרת אולם, אבטחה, סאונד, צוות, בן קריתי.</span><span class="en">Venue balance, security, sound, crew, Ben Kriyati.</span></td></tr>
+      <tr><td class="k"><span class="he">ליל האירוע</span><span class="en">Event night</span></td><td class="num">~15,000</td><td class="num"><span class="he">דלת</span><span class="en">door</span></td><td><span class="he">שונות, כיבוד, גיבויים.</span><span class="en">Misc, hospitality, backups.</span></td></tr>
+      <tr><td class="k"><span class="he">אחרי</span><span class="en">After</span></td><td class="num"><span class="he">עמלות Electric People</span><span class="en">Electric People commission</span></td><td class="num">53,600</td><td><span class="he">התחשבנות בר עם האולם. לוודא בכמה ימים.</span><span class="en">Bar settlement with the venue. Confirm how many days.</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="call">
+    <div class="t"><span class="he">מה לוודא</span><span class="en">To confirm</span></div>
+    <p class="he">מתי בדיוק Selector מעבירה את כספי הכרטיסים, לפני האירוע או אחרי. אם זה אחרי, כל 100,000 ההוצאה יוצאת מהכיס שלנו לפני שרואים שקל. זו שאלה שצריך לשאול בשבוע 0, לא באמצע ספטמבר.</p>
+    <p class="en">Exactly when Selector pays out ticket money, before the event or after. If after, all 100,000 of spend comes out of our pocket before we see a shekel. Ask this in week 0, not mid September.</p>
+  </div>
+</div></section>
+
+</main>
+
+<footer>Yaffa Records · SIN CITY P&amp;L · Private · Omer and Mosko only</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+window.AUTH_EMAIL="info@yaffarecords.com";
+try{ firebase.initializeApp({
+  apiKey:"AIzaSyD6jJ-6RfSDwUXa7ioOXsXT5kwL9NBP-ek",
+  authDomain:"yaffa-dashboard.firebaseapp.com",
+  databaseURL:"https://yaffa-dashboard-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"yaffa-dashboard",
+  storageBucket:"yaffa-dashboard.firebasestorage.app",
+  messagingSenderId:"275736999213",
+  appId:"1:275736999213:web:00e65503141995f28ecfa4"
+}); }catch(e){}
+
+(function(){
+  function reveal(){ document.body.classList.add('auth-ok'); const g=document.getElementById('auth-gate'); if(g) g.remove(); }
+  async function check(){
+    const pw=document.getElementById('auth-input').value;
+    const err=document.getElementById('auth-err'); if(err) err.textContent='';
+    try{ await firebase.auth().signInWithEmailAndPassword(window.AUTH_EMAIL,pw); reveal(); }
+    catch(e){ if(err) err.textContent='Wrong password'; const i=document.getElementById('auth-input'); if(i) i.value=''; }
+  }
+  if(window.firebase&&firebase.auth){ firebase.auth().onAuthStateChanged(u=>{ if(u) reveal(); }); }
+  window.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('auth-btn').addEventListener('click',check);
+    document.getElementById('auth-input').addEventListener('keydown',e=>{ if(e.key==='Enter') check(); });
+  });
+})();
+
+/* LANGUAGE */
+(function(){
+  const KEY='yaffa-sc-lang';
+  function setLang(l){
+    document.body.dataset.lang=l;
+    document.documentElement.lang=l;
+    document.documentElement.dir=(l==='he'?'rtl':'ltr');
+    document.getElementById('langbtn').textContent=(l==='he'?'EN':'עב');
+    try{ localStorage.setItem(KEY,l); }catch(e){}
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    let l='he'; try{ l=localStorage.getItem(KEY)||'he'; }catch(e){}
+    setLang(l);
+    document.getElementById('langbtn').addEventListener('click',()=>setLang(document.body.dataset.lang==='he'?'en':'he'));
+  });
+})();
+
+/* CALCULATOR */
+(function(){
+  const K='yaffa-sc-pnl-';
+  const IDS=['i_tix','i_price','i_code','i_disc','i_fee','i_bar','i_share','i_cost','i_fee2','i_model'];
+  const LADDER=[[500,50],[400,45],[300,40],[200,35],[100,30],[50,25],[0,20]];
+  function rate(n){ for(const [t,r] of LADDER){ if(n>=t) return r; } return 20; }
+  const f=n=>'₪'+Math.round(n).toLocaleString('en-US');
+  function v(id){ const e=document.getElementById(id); return e? e.value : ''; }
+  function num(id){ return parseFloat(v(id))||0; }
+
+  function calc(){
+    const tix=num('i_tix'), price=num('i_price'), code=Math.min(num('i_code'),num('i_tix')),
+          disc=num('i_disc'), fee=num('i_fee'), bar=num('i_bar'), share=num('i_share'),
+          cost=num('i_cost'), crewFee=num('i_fee2'), model=(v('i_model')||'A').trim().toUpperCase();
+
+    const gross=tix*price;
+    const discounts=code*disc;
+    const afterDisc=gross-discounts;
+    const platform=afterDisc*fee/100;
+    const netTix=afterDisc-platform;
+    const barRev=tix*bar*share/100;
+    const rev=netTix+barRev;
+    const gp=rev-cost;
+
+    let ep=0;
+    if(model==='A'){ ep=crewFee+code*rate(code)+(code>=400?3000:0); }
+    else if(model==='B'){ ep=Math.max(0,gp)*0.35; }
+
+    const np=gp-ep;
+    const contrib=tix>0? (netTix+barRev)/tix : 0;
+    const be=contrib>0? Math.ceil(cost/contrib) : 0;
+
+    const set=(id,val,neg)=>{ const e=document.getElementById(id); if(e) e.textContent=(neg?'-':'')+f(Math.abs(val)); };
+    set('o_gross',gross); set('o_disc',discounts,true); set('o_fee',platform,true);
+    set('o_net',netTix); set('o_bar',barRev); set('o_rev',rev);
+    set('o_cost',cost,true);
+    const gpe=document.getElementById('o_gp'); gpe.textContent=(gp<0?'-':'')+f(Math.abs(gp)); gpe.style.color=gp<0?'#e0574a':'';
+    set('o_ep',ep,true);
+    const npe=document.getElementById('o_np'); npe.textContent=(np<0?'-':'')+f(Math.abs(np)); npe.style.color=np<0?'#e0574a':'';
+    const oe=document.getElementById('o_omer'); oe.textContent=(np<0?'-':'')+f(Math.abs(np*0.6));
+    const me=document.getElementById('o_mosko'); me.textContent=(np<0?'-':'')+f(Math.abs(np*0.4));
+    document.getElementById('o_contrib').textContent=f(contrib);
+    document.getElementById('o_be').textContent=be.toLocaleString('en-US');
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    IDS.forEach(id=>{
+      const e=document.getElementById(id); if(!e) return;
+      try{ const s=localStorage.getItem(K+id); if(s!==null) e.value=s; }catch(err){}
+      e.addEventListener('input',()=>{ try{ localStorage.setItem(K+id,e.value); }catch(err){} calc(); });
+    });
+    calc();
+  });
+})();
+</script>
+</body>
+</html>

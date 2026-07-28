@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SIN CITY · Campaign Hub · Yaffa Records</title>
+<meta name="theme-color" content="#080809">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Heebo:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#080809; --deep:#0E0E12; --surface:#16161C; --surface-2:#1E1E26; --surface-3:#2A2A33;
+  --ivory:#EDE8DC; --ivory-dim:#B5B0A4; --muted:#7A7770; --faint:#4A4844;
+  --gold:#BF9830; --gold-light:#D4AC46; --gold-soft:rgba(191,152,48,.12);
+  --red:#C13B2E; --red-soft:rgba(193,59,46,.12); --red-line:rgba(193,59,46,.35);
+  --border:rgba(237,232,220,.08); --border-strong:rgba(237,232,220,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ivory);font-family:'Heebo','Inter',sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+body[data-lang="en"]{direction:ltr;font-family:'Inter','Heebo',sans-serif}
+body[data-lang="en"] .he{display:none!important}
+body[data-lang="he"] .en{display:none!important}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+
+/* AUTH GATE */
+#auth-gate{display:flex;position:fixed;inset:0;background:#080809;color:#EDE8DC;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:-apple-system,sans-serif;z-index:99999}
+#auth-gate input{background:#16161C;border:1px solid rgba(237,232,220,.18);color:#EDE8DC;padding:12px 16px;font-size:14px;border-radius:4px;width:240px;text-align:center;font-family:monospace}
+#auth-gate button{background:#BF9830;border:none;color:#080809;padding:10px 24px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:2px}
+#auth-gate .err{color:#C13B2E;font-size:12px;min-height:16px}
+body:not(.auth-ok)>header,body:not(.auth-ok)>nav,body:not(.auth-ok)>main,body:not(.auth-ok)>footer,body:not(.auth-ok)>.topbar{display:none!important}
+
+/* HEADER */
+.topbar{background:var(--deep);border-bottom:1px solid var(--border);padding:10px 0}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.crumbs{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.crumbs a{color:var(--gold);text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.ctrls{display:flex;gap:8px;align-items:center}
+.langbtn{background:var(--surface);border:1px solid var(--border-strong);color:var(--ivory-dim);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;padding:7px 14px;border-radius:3px;cursor:pointer;transition:.15s}
+.langbtn:hover{border-color:var(--gold);color:var(--gold)}
+.pnlbtn{background:var(--red-soft);border:1px solid var(--red-line);color:#e0574a;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;padding:7px 14px;border-radius:3px;text-decoration:none;transition:.15s}
+.pnlbtn:hover{background:rgba(193,59,46,.22)}
+
+header{padding:56px 0 34px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+header:before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(193,59,46,.20),transparent 68%);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+h1{font-family:'Cinzel',serif;font-size:clamp(44px,8vw,84px);font-weight:700;letter-spacing:.07em;line-height:1;margin:14px 0 4px;direction:ltr}
+body[data-lang="he"] h1{text-align:right}
+h1 .c{color:var(--red)}
+.tagline{font-size:19px;color:var(--ivory-dim);font-weight:300}
+.hmeta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.hchip{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 15px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.07em;color:var(--ivory-dim)}
+.hchip b{color:var(--ivory);font-weight:500}
+.hchip.hot{border-color:var(--red-line);background:var(--red-soft)}
+.hchip.hot b{color:#e0574a}
+
+/* NAV */
+nav.snav{position:sticky;top:0;z-index:60;background:rgba(8,8,9,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+nav.snav .wrap{display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+nav.snav .wrap::-webkit-scrollbar{display:none}
+nav.snav a{padding:14px 14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;color:var(--faint);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:.15s;text-transform:uppercase}
+nav.snav a:hover{color:var(--ivory);border-bottom-color:var(--red)}
+
+/* SECTIONS */
+section{padding:56px 0;border-bottom:1px solid var(--border)}
+.stag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:9px}
+h2{font-family:'Cinzel',serif;font-size:31px;font-weight:600;letter-spacing:.04em;margin-bottom:10px}
+h3{font-family:'Cinzel',serif;font-size:18px;font-weight:600;letter-spacing:.03em;margin:32px 0 10px}
+h4{font-size:14px;font-weight:600;margin:20px 0 7px;color:var(--gold);letter-spacing:.02em}
+.lede{font-size:17px;color:var(--ivory-dim);max-width:820px;margin-bottom:24px;font-weight:300}
+p{margin-bottom:11px;color:#c6c2ba;font-size:14.5px}
+ul,ol{margin:9px 20px 15px}
+body[data-lang="he"] ul,body[data-lang="he"] ol{margin:9px 20px 15px 0}
+li{margin-bottom:6px;color:#c6c2ba;font-size:14.5px}
+li::marker{color:var(--red)}
+strong{color:var(--ivory);font-weight:500}
+.gold{color:var(--gold)}.red{color:#e0574a}
+code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--surface-2);padding:2px 6px;border-radius:3px;color:var(--gold)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:18px 16px;position:relative;overflow:hidden}
+.kpi:before{content:'';position:absolute;top:0;inset-inline-start:0;width:2px;height:32px;background:var(--red)}
+.kpi .n{font-family:'Cinzel',serif;font-size:27px;font-weight:700;line-height:1.1;direction:ltr}
+body[data-lang="he"] .kpi .n{text-align:right}
+.kpi .l{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-top:6px}
+.kpi .h{font-size:11.5px;color:var(--faint);margin-top:4px}
+.kpi.g:before{background:var(--gold)}.kpi.g .n{color:var(--gold)}
+
+/* TABLE */
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:4px}
+table{width:100%;border-collapse:collapse;min-width:660px}
+th{background:var(--surface-2);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;padding:11px 13px;text-align:start;font-weight:400;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 13px;font-size:13.5px;color:#c6c2ba;border-bottom:1px solid rgba(237,232,220,.05);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(193,59,46,.045)}
+td.num{font-family:'JetBrains Mono',monospace;direction:ltr;color:var(--ivory);white-space:nowrap}
+body[data-lang="he"] td.num{text-align:right}
+td.k{color:var(--ivory);font-weight:500}
+tr.tot td{background:var(--gold-soft);color:var(--gold);font-weight:500;border-top:1px solid rgba(191,152,48,.3)}
+
+/* CARDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px}
+.card h4{margin-top:0}
+.card.acc{border-inline-start:3px solid var(--red)}
+.card.accg{border-inline-start:3px solid var(--gold)}
+
+/* PHASE */
+.phase{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--red);border-radius:4px;padding:20px 22px;margin-bottom:12px}
+.phase.peak{border-inline-start-color:var(--gold)}
+.phase.past{border-inline-start-color:var(--faint);opacity:.75}
+.phead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:5px}
+.ptitle{font-family:'Cinzel',serif;font-size:18px;font-weight:600}
+.pdate{font-family:'JetBrains Mono',monospace;font-size:11px;color:#e0574a;letter-spacing:.09em;direction:ltr}
+.pgoal{font-size:15px;color:var(--ivory-dim);margin-bottom:10px;font-style:italic}
+.ptarget{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--red-soft);border:1px solid var(--red-line);color:#e0574a;padding:4px 10px;border-radius:3px;margin-bottom:11px;letter-spacing:.06em}
+
+/* CALLOUT */
+.call{background:linear-gradient(180deg,rgba(193,59,46,.10),rgba(193,59,46,.03));border:1px solid var(--red-line);border-radius:4px;padding:18px 20px;margin:18px 0}
+.call.g{background:linear-gradient(180deg,rgba(191,152,48,.10),rgba(191,152,48,.03));border-color:rgba(191,152,48,.32)}
+.call .t{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#e0574a;margin-bottom:7px}
+.call.g .t{color:var(--gold)}
+.call p:last-child,.call ul:last-child{margin-bottom:0}
+
+/* COPY BLOCK */
+.copy{background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:16px 18px;margin:11px 0;font-size:16px;color:var(--ivory);line-height:1.55}
+.copy .lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;display:block}
+
+/* TASKS */
+.tgroup{background:var(--surface);border:1px solid var(--border);border-radius:4px;margin-bottom:12px;overflow:hidden}
+.thead{background:var(--surface-2);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;flex-wrap:wrap}
+.thead .tt{font-family:'Cinzel',serif;font-size:15px;font-weight:600}
+.thead .tw2{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em}
+.tbody{padding:8px 18px 14px}
+.task{display:flex;gap:11px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(237,232,220,.04)}
+.task:last-child{border-bottom:none}
+.task input[type=checkbox]{appearance:none;width:16px;height:16px;min-width:16px;margin-top:3px;border:1px solid var(--border-strong);border-radius:3px;background:var(--surface-2);cursor:pointer;position:relative;transition:.15s}
+.task input[type=checkbox]:checked{background:var(--red);border-color:var(--red)}
+.task input[type=checkbox]:checked:after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px}
+.task label{flex:1;font-size:14px;color:#c6c2ba;cursor:pointer}
+.task input:checked+label{color:var(--faint);text-decoration:line-through}
+.task .meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;letter-spacing:.06em}
+.task .own{color:var(--gold)}
+.pbar{height:2px;background:var(--surface-3);border-radius:2px;overflow:hidden;flex:1;min-width:80px;max-width:160px}
+.pbar i{display:block;height:100%;background:var(--red);width:0;transition:.3s}
+
+/* CURVE */
+.curve{display:flex;align-items:flex-end;gap:5px;height:140px;margin:24px 0 6px;border-bottom:1px solid var(--border)}
+.bar{flex:1;background:linear-gradient(180deg,var(--red),rgba(193,59,46,.25));border-radius:2px 2px 0 0;position:relative;min-height:5px}
+.bar span{position:absolute;top:-18px;inset-inline-end:50%;transform:translateX(50%);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+body[data-lang="he"] .bar span{transform:translateX(50%)}
+body[data-lang="en"] .bar span{transform:translateX(50%)}
+.clabels{display:flex;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint)}
+.clabels div{flex:1;text-align:center}
+
+footer{padding:40px 0 50px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+
+@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}h1{font-size:48px}section{padding:40px 0}}
+</style>
+</head>
+<body data-lang="he">
+
+<div id="auth-gate">
+  <div style="font-family:'Cinzel',serif;font-size:22px;letter-spacing:.18em;color:#BF9830">YAFFA RECORDS</div>
+  <div style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#B5B0A4">Sin City · Campaign Hub</div>
+  <input id="auth-input" type="password" placeholder="password" autofocus>
+  <button id="auth-btn">Enter</button>
+  <div class="err" id="auth-err"></div>
+</div>
+
+<div class="topbar"><div class="wrap">
+  <div class="crumbs"><a href="./index.html">← Release Ops</a> <span style="color:var(--faint)">/</span> SIN CITY</div>
+  <div class="ctrls">
+    <a class="pnlbtn" href="./sin-city-pnl.html">P&amp;L <span class="he">· פרטי</span><span class="en">· private</span></a>
+    <button class="langbtn" id="langbtn">EN</button>
+  </div>
+</div></div>
+
+<header><div class="wrap">
+  <div class="eyebrow">Yaffa Records × Haoman 17 · Campaign Hub</div>
+  <h1>SIN <span class="c">CITY</span></h1>
+  <div class="tagline">
+    <span class="he">החטא האחרון. נכנסים חוטאים, יוצאים נקיים.</span>
+    <span class="en">One last sin before the gates close.</span>
+  </div>
+  <div class="hmeta">
+    <div class="hchip"><span class="he">שבת</span><span class="en">Saturday</span> <b>19.09.2026</b></div>
+    <div class="hchip"><b>17:00</b> → <b>02:00</b></div>
+    <div class="hchip"><span class="he">האנגר, האומן 17</span><span class="en">The Hangar, Haoman 17</span></div>
+    <div class="hchip hot"><b id="dtg">—</b> <span class="he">ימים לאירוע</span><span class="en">days out</span></div>
+    <div class="hchip"><span class="he">יעד</span><span class="en">Target</span> <b>1,000</b> / <span class="he">קיבולת</span><span class="en">cap</span> <b>1,200</b></div>
+  </div>
+</div></header>
+
+<nav class="snav"><div class="wrap">
+  <a href="#event">Event</a>
+  <a href="#offer">The Offer</a>
+  <a href="#targets">Targets</a>
+  <a href="#engine">Growth Engine</a>
+  <a href="#ambassadors">Ambassadors</a>
+  <a href="#pr">PR</a>
+  <a href="#content">Content</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#tasks">Tasks</a>
+  <a href="#assets">Assets</a>
+  <a href="#risk">Risk</a>
+</div></nav>
+
+<main>
+
+<!-- ================= EVENT ================= -->
+<section id="event"><div class="wrap">
+  <div class="stag">The Event</div>
+  <h2><span class="he">מה זה SIN CITY</span><span class="en">What SIN CITY is</span></h2>
+
+  <div class="he">
+    <p class="lede">עיר שנפתחת פעם אחת ונסגרת עם השחר. תשע שעות של אדום, מהאור האחרון של היום ועד עמוק לתוך הלילה. חטא וכפרה הם שני צדדים של אותו ריטואל.</p>
+    <p>SIN CITY הוא לא נושא, הוא מקום. אתה חוצה את הסף, נותן לעצמך הכל, מתוודה, ובשחר יוצא נקי. זו הדואליות שבלב הקונספט: החטא והטיהור, ההתמכרות והשחרור.</p>
+    <h4>המבנה, מסע בתוך העיר</h4>
+    <ul>
+      <li><strong>הכניסה · פיתוי</strong>, חוצים את הסף, האור דועך לאדום.</li>
+      <li><strong>ההתמכרות · השיא</strong>, העיר בחום מלא, הסילואטות של בן קריתי על הקירות.</li>
+      <li><strong>הווידוי · נקודת המפנה</strong>, התא, המיקרופון, אתה מדבר.</li>
+      <li><strong>השחרור · השחר</strong>, השערים נסגרים, הטראק האחרון, יוצאים נקיים.</li>
+    </ul>
+    <p>מוטיב חוזר: המעגל. השער, הטבעת, ההילה, התקליט. צבע אחד לכל הלילה, אדום, בלי לערבב.</p>
+    <h4>תא הווידוי, הלב של האירוע</h4>
+    <p>תא אדום, מיקרופון אחד, אור אדום, הקלטה. אנשים נכנסים ומתוודים על ה"חטא" שלהם. אחר כך אנחנו לוקחים את ההקלטות ובונים מהן טראק שיוצא בלייבל. שם עבודה: <strong>Confession</strong>. הקונספט חי גם אחרי שהאורות נדלקים, וזה מה שהופך את זה מאירוע לנכס.</p>
+  </div>
+
+  <div class="en">
+    <p class="lede">A city that opens once and closes at dawn. Nine hours of red, from the last light of day deep into the night. Sin and redemption are two sides of the same ritual.</p>
+    <p>SIN CITY is not a theme, it is a place. You cross the threshold, give yourself everything, confess, and walk out clean at dawn. That duality is the whole idea: the sin and the cleansing, the indulgence and the release.</p>
+    <h4>Structure, a journey through the city</h4>
+    <ul>
+      <li><strong>The Entrance · Temptation</strong>, you cross the threshold, the light fades to red.</li>
+      <li><strong>The Indulgence · Peak</strong>, the city at full heat, Ben Kriyati's silhouettes on the walls.</li>
+      <li><strong>The Confession · Turning point</strong>, the booth, the mic, you talk.</li>
+      <li><strong>The Release · Dawn</strong>, the gates close, the last track, you leave clean.</li>
+    </ul>
+    <p>Recurring motif: the circle. The gate, the ring, the halo, the record. One colour for the whole night, red, never mixed.</p>
+    <h4>The confession booth, the heart of it</h4>
+    <p>A red booth, one mic, red light, recording. People walk in and confess their "sin". Afterwards we take the recordings and build a track out of them, released on the label. Working title: <strong>Confession</strong>. The concept survives the night, and that is what turns an event into an asset.</p>
+  </div>
+
+  <h3><span class="he">טקסט לדף האירוע</span><span class="en">Event page copy</span></h3>
+  <div class="copy he"><span class="lbl">עברית · ראשי</span>
+    יש לילה אחד שבו הכל מותר. עיר אחת שנפתחת רק פעם אחת, ונסגרת עם השחר.<br><br>
+    ב־19.9, האנגר האומן 17 הופך לעיר החטא. תשע שעות של אדום, מהאור האחרון של היום ועד עמוק לתוך הלילה.<br><br>
+    בלב העיר, תא הווידוי. מיקרופון אחד, ואתה. מה שתגיד שם, יהפוך למשהו אחר.<br><br>
+    חטא וכפרה הם שני צדדים של אותו ריטואל. נכנסים חוטאים, יוצאים נקיים.<br><br>
+    הסילואטות של בן קריתי על הקירות. מחירי בר שפויים, כי באנו בשביל הריקוד.<br><br>
+    מקום אחד. לילה אחד. עד שהשערים נסגרים.<br><br>
+    שבת, 19 בספטמבר. 17:00 עד 02:00. האומן 17. Yaffa Records.
+  </div>
+  <div class="copy en"><span class="lbl">English · main</span>
+    There is one night where everything is allowed. One city that opens once, and closes at dawn.<br><br>
+    On 19.9, the Haoman 17 hangar becomes the city of sin. Nine hours of red, from the last light of day deep into the night.<br><br>
+    At the centre of the city, the confession booth. One mic, and you. Whatever you say in there becomes something else.<br><br>
+    Sin and redemption are two sides of the same ritual. Walk in a sinner, walk out clean.<br><br>
+    Ben Kriyati's silhouettes on the walls. Sane bar prices, because we came here to dance.<br><br>
+    One place. One night. Until the gates close.<br><br>
+    Saturday, September 19. 17:00 to 02:00. Haoman 17. Yaffa Records.
+  </div>
+
+  <div class="call">
+    <div class="t">Hard rule</div>
+    <p class="he">אין ולא יהיה שום אזכור של דת, צום, או חג, בשום מקום, פנימי או פומבי. כפרה כרעיון אוניברסלי בלבד. זה לא נתון לפרשנות.</p>
+    <p class="en">No reference to religion, fasting or any holiday, anywhere, internal or public. Redemption as a universal idea only. This is not open to interpretation.</p>
+  </div>
+</div></section>
+
+<!-- ================= OFFER ================= -->
+<section id="offer"><div class="wrap">
+  <div class="stag">Positioning</div>
+  <h2><span class="he">מה אנחנו באמת מוכרים</span><span class="en">What we are actually selling</span></h2>
+  <p class="lede">
+    <span class="he">אנחנו לא מפרסמים ליינאפ. זו לא חולשה, זו העמדה. מי שקונה כרטיס קונה את העיר, לא דיג'יי. זה גם מה שמבדיל אותנו מכל מסיבה אחרת באותו סופ"ש, וגם מה שמסביר למה השיווק כולו אישי ואורגני.</span>
+    <span class="en">We do not publish a lineup. That is not a weakness, it is the position. Whoever buys a ticket is buying the city, not a DJ. It is what separates us from every other party that weekend, and it is why the entire campaign is personal and organic.</span>
+  </p>
+
+  <div class="g2">
+    <div class="card acc">
+      <h4><span class="he">מה שמוכר</span><span class="en">What sells</span></h4>
+      <ul>
+        <li><span class="he"><strong>Yaffa Records עצמו.</strong> ההשקה מכרה 450 והייתה sold out. POPUP עבד. קייפ טאון עבד. יש מוניטין.</span><span class="en"><strong>Yaffa Records itself.</strong> The launch sold 450 and sold out. POPUP worked. Cape Town worked. There is a track record.</span></li>
+        <li><span class="he"><strong>הדיבור האישי.</strong> עומר ומוסקו מזמינים אנשים ישירות. זה הערוץ עם ההמרה הכי גבוהה שיש לנו, בפער.</span><span class="en"><strong>Personal word of mouth.</strong> Omer and Mosko inviting people directly. Our highest-converting channel by a distance.</span></li>
+        <li><span class="he"><strong>הקונספט.</strong> תא ווידוי שהופך לטראק, ויזואלס של בן קריתי, תשע שעות ברצף. אף אחד אחר לא עושה את זה.</span><span class="en"><strong>The concept.</strong> A confession booth that becomes a record, Ben Kriyati's visuals, nine straight hours. Nobody else is doing this.</span></li>
+        <li><span class="he"><strong>גוף שני.</strong> Electric People מביאים קהל שלם שלא מכיר אותנו. זה הכפלת הקהל, לא תוספת.</span><span class="en"><strong>A second body.</strong> Electric People bring an entire crowd that does not know us. That is doubling the audience, not adding to it.</span></li>
+      </ul>
+    </div>
+    <div class="card accg">
+      <h4><span class="he">משוואת הערך</span><span class="en">The value equation</span></h4>
+      <ul>
+        <li><span class="he"><strong>התוצאה החלומית:</strong> לילה אחד שבו הכל מותר, ואתה יוצא ממנו קל יותר. זה סטטוס וזו חוויה, לא "מסיבה טובה".</span><span class="en"><strong>Dream outcome:</strong> one night where everything is allowed, and you leave lighter than you came. Status and experience, not "a good party".</span></li>
+        <li><span class="he"><strong>סיכוי נתפס:</strong> ההיסטוריה שלנו. השקה sold out, POPUP, קייפ טאון. תמונות מהאירועים הקודמים הן ההוכחה.</span><span class="en"><strong>Perceived likelihood:</strong> our history. A sold-out launch, POPUP, Cape Town. Photos from past events are the proof.</span></li>
+        <li><span class="he"><strong>עיכוב בזמן:</strong> תאריך אחד, לילה אחד. אין דחייה, אין "בפעם הבאה".</span><span class="en"><strong>Time delay:</strong> one date, one night. No postponing, no "next time".</span></li>
+        <li><span class="he"><strong>מאמץ:</strong> כרטיס אחד. קוד לבוש מתומרץ ולא נאכף. בר שפוי. מים זולים. אין חיכוך.</span><span class="en"><strong>Effort:</strong> one ticket. Dress code encouraged, never enforced. Sane bar. Cheap water. No friction.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3><span class="he">הבונוסים שנכנסים לכרטיס</span><span class="en">What is stacked into the ticket</span></h3>
+  <p><span class="he">כל אחד מהם עונה על התנגדות אחרת. מזכירים אותם לאורך כל הקמפיין, לא רק פעם אחת.</span><span class="en">Each one answers a different objection. Mention them throughout the campaign, not once.</span></p>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">בונוס</span><span class="en">Bonus</span></th>
+      <th><span class="he">מה זה פותר</span><span class="en">Objection it kills</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">תא הווידוי</span><span class="en">The confession booth</span></td><td><span class="he">"עוד מסיבה". פה אתה נהיה חלק מטראק שיוצא בלייבל.</span><span class="en">"Just another party." Here you become part of a record that gets released.</span></td></tr>
+      <tr><td class="k"><span class="he">ויזואלס בן קריתי</span><span class="en">Ben Kriyati visuals</span></td><td><span class="he">"בשביל מה לצאת מהבית". יש פה משהו לראות, לא רק לשמוע.</span><span class="en">"Why leave the house." There is something to see, not just hear.</span></td></tr>
+      <tr><td class="k"><span class="he">מחירי בר שפויים</span><span class="en">Sane bar prices</span></td><td><span class="he">"יעלה לי 400 בערב". וודקה אנרגיה 55 במקום 75. מים 10.</span><span class="en">"It will cost me 400 for the night." Vodka energy at 55 instead of 75. Water at 10.</span></td></tr>
+      <tr><td class="k"><span class="he">תשע שעות</span><span class="en">Nine hours</span></td><td><span class="he">"יקר לכרטיס". מ־17:00 עד 02:00. ערך לשעה לא דומה לאף אחד.</span><span class="en">"Expensive for a ticket." 17:00 to 02:00. Value per hour nobody matches.</span></td></tr>
+      <tr><td class="k"><span class="he">קוד לבוש אדום ושחור</span><span class="en">Red and black dress code</span></td><td><span class="he">"אני לא מכיר אף אחד". קוד לבוש הופך זרים לקבוצה אחת בתוך דקות.</span><span class="en">"I do not know anyone there." A dress code turns strangers into one group within minutes.</span></td></tr>
+      <tr><td class="k"><span class="he">מסיבת יום</span><span class="en">Day party</span></td><td><span class="he">"אין לי כוח עד 6 בבוקר". מתחילים ב־17:00, נגמר ב־02:00. אפשר לישון.</span><span class="en">"I cannot do 6am." Starts 17:00, ends 02:00. You get to sleep.</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call g">
+    <div class="t"><span class="he">הזווית שהעיתונות תרים</span><span class="en">The angle press will pick up</span></div>
+    <p class="he">"לייבל שלא מפרסם ליינאפ" זו כתבה. "תא ווידוי שהופך לתקליט" זו כתבה. "מסיבת יום של תשע שעות שנגמרת ב־02:00" זו כתבה. שלושתן ביחד זה סיפור אחד שאפשר למכור לכל עיתונאי בסצנה. הודעה לעיתונות רגילה על מסיבה לא תרים כלום.</p>
+    <p class="en">"A label that refuses to publish a lineup" is a story. "A confession booth that becomes a record" is a story. "A nine-hour day party that ends at 2am" is a story. Together they are one pitch any scene journalist can use. A normal party press release gets nothing.</p>
+  </div>
+</div></section>
+
+<!-- ================= TARGETS ================= -->
+<section id="targets"><div class="wrap">
+  <div class="stag">Targets</div>
+  <h2><span class="he">היעדים ונקודות הביקורת</span><span class="en">Targets and checkpoints</span></h2>
+  <p class="lede"><span class="he">רוב המכירה נופלת בשבועיים האחרונים, וזה נורמלי. הסכנה היא לא לדעת מראש מה מספר "בסדר" בכל תאריך, ואז לגלות מאוחר מדי.</span><span class="en">Most sales land in the last two weeks, and that is normal. The danger is not knowing in advance what "on track" looks like on each date, and finding out too late.</span></p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">1,000</div><div class="l"><span class="he">יעד כרטיסים</span><span class="en">ticket target</span></div><div class="h"><span class="he">קיבולת 1,200</span><span class="en">cap 1,200</span></div></div>
+    <div class="kpi"><div class="n">397</div><div class="l"><span class="he">נקודת איזון</span><span class="en">breakeven</span></div><div class="h"><span class="he">פירוט בעמוד ה־P&amp;L</span><span class="en">detail on P&amp;L page</span></div></div>
+    <div class="kpi"><div class="n">₪209</div><div class="l"><span class="he">כרטיס ממוצע</span><span class="en">avg ticket</span></div><div class="h">160 / 200 / 250 / 280</div></div>
+    <div class="kpi g"><div class="n">₪0</div><div class="l"><span class="he">תקציב מדיה</span><span class="en">paid media</span></div><div class="h"><span class="he">אורגני בלבד</span><span class="en">organic only</span></div></div>
+    <div class="kpi"><div class="n" id="dtg2">—</div><div class="l"><span class="he">ימים נותרו</span><span class="en">days left</span></div><div class="h"><span class="he">7.5 שבועות ריצה</span><span class="en">7.5 week run</span></div></div>
+  </div>
+
+  <h3><span class="he">מדרגות הכרטיסים</span><span class="en">Ticket tiers</span></h3>
+  <p><span class="he"><strong>מגבילים בכמות, לא בתאריך.</strong> "נשארו 40 ב־160" מזיז אנשים. "עד ה־17.8" רק דוחה את ההחלטה לרגע האחרון.</span><span class="en"><strong>Cap by quantity, never by date.</strong> "40 left at 160" moves people. "Until Aug 17" just pushes the decision to the last minute.</span></p>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">סבב</span><span class="en">Tier</span></th>
+      <th><span class="he">מחיר</span><span class="en">Price</span></th>
+      <th><span class="he">כמות</span><span class="en">Qty</span></th>
+      <th><span class="he">נפתח</span><span class="en">Opens</span></th>
+      <th><span class="he">הנחת קוד</span><span class="en">Code discount</span></th>
+      <th><span class="he">הערה</span><span class="en">Note</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">סבב 1 · Early Bird</span><span class="en">Tier 1 · Early Bird</span></td><td class="num">160 ₪</td><td class="num">250</td><td class="num">11.08</td><td class="num">20 ₪</td><td><span class="he">כמות קשיחה. לא מחדשים ולא מאריכים.</span><span class="en">Hard cap. Never reopened, never extended.</span></td></tr>
+      <tr><td class="k"><span class="he">סבב 2 · רגיל</span><span class="en">Tier 2 · Regular</span></td><td class="num">200 ₪</td><td class="num">400</td><td class="num"><span class="he">בגמר סבב 1</span><span class="en">on tier 1 sellout</span></td><td class="num">25 ₪</td><td><span class="he">הנפח העיקרי. פה נקבע אם הגענו ליעד.</span><span class="en">The bulk. This tier decides whether we hit target.</span></td></tr>
+      <tr><td class="k"><span class="he">סבב 3 · אחרון</span><span class="en">Tier 3 · Final</span></td><td class="num">250 ₪</td><td class="num">300</td><td class="num">08.09</td><td class="num">30 ₪</td><td><span class="he">הדחיפה האחרונה, שבועיים לפני.</span><span class="en">Final push, two weeks out.</span></td></tr>
+      <tr><td class="k"><span class="he">דלת</span><span class="en">Door</span></td><td class="num">280 ₪</td><td class="num">50</td><td class="num">19.09</td><td class="num">—</td><td><span class="he">חייב להיות מעל סבב 3, אחרת אין סיבה לקנות מראש.</span><span class="en">Must sit above tier 3, otherwise there is no reason to pre-buy.</span></td></tr>
+      <tr class="tot"><td class="k"><span class="he">סה"כ</span><span class="en">Total</span></td><td class="num">209 ₪ avg</td><td class="num">1,000</td><td></td><td></td><td><span class="he">209,000 ₪ ברוטו לפני עמלה</span><span class="en">₪209,000 gross before platform fee</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="he">עקומת המכירה הצפויה</span><span class="en">Expected sales curve</span></h3>
+  <div class="curve">
+    <div class="bar" style="height:6%"><span>0</span></div>
+    <div class="bar" style="height:14%"><span>70</span></div>
+    <div class="bar" style="height:20%"><span>100</span></div>
+    <div class="bar" style="height:24%"><span>120</span></div>
+    <div class="bar" style="height:30%"><span>150</span></div>
+    <div class="bar" style="height:44%"><span>210</span></div>
+    <div class="bar" style="height:70%"><span>350</span></div>
+  </div>
+  <div class="clabels"><div>4-10.8</div><div>11-17.8</div><div>18-24.8</div><div>25-31.8</div><div>1-7.9</div><div>8-14.9</div><div>15-19.9</div></div>
+
+  <h3><span class="he">נקודות ביקורת</span><span class="en">Checkpoints</span></h3>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">תאריך</span><span class="en">Date</span></th>
+      <th><span class="he">מינימום מצטבר</span><span class="en">Min cumulative</span></th>
+      <th><span class="he">יעד</span><span class="en">Target</span></th>
+      <th><span class="he">אם מתחת למינימום, מה עושים באותו יום</span><span class="en">If under, act that day</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k">17.08</td><td class="num">55</td><td class="num">70</td><td><span class="he">ההזמנה האישית לא יצאה מספיק רחב. כל אחד מכם עובר על 100 אנשי קשר השבוע, אחד אחד.</span><span class="en">The personal invite did not go wide enough. Each of you works 100 contacts this week, one by one.</span></td></tr>
+      <tr><td class="k">24.08</td><td class="num">140</td><td class="num">170</td><td><span class="he">פותחים סבב 2 מוקדם, מגייסים עוד 10 שגרירים, פוש ווטסאפ אישי.</span><span class="en">Open tier 2 early, recruit 10 more ambassadors, personal WhatsApp push.</span></td></tr>
+      <tr><td class="k">31.08</td><td class="num">240</td><td class="num">290</td><td><span class="he">מפעילים את קודי Electric People גם אם לא הכל סגור. מוסיפים ערוץ קבוצות.</span><span class="en">Activate Electric People codes even if not everything is closed. Add group seeding.</span></td></tr>
+      <tr><td class="k">07.09</td><td class="num">380</td><td class="num">440</td><td><span class="he">נקודת ההחלטה האמיתית. מתחת ל־380, מורידים יעד ל־700 ומקצצים הפקה עכשיו.</span><span class="en">The real decision point. Under 380, drop the target to 700 and cut production now.</span></td></tr>
+      <tr><td class="k">14.09</td><td class="num">560</td><td class="num">650</td><td><span class="he">פוש אחרון בכל הערוצים, גסטליסט מצומצם, כל שם ברשימה הוא כרטיס שלא נמכר.</span><span class="en">Final push everywhere, tight guestlist, every name on it is a ticket not sold.</span></td></tr>
+      <tr class="tot"><td class="k">19.09</td><td class="num">800</td><td class="num">1,000</td><td><span class="he">דלת פתוחה ב־280</span><span class="en">Door opens at 280</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call">
+    <div class="t"><span class="he">כלל אחד</span><span class="en">One rule</span></div>
+    <p class="he">אף פעם לא מפרסמים כמה כרטיסים נמכרו. מפרסמים כמה <strong>נשארו</strong>. "נשארו 40 בסבב 1" עובד. "נמכרו 210" נשמע כמו אולם חצי ריק.</p>
+    <p class="en">Never publish how many sold. Publish how many are <strong>left</strong>. "40 left in tier 1" works. "210 sold" sounds like a half-empty room.</p>
+  </div>
+</div></section>
+
+<!-- ================= ENGINE ================= -->
+<section id="engine"><div class="wrap">
+  <div class="stag">Growth Engine</div>
+  <h2><span class="he">מאיפה מגיעים 1000 כרטיסים</span><span class="en">Where 1,000 tickets come from</span></h2>
+  <p class="lede">
+    <span class="he">אפס פרסום ממומן. מדיה ממומנת מביאה קהל לא נכון ואנחנו לא רוצים אותו באירוע הזה. במקום זה, שבעה ערוצים אורגניים, כל אחד עם מספר יעד ואחראי. אם ערוץ אחד נופל, יודעים מיד מי צריך לכסות.</span>
+    <span class="en">Zero paid media. Paid brings the wrong crowd and we do not want them at this event. Instead, seven organic channels, each with a number and an owner. If one channel misses, you know immediately who has to cover.</span>
+  </p>
+
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">ערוץ</span><span class="en">Channel</span></th>
+      <th><span class="he">גודל</span><span class="en">Reach</span></th>
+      <th><span class="he">יעד כרטיסים</span><span class="en">Ticket target</span></th>
+      <th>%</th>
+      <th><span class="he">אחראי</span><span class="en">Owner</span></th>
+      <th><span class="he">איך זה עובד בפועל</span><span class="en">How it actually works</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">הזמנה אישית</span><span class="en">Personal invite</span></td><td class="num">~800</td><td class="num">320</td><td class="num">32%</td><td class="num"><span class="he">עומר + מוסקו</span><span class="en">Omer + Mosko</span></td><td><span class="he">הודעה אישית אחת לאחד, לא ברודקאסט. 100 אנשים בשבוע לכל אחד. זה עבודה, ואין תחליף.</span><span class="en">One-to-one messages, never a broadcast. 100 people a week each. It is work, and there is no substitute.</span></td></tr>
+      <tr><td class="k"><span class="he">Electric People</span><span class="en">Electric People</span></td><td class="num">—</td><td class="num">250</td><td class="num">25%</td><td class="num"><span class="he">הם</span><span class="en">Them</span></td><td><span class="he">קוד ייעודי, עמלה רטרואקטיבית. זה כל התפקיד שלהם. אם לא סוגרים, חסרים 250 כרטיסים ואת זה צריך לדעת עכשיו.</span><span class="en">Dedicated code, retroactive commission. This is their entire job. If it does not close, that is 250 tickets missing and we need to know now.</span></td></tr>
+      <tr><td class="k"><span class="he">רשימת מייל</span><span class="en">Email list</span></td><td class="num">4,687</td><td class="num">140</td><td class="num">14%</td><td class="num">Mosko</td><td><span class="he">4 שליחות דרך ברבו. 3% המרה זה ריאלי לרשימה חמה בינונית. אחת לשבועיים מקסימום.</span><span class="en">4 sends via Brevo. 3% conversion is realistic for a lukewarm list. Every two weeks maximum.</span></td></tr>
+      <tr><td class="k"><span class="he">שגרירים</span><span class="en">Ambassadors</span></td><td class="num">20-30</td><td class="num">110</td><td class="num">11%</td><td class="num">Mosko</td><td><span class="he">קוד אישי לכל אחד, 4 עד 6 כרטיסים ריאליים לשגריר. תמריצים לא כספיים.</span><span class="en">Personal code each, 4 to 6 tickets realistically per person. Non-cash incentives.</span></td></tr>
+      <tr><td class="k"><span class="he">ווטסאפ קומיוניטי</span><span class="en">WhatsApp community</span></td><td class="num">~400</td><td class="num">100</td><td class="num">10%</td><td class="num">Mosko</td><td><span class="he">הערוץ עם ההמרה הכי גבוהה. 5 הודעות לאורך הקמפיין, האחרונה בערב שישי לפני.</span><span class="en">Highest-converting channel we own. 5 messages across the campaign, the last on the Friday evening before.</span></td></tr>
+      <tr><td class="k"><span class="he">אינסטגרם אורגני</span><span class="en">Instagram organic</span></td><td class="num">—</td><td class="num">80</td><td class="num">8%</td><td class="num"><span class="he">שניכם</span><span class="en">Both</span></td><td><span class="he">3 פוסטים בשבוע + סטוריז יומיים, מתוך ארכיון הווידאו שכבר קיים.</span><span class="en">3 posts a week plus daily stories, cut from the video archive we already have.</span></td></tr>
+      <tr><td class="k">PR <span class="he">(לילוש + מאור)</span><span class="en">(Lilush + Maor)</span></td><td class="num">—</td><td class="num">60</td><td class="num">6%</td><td class="num"><span class="he">לילוש</span><span class="en">Lilush</span></td><td><span class="he">אזכורים בסצנה, ליסטינגים, חשבונות נייטלייף. פחות מכירה ישירה, יותר לגיטימציה.</span><span class="en">Scene mentions, listings, nightlife accounts. Less direct sale, more legitimacy.</span></td></tr>
+      <tr><td class="k"><span class="he">האומן 17</span><span class="en">Haoman 17</span></td><td class="num">—</td><td class="num">40</td><td class="num">4%</td><td class="num">Mosko</td><td><span class="he">לאולם יש קהל משלו. לבקש בכתב מה הם עושים בערוצים שלהם. זה תנועה בחינם.</span><span class="en">The venue has its own audience. Get in writing what they will run on their channels. Free traffic.</span></td></tr>
+      <tr class="tot"><td class="k"><span class="he">סה"כ</span><span class="en">Total</span></td><td class="num"></td><td class="num">1,000</td><td class="num">100%</td><td class="num"></td><td><span class="he">בלי שקל אחד של מדיה</span><span class="en">Without a single shekel of media</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call">
+    <div class="t"><span class="he">המספר שצריך להפנים</span><span class="en">The number to internalise</span></div>
+    <p class="he">57% מהיעד מגיע משני מקומות: ההזמנה האישית שלכם ו־Electric People. כל השאר, המיילים, האינסטגרם, ה־PR, הם ביחד פחות מ־30%. זה אומר שאם עומר ומוסקו לא מזמינים אנשים בפועל כל שבוע, שום דבר אחר לא יציל את זה.</p>
+    <p class="en">57% of the target comes from two places: your personal invites and Electric People. Everything else, email, Instagram, PR, is under 30% combined. Which means if Omer and Mosko are not actually inviting people every week, nothing else saves it.</p>
+  </div>
+
+  <h3><span class="he">מערכת ההזמנה האישית</span><span class="en">The personal invite system</span></h3>
+  <p><span class="he">זה נשמע פשוט וזה בדיוק למה זה לא קורה. צריך מערכת, לא כוונות טובות.</span><span class="en">It sounds simple, which is exactly why it does not happen. It needs a system, not good intentions.</span></p>
+  <ol>
+    <li><span class="he"><strong>בונים רשימה אחת.</strong> גיליון משותף, כל איש קשר של עומר ומוסקו ששווה להזמין. שם, ערוץ, מי מזמין, סטטוס.</span><span class="en"><strong>Build one list.</strong> A shared sheet, every contact of Omer's and Mosko's worth inviting. Name, channel, who invites, status.</span></li>
+    <li><span class="he"><strong>מחלקים.</strong> אין חפיפה. אדם אחד מקבל הזמנה אחת מאדם אחד. שתי הזמנות זה יותר גרוע מאפס.</span><span class="en"><strong>Split it.</strong> No overlap. One person gets one invite from one of you. Two invites is worse than none.</span></li>
+    <li><span class="he"><strong>100 בשבוע לכל אחד.</strong> זה 15 ביום. עשרים דקות. שמים את זה בלוח כמו כל דבר אחר.</span><span class="en"><strong>100 a week each.</strong> That is 15 a day. Twenty minutes. Put it in the calendar like anything else.</span></li>
+    <li><span class="he"><strong>ההודעה קצרה ואמיתית.</strong> לא פוסטר בהודעה. שתי שורות שנכתבו לאדם הזה, ואז הלינק.</span><span class="en"><strong>Short and real.</strong> Not a poster in a DM. Two lines written for that person, then the link.</span></li>
+    <li><span class="he"><strong>מסמנים בגיליון.</strong> מי ענה, מי קנה, למי חוזרים. בלי מעקב זה נזילה.</span><span class="en"><strong>Log it.</strong> Who replied, who bought, who to circle back to. Without tracking it leaks.</span></li>
+  </ol>
+
+  <div class="copy he"><span class="lbl">תבנית הודעה אישית · לא להעתיק כמו שזה</span>
+    היי [שם], עושים מסיבה ב־19.9 בהאומן 17, מסיבת יום מ־17:00 עד 02:00.<br>
+    בנינו משהו שונה הפעם, קונספט שלם, לא סתם ליין. חשבתי עליך.<br>
+    סבב ראשון פתוח, [לינק]
+  </div>
+  <div class="copy en"><span class="lbl">Personal message template · do not copy verbatim</span>
+    Hey [name], we're throwing a party on 19.9 at Haoman 17, day party, 17:00 to 02:00.<br>
+    We built something different this time, a full concept, not just a lineup. Thought of you.<br>
+    First tier is open, [link]
+  </div>
+
+  <h3><span class="he">זריעה בקבוצות</span><span class="en">Group seeding</span></h3>
+  <ul>
+    <li><span class="he">מיפוי קבוצות ווטסאפ וטלגרם רלוונטיות בסצנה. לא לספאם, אלא לזהות בכל קבוצה מי הבנאדם שאנחנו מכירים ולבקש ממנו לשתף.</span><span class="en">Map relevant WhatsApp and Telegram groups in the scene. Do not spam them. Identify the one person you know in each group and ask them to share.</span></li>
+    <li><span class="he">כל קבוצה מקבלת קוד משלה. ככה יודעים אילו קבוצות באמת עובדות ואילו רק רועשות.</span><span class="en">Each group gets its own code. That is how you learn which groups actually convert and which are just loud.</span></li>
+    <li><span class="he">מטרה: 15 קבוצות עד 25.08.</span><span class="en">Goal: 15 groups by 25.08.</span></li>
+  </ul>
+</div></section>
+
+<!-- ================= AMBASSADORS ================= -->
+<section id="ambassadors"><div class="wrap">
+  <div class="stag">Ambassadors</div>
+  <h2><span class="he">שומרי הסף · מערכת השגרירים והקודים</span><span class="en">Gatekeepers · ambassador and code system</span></h2>
+  <p class="lede"><span class="he">20 עד 30 אנשים בסצנה שכל אחד מהם מביא 4 עד 6 אנשים. הקוד הוא מקור האמת היחיד לאטריביושן, ולכן כל ערוץ וכל שותף מקבל קוד משלו מהיום הראשון.</span><span class="en">20 to 30 people in the scene who each bring 4 to 6. The code is the single source of truth for attribution, so every channel and every partner gets its own from day one.</span></p>
+
+  <div class="g2">
+    <div class="card acc">
+      <h4><span class="he">מה השגריר מקבל</span><span class="en">What an ambassador gets</span></h4>
+      <p><span class="he">תמריצים לא כספיים חזקים יותר מכסף אצל אנשי סצנה, ועולים לנו כמעט כלום.</span><span class="en">Non-cash incentives beat cash with scene people, and cost us almost nothing.</span></p>
+      <ul>
+        <li><span class="he">2 כרטיסים חינם מ־5 מכירות דרך הקוד</span><span class="en">2 free tickets from 5 sales on their code</span></li>
+        <li><span class="he">כניסה מוקדמת ואזור צוות</span><span class="en">Early entry and crew area</span></li>
+        <li><span class="he">גישה ראשונה לטראק Confession כשהוא יוצא</span><span class="en">First access to the Confession track on release</span></li>
+        <li><span class="he">שמם ברשימת שומרי הסף בדף האירוע</span><span class="en">Named on the gatekeeper list on the event page</span></li>
+        <li><span class="he">ההנחה עצמה לקהל שלהם: 20 ₪, עולה ל־25 ו־30 בסבבים המאוחרים</span><span class="en">The discount itself for their people: 20 ₪, rising to 25 and 30 in later tiers</span></li>
+      </ul>
+    </div>
+    <div class="card accg">
+      <h4><span class="he">חוקי הקוד</span><span class="en">Code rules</span></h4>
+      <ul>
+        <li><span class="he"><strong>קוד לכל גורם.</strong> שגריר, קבוצה, שותף, האומן, לילוש. אין קוד גנרי אחד.</span><span class="en"><strong>A code per source.</strong> Ambassador, group, partner, venue, Lilush. Never one generic code.</span></li>
+        <li><span class="he"><strong>הקוד על השם שלהם.</strong> אדם מפיץ קוד שנקרא על שמו אחרת לגמרי מקוד גנרי.</span><span class="en"><strong>Name the code after them.</strong> People push a code with their name on it very differently to a generic one.</span></li>
+        <li><span class="he"><strong>הקוד רץ רק בערוצים שלהם.</strong> אף פעם לא בפוסטים שלנו. זה מה שמונע קניבליזציה.</span><span class="en"><strong>The code runs only on their channels.</strong> Never on our posts. That is what stops cannibalisation.</span></li>
+        <li><span class="he"><strong>עמלה רטרואקטיבית</strong> אצל Electric People. חוצים מדרגה, כל הכרטיסים מתעדכנים. זה מה שיוצר ספרינט לקראת כל סף.</span><span class="en"><strong>Retroactive commission</strong> for Electric People. Cross a tier and all prior tickets reprice. That is what creates a sprint at each threshold.</span></li>
+        <li><span class="he"><strong>הכל בכתב.</strong> גם אם זה עמוד אחד. יש פה חלוקת הכנסות.</span><span class="en"><strong>Everything in writing.</strong> Even a single page. There is revenue sharing here.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3><span class="he">Electric People · רחבה שנייה</span><span class="en">Electric People · second room</span></h3>
+  <p><span class="he">ההצעה נשלחה ואנחנו מחכים לתשובה. <strong>דדליין תשובה: 03.08.</strong> אחרי זה מפעילים חלופה, כי 250 כרטיסים לא יכולים לחכות.</span><span class="en">The offer is sent and we are waiting. <strong>Answer deadline: 03.08.</strong> After that we activate the fallback, because 250 tickets cannot wait.</span></p>
+  <div class="g2">
+    <div class="card">
+      <h4><span class="he">הצעה A · מדרגות</span><span class="en">Offer A · the ladder</span></h4>
+      <p><span class="he">6,000 ₪ תקלוט מובטח, סולם עמלות רטרואקטיבי 20 עד 50 ₪ לכרטיס, בונוס 3,000 ב־400 כרטיסים דרך הקוד.</span><span class="en">6,000 ₪ guaranteed crew fee, retroactive commission ladder 20 to 50 ₪ per ticket, 3,000 bonus at 400 code tickets.</span></p>
+      <p><span class="he"><strong>ב־1000 כרטיסים והם מביאים 400:</strong> כ־27,000 ₪ אליהם.</span><span class="en"><strong>At 1,000 tickets with 400 on their code:</strong> about 27,000 ₪ to them.</span></p>
+    </div>
+    <div class="card">
+      <h4><span class="he">הצעה B · שותפות</span><span class="en">Offer B · partnership</span></h4>
+      <p><span class="he">מממנים עד 35% מהתקציב מראש, מקבלים את ההון חזרה פרו רטה ואז 35% מהרווח. בלי תקלוט ובלי עמלה.</span><span class="en">They fund up to 35% of the budget up front, get capital back pro rata then 35% of profit. No fee, no commission.</span></p>
+      <p><span class="he"><strong>ב־1000 כרטיסים:</strong> כ־53,000 ₪ אליהם.</span><span class="en"><strong>At 1,000 tickets:</strong> about 53,000 ₪ to them.</span></p>
+    </div>
+  </div>
+  <div class="call g">
+    <div class="t"><span class="he">ההמלצה</span><span class="en">Recommendation</span></div>
+    <p class="he">נקודת החצייה סביב 620 כרטיסים. אנחנו מכוונים ל־1000, ולכן <strong>הצעה A עדיפה לנו בפער של כ־26,000 ₪</strong>. הסיכון: מתחת ל־500, A משלמת להם גם כשהאירוע מפסיד. אם ב־07.09 המצטבר מתחת ל־380, A הופכת לבעיה. אם הם מבקשים לבחור, תן להם את A ותציג אותה כמה שהיא: תקרה גבוהה יותר עבורם אם הם מוכרים. מי שבטוח בעצמו לוקח את A.</p>
+    <p class="en">The crossover sits around 620 tickets. We are aiming at 1,000, so <strong>Offer A is better for us by roughly 26,000 ₪</strong>. The risk: under 500, A pays them even when the event loses money. If cumulative sales are under 380 on 07.09, A becomes a problem. If they ask you to pick, give them A and frame it honestly: a higher ceiling for them if they sell. Anyone confident in themselves takes A.</p>
+  </div>
+  <h4><span class="he">אם אין תשובה עד 03.08</span><span class="en">If there is no answer by 03.08</span></h4>
+  <ul>
+    <li><span class="he">ממשיכים לפי הלוח בלעדיהם. שלב הטיזר לא תלוי בהם.</span><span class="en">Carry on to schedule without them. The teaser phase does not depend on them.</span></li>
+    <li><span class="he">חלופה: 6 עד 8 דיג'יים בודדים, קוד אישי לכל אחד, 25 ₪ עמלה לכרטיס. פחות נוח לוגיסטית, אפס סיכון פיננסי, אפס תקלוט מובטח.</span><span class="en">Fallback: 6 to 8 individual DJs, personal code each, 25 ₪ per ticket. Less convenient logistically, zero financial risk, zero guaranteed fee.</span></li>
+    <li><span class="he">אקסטטיק לפתיחה 17:00 עד 19:00 נשאר רלוונטי בנפרד. הצעה אחרת לגמרי, עמלה בלבד.</span><span class="en">Ecstatic for the 17:00 to 19:00 opening stays live separately. Completely different offer, commission only.</span></li>
+  </ul>
+</div></section>
+
+<!-- ================= PR ================= -->
+<section id="pr"><div class="wrap">
+  <div class="stag">Press</div>
+  <h2><span class="he">יחסי ציבור · לילוש ומאור הס</span><span class="en">PR · Lilush and Maor Hess</span></h2>
+  <p class="lede"><span class="he">PR לא ימכור 1000 כרטיסים ואסור לצפות מזה לזה. מה שהוא כן עושה: הופך את SIN CITY מ"מסיבה של חברים" ל"אירוע שמדברים עליו", וזה מה שגורם לאנשים שלא מכירים אותנו לקנות.</span><span class="en">PR will not sell 1,000 tickets and should not be expected to. What it does: turn SIN CITY from "a friends' party" into "the event people are talking about", and that is what makes strangers buy.</span></p>
+
+  <div class="g2">
+    <div class="card acc">
+      <h4><span class="he">לילוש · יחצנית ראשית</span><span class="en">Lilush · lead publicist</span></h4>
+      <ul>
+        <li><span class="he">בעלת התיק. אחראית על 60 כרטיסים ועל הנוכחות בסצנה.</span><span class="en">Owns the account. Accountable for 60 tickets and for scene presence.</span></li>
+        <li><span class="he">ליסטינגים ואגרגטורים של אירועים, עד 25.08.</span><span class="en">Event listings and aggregators, by 25.08.</span></li>
+        <li><span class="he">חשבונות נייטלייף ואלקטרוני באינסטגרם, פיצ' אישי לכל אחד, לא הודעה גורפת.</span><span class="en">Nightlife and electronic accounts on Instagram, personal pitch each, never a blast.</span></li>
+        <li><span class="he">מדיה בסצנה: פודקאסטים, בלוגים, כתבים. הזווית היא הקונספט, לא המסיבה.</span><span class="en">Scene media: podcasts, blogs, writers. The angle is the concept, not the party.</span></li>
+        <li><span class="he">מקבלת קוד <code>LILUSH</code> כדי שנדע מה באמת הגיע ממנה.</span><span class="en">Gets code <code>LILUSH</code> so we know what actually came from her.</span></li>
+      </ul>
+    </div>
+    <div class="card accg">
+      <h4><span class="he">מאור הס · תמיכה וקשרים</span><span class="en">Maor Hess · support and network</span></h4>
+      <ul>
+        <li><span class="he">פתיחת דלתות ומגעים, לא ניהול תיק. מסייע ללילוש.</span><span class="en">Opens doors and makes introductions, does not run the account. Supports Lilush.</span></li>
+        <li><span class="he">חיבורים לגופים ולקרוז נוספים בסצנה, כולל גיבוי אם Electric People לא סוגרים.</span><span class="en">Connections to other bodies and crews, including backup if Electric People do not close.</span></li>
+        <li><span class="he">גיוס שגרירים מהרשת שלו, יעד 8 עד 10 שמות.</span><span class="en">Recruits ambassadors from his network, target 8 to 10 names.</span></li>
+        <li><span class="he">קוד <code>MAOR</code>.</span><span class="en">Code <code>MAOR</code>.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3><span class="he">לוח זמנים ל־PR</span><span class="en">PR timeline</span></h3>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">תאריך</span><span class="en">Date</span></th>
+      <th><span class="he">מה קורה</span><span class="en">What happens</span></th>
+      <th><span class="he">מי</span><span class="en">Who</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="num">30.07</td><td><span class="he">שיחת בריף עם לילוש ומאור. מוסרים קונספט, יעד, קודים, מה מותר ומה אסור.</span><span class="en">Brief call with Lilush and Maor. Hand over concept, target, codes, what is on and off limits.</span></td><td class="num">Mosko</td></tr>
+      <tr><td class="num">05.08</td><td><span class="he">ערכת עיתונות מוכנה: תיאור אירוע, קונספט, תמונות מאירועים קודמים, ביו לייבל.</span><span class="en">Press kit ready: event description, concept, past event photos, label bio.</span></td><td class="num">Mosko</td></tr>
+      <tr><td class="num">11.08</td><td><span class="he">יום ההכרזה. הפיצ'ים יוצאים באותו יום שהמכירה נפתחת, לא לפני.</span><span class="en">Announcement day. Pitches go out the same day sales open, not before.</span></td><td class="num"><span class="he">לילוש</span><span class="en">Lilush</span></td></tr>
+      <tr><td class="num">18-31.08</td><td><span class="he">גל שני: זווית תא הווידוי. זה הפיצ' עם הכי הרבה סיכוי להרים כתבה.</span><span class="en">Second wave: the confession booth angle. The pitch most likely to land a feature.</span></td><td class="num"><span class="he">לילוש</span><span class="en">Lilush</span></td></tr>
+      <tr><td class="num">01-07.09</td><td><span class="he">חשבונות סצנה ואינפלואנסרים. הזמנות אישיות, לא כרטיסי חינם גורפים.</span><span class="en">Scene accounts and influencers. Personal invites, not blanket comps.</span></td><td class="num"><span class="he">לילוש + מאור</span><span class="en">Lilush + Maor</span></td></tr>
+      <tr><td class="num">08-14.09</td><td><span class="he">ליסטינגים אחרונים, "מה עושים בסופ"ש", גסטליסט עיתונות נסגר.</span><span class="en">Final listings, weekend guides, press guestlist closes.</span></td><td class="num"><span class="he">לילוש</span><span class="en">Lilush</span></td></tr>
+      <tr><td class="num">21-25.09</td><td><span class="he">אחרי האירוע: ריקאפ לעיתונות, הכנת הסיפור של טראק Confession לגל הבא.</span><span class="en">Post-event: recap to press, set up the Confession track story for the next wave.</span></td><td class="num"><span class="he">לילוש</span><span class="en">Lilush</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call">
+    <div class="t"><span class="he">מה למסור בבריף</span><span class="en">What to hand over in the brief</span></div>
+    <ul>
+      <li><span class="he"><strong>אסור:</strong> כל אזכור של דת, צום או חג. אין ליינאפ לפרסום. אין מספרי מכירות.</span><span class="en"><strong>Off limits:</strong> any mention of religion, fasting or holidays. No lineup to publish. No sales numbers.</span></li>
+      <li><span class="he"><strong>הזווית:</strong> לייבל שלא מפרסם ליינאפ, תא ווידוי שהופך לתקליט, מסיבת יום של תשע שעות.</span><span class="en"><strong>The angle:</strong> a label that will not publish a lineup, a confession booth that becomes a record, a nine-hour day party.</span></li>
+      <li><span class="he"><strong>הצבע:</strong> אדום בלבד על שחור. אף פעם לא רקע לבן, אף פעם לא ניאונים.</span><span class="en"><strong>The colour:</strong> red only on black. Never a white background, never neons.</span></li>
+      <li><span class="he"><strong>מדידה:</strong> כל אחד מהם עם קוד. בסוף החודש רואים מה עבד ומה לא.</span><span class="en"><strong>Measurement:</strong> each of them on a code. End of month we see what worked.</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ================= CONTENT ================= -->
+<section id="content"><div class="wrap">
+  <div class="stag">Content</div>
+  <h2><span class="he">תוכן, מתוך מה שכבר יש לנו</span><span class="en">Content, from what we already have</span></h2>
+  <p class="lede"><span class="he">יש ארכיון וידאו גדול של עומר ומוסקו. הוא לא צריך להיות חדש, הוא צריך להיות אדום. יום עריכה אחד שמפיק 20 קליפים קצרים מחזיק את כל הקמפיין ושומר על 3 פוסטים בשבוע בלי לצלם כלום נוסף.</span><span class="en">There is a large video archive from Omer and Mosko. It does not need to be new, it needs to be red. One editing day producing 20 short clips carries the entire campaign and holds 3 posts a week without shooting anything new.</span></p>
+
+  <h3><span class="he">לוח התוכן</span><span class="en">Content calendar</span></h3>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">שבוע</span><span class="en">Week</span></th>
+      <th><span class="he">פיד</span><span class="en">Feed</span></th>
+      <th><span class="he">ריל / וידאו</span><span class="en">Reel / video</span></th>
+      <th><span class="he">סטוריז</span><span class="en">Stories</span></th>
+      <th><span class="he">מייל / ווטסאפ</span><span class="en">Email / WhatsApp</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k">04-10.8<br><span style="font-size:10px;color:var(--faint)"><span class="he">טיזר</span><span class="en">teaser</span></span></td>
+        <td><span class="he">סילואטה אדומה · "עיר אחת. לילה אחד."</span><span class="en">Red silhouette · "One city. One night."</span></td>
+        <td><span class="he">טיזר 8 שניות, קיק בלבד, מהארכיון</span><span class="en">8 second teaser, kick only, from archive</span></td>
+        <td><span class="he">שאלה פתוחה "מה החטא שלך?"</span><span class="en">Open question "what is your sin?"</span></td>
+        <td><span class="he">ווטסאפ: הודעה מסתורית אחת</span><span class="en">WhatsApp: one cryptic message</span></td></tr>
+      <tr><td class="k">11-17.8<br><span style="font-size:10px;color:var(--faint)"><span class="he">הכרזה</span><span class="en">announce</span></span></td>
+        <td><span class="he"><strong>פוסטר</strong> · "נשארו X מ־250"</span><span class="en"><strong>Poster</strong> · "X left of 250"</span></td>
+        <td><span class="he">אנימציית פוסטר, מעגל שנפתח</span><span class="en">Animated poster, a circle opening</span></td>
+        <td><span class="he">ספירה לפתיחת מכירה · לינק</span><span class="en">Countdown to on-sale · link</span></td>
+        <td><span class="he"><strong>מייל הכרזה</strong> · ווטסאפ · VIP שעה קודם</span><span class="en"><strong>Announce email</strong> · WhatsApp · VIP an hour earlier</span></td></tr>
+      <tr><td class="k">18-24.8<br><span style="font-size:10px;color:var(--faint)"><span class="he">קונספט</span><span class="en">concept</span></span></td>
+        <td><span class="he">קרוסלת המבנה · קוד לבוש</span><span class="en">Structure carousel · dress code</span></td>
+        <td><span class="he"><strong>טיזר תא הווידוי</strong> 20 שניות</span><span class="en"><strong>Confession booth teaser</strong> 20 sec</span></td>
+        <td><span class="he">מאחורי הקלעים של ההכנות</span><span class="en">Behind the scenes of the build</span></td>
+        <td><span class="he">ווטסאפ: תזכורת סבב 1</span><span class="en">WhatsApp: tier 1 reminder</span></td></tr>
+      <tr><td class="k">25-31.8<br><span style="font-size:10px;color:var(--faint)"><span class="he">שותפים</span><span class="en">partners</span></span></td>
+        <td><span class="he">Back Room reveal · שומרי הסף</span><span class="en">Back Room reveal · the gatekeepers</span></td>
+        <td><span class="he">טיזר ויזואלס בן קריתי</span><span class="en">Ben Kriyati visuals teaser</span></td>
+        <td><span class="he">קודי שגרירים עולים לאוויר</span><span class="en">Ambassador codes go live</span></td>
+        <td><span class="he">מייל 2 · ווטסאפ</span><span class="en">Email 2 · WhatsApp</span></td></tr>
+      <tr><td class="k">1-7.9<br><span style="font-size:10px;color:var(--faint)"><span class="he">הוכחה</span><span class="en">proof</span></span></td>
+        <td><span class="he">תמונות מאירועים קודמים · פוסט קהילה</span><span class="en">Past event photos · community post</span></td>
+        <td><span class="he"><strong>ריל קדימון</strong> גדול מהארכיון</span><span class="en"><strong>Big trailer reel</strong> from the archive</span></td>
+        <td><span class="he">UGC "מה החטא שלך" · שיתופים</span><span class="en">UGC "what is your sin" · reshares</span></td>
+        <td><span class="he">ווטסאפ: סבב 2 נגמר</span><span class="en">WhatsApp: tier 2 running out</span></td></tr>
+      <tr><td class="k">8-14.9<br><span style="font-size:10px;color:var(--faint)"><span class="he">דחיפות</span><span class="en">urgency</span></span></td>
+        <td><span class="he">סבב 3 · מידע פרקטי מלא</span><span class="en">Tier 3 · full practical info</span></td>
+        <td><span class="he">קאט קצר מהפריסט של בן</span><span class="en">Short cut from Ben's preset</span></td>
+        <td><span class="he">ספירה יומית, אותו פורמט</span><span class="en">Daily countdown, same format</span></td>
+        <td><span class="he">מייל 3 · ווטסאפ</span><span class="en">Email 3 · WhatsApp</span></td></tr>
+      <tr><td class="k">15-19.9<br><span style="font-size:10px;color:var(--faint)"><span class="he">סיום</span><span class="en">final</span></span></td>
+        <td><span class="he">4,3,2,1 · פוסט יום האירוע</span><span class="en">4,3,2,1 · event day post</span></td>
+        <td><span class="he">טיזר של מה שמחכה</span><span class="en">Teaser of what waits inside</span></td>
+        <td><span class="he">הקמה · דלתות · לייב</span><span class="en">Build · doors · live</span></td>
+        <td><span class="he"><strong>מייל 17.9</strong> · ווטסאפ 18.9 בערב</span><span class="en"><strong>Email 17.9</strong> · WhatsApp evening 18.9</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="he">קפשנים מוכנים</span><span class="en">Ready captions</span></h3>
+  <div class="copy he"><span class="lbl">טיזר · 04.08</span>יש לילה אחד שבו הכל מותר. עוד לא נגיד מתי.</div>
+  <div class="copy en"><span class="lbl">Teaser · 04.08</span>There is one night where everything is allowed. We are not saying when yet.</div>
+  <div class="copy he"><span class="lbl">הכרזה · 11.08</span>תשע שעות של אדום, מהאור האחרון של היום ועד עמוק לתוך הלילה.<br>19.9, האנגר האומן 17. סבב ראשון פתוח, 250 כרטיסים.<br>כרטיסים בלינק בביו.</div>
+  <div class="copy en"><span class="lbl">Announce · 11.08</span>Nine hours of red, from the last light of day deep into the night.<br>19.9, the Haoman 17 hangar. First tier open, 250 tickets.<br>Tickets in bio.</div>
+  <div class="copy he"><span class="lbl">בלי ליינאפ · 20.08</span>לא נפרסם מי מנגן. באת בשביל העיר, לא בשביל השם על הפוסטר.</div>
+  <div class="copy en"><span class="lbl">No lineup · 20.08</span>We are not publishing who plays. You came for the city, not the name on the poster.</div>
+  <div class="copy he"><span class="lbl">תא הווידוי · 18.08</span>בלב העיר יש תא. מיקרופון אחד, ואתה.<br>מה שתגיד שם יהפוך למשהו אחר.</div>
+  <div class="copy en"><span class="lbl">Confession booth · 18.08</span>At the centre of the city there is a booth. One mic, and you.<br>Whatever you say in there becomes something else.</div>
+  <div class="copy he"><span class="lbl">דחיפות · 08.09</span>זה המחיר האחרון לפני הדלת.<br>נכנסים חוטאים, יוצאים נקיים. 19.9.</div>
+  <div class="copy en"><span class="lbl">Urgency · 08.09</span>This is the last price before the door.<br>Walk in a sinner, walk out clean. 19.9.</div>
+  <div class="copy he"><span class="lbl">יום האירוע · 19.09</span>העיר פתוחה. עד שהשערים נסגרים.</div>
+  <div class="copy en"><span class="lbl">Event day · 19.09</span>The city is open. Until the gates close.</div>
+
+  <div class="call">
+    <div class="t"><span class="he">חוקי קפשן</span><span class="en">Caption rules</span></div>
+    <p class="he">110 עד 130 תווים לפני ה־CTA. מקסימום 3 האשטגים ספציפיים לז'אנר. בלי מקפים ארוכים. אף פעם לא מתחילים בשם הלייבל או בשם האירוע, פותחים בתחושה ונגמרים בלינק.</p>
+    <p class="en">110 to 130 characters before the CTA. Maximum 3 genre-specific hashtags. No em dashes. Never open with the label or event name, open with the feeling and close with the link.</p>
+  </div>
+
+  <h3><span class="he">ריליזים כערוץ הפצה</span><span class="en">Releases as a distribution channel</span></h3>
+  <p><span class="he">כל ריליז שיוצא מהיום ועד 19.9 הוא תנועה בחינם מקהל שכבר אוהב את המוזיקה. Smells Like Teen Spirit ב־5.8, Let Me In ב־2.9, Love Buzz ב־16.9. שלושתם נושאים באנר SIN CITY בתיאור הסאונדקלאוד, בגייט ההייפדיט ובמייל.</span><span class="en">Every release between now and 19.9 is free traffic from an audience that already likes the music. Smells Like Teen Spirit on 5.8, Let Me In on 2.9, Love Buzz on 16.9. All three carry a SIN CITY banner in the SoundCloud description, on the Hypeddit gate and in the email.</span></p>
+</div></section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="timeline"><div class="wrap">
+  <div class="stag">Timeline</div>
+  <h2><span class="he">שבוע אחר שבוע</span><span class="en">Week by week</span></h2>
+  <p class="lede"><span class="he">שלב 0 המקורי היה 13 עד 26 ביולי והוא לא רץ. מתחילים באיחור של שבועיים, ולכן שבוע נעילה אחד דחוס במקום שניים. אין מרווח לעוד החלקה.</span><span class="en">The original phase 0 ran 13 to 26 July and it did not happen. We start two weeks late, so one compressed lock week instead of two. There is no room for another slip.</span></p>
+
+  <div class="phase">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 0 · שבוע הנעילה</span><span class="en">Week 0 · Lock week</span></div><div class="pdate">28.07 – 03.08</div></div>
+    <div class="pgoal"><span class="he">אין תוכן החוצה. סוגרים את כל מה שחוסם.</span><span class="en">Nothing goes out. Close everything that blocks.</span></div>
+    <div class="ptarget"><span class="he">יעד: 0 כרטיסים</span><span class="en">Target: 0 tickets</span></div>
+    <ul>
+      <li><span class="he"><strong>Selector:</strong> חשבון, אירוע, 3 סבבים בכמות קשיחה, מבנה קודים, יצוא מיילים של קונים.</span><span class="en"><strong>Selector:</strong> account, event, 3 hard-capped tiers, code structure, buyer email export.</span></li>
+      <li><span class="he"><strong>פוסטר וקי-ויזואל:</strong> בריף יוצא היום. מוטיב המעגל, אדום על שחור, 8 גדלים, דדליין 06.08.</span><span class="en"><strong>Poster and key visual:</strong> brief goes out today. Circle motif, red on black, 8 sizes, deadline 06.08.</span></li>
+      <li><span class="he"><strong>בן קריתי:</strong> לסגור עלות בטלפון, לא במייל. חסר במודל.</span><span class="en"><strong>Ben Kriyati:</strong> close the cost on the phone, not by email. It is missing from the model.</span></li>
+      <li><span class="he"><strong>האומן 17:</strong> בכתב, קיבולת מאושרת, סף 65 מול 70 בבר, מה הם מפרסמים בערוצים שלהם.</span><span class="en"><strong>Haoman 17:</strong> in writing, approved capacity, the 65 vs 70 bar threshold, what they will run on their channels.</span></li>
+      <li><span class="he"><strong>Electric People:</strong> דדליין תשובה 03.08.</span><span class="en"><strong>Electric People:</strong> answer deadline 03.08.</span></li>
+      <li><span class="he"><strong>רשימת הזמנה אישית:</strong> גיליון אחד, כל אנשי הקשר, מחולק בין עומר למוסקו.</span><span class="en"><strong>Personal invite list:</strong> one sheet, all contacts, split between Omer and Mosko.</span></li>
+      <li><span class="he"><strong>בריף PR</strong> ללילוש ומאור, 30.07.</span><span class="en"><strong>PR brief</strong> to Lilush and Maor, 30.07.</span></li>
+      <li><span class="he"><strong>יום עריכה</strong> על ארכיון הווידאו, 20 קליפים.</span><span class="en"><strong>Edit day</strong> on the video archive, 20 clips.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 1 · טיזר</span><span class="en">Week 1 · Teaser</span></div><div class="pdate">04.08 – 10.08</div></div>
+    <div class="pgoal"><span class="he">אף אחד לא יודע מה זה. כולם רוצים לדעת.</span><span class="en">Nobody knows what it is. Everybody wants to.</span></div>
+    <div class="ptarget"><span class="he">יעד: 0 כרטיסים · בונים סקרנות</span><span class="en">Target: 0 tickets · building curiosity</span></div>
+    <ul>
+      <li><span class="he">אדום בלבד. בלי תאריך, בלי מקום, בלי ליינאפ, בלי לוגו גדול.</span><span class="en">Red only. No date, no venue, no lineup, no big logo.</span></li>
+      <li><span class="he">3 פוסטים: 04.08 סילואטה, 06.08 טקסט, 08.08 טיזר וידאו.</span><span class="en">3 posts: 04.08 silhouette, 06.08 text, 08.08 video teaser.</span></li>
+      <li><span class="he">סטוריז יומיים עם השאלה הפתוחה. התשובות הן חומר גלם וגם רשימת אנשים חמים.</span><span class="en">Daily stories with the open question. The replies are content and a warm list at the same time.</span></li>
+      <li><span class="he">מתחילים את ההזמנה האישית בשקט. 100 לכל אחד.</span><span class="en">Start personal invites quietly. 100 each.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase peak">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 2 · הכרזה ו־Early Bird</span><span class="en">Week 2 · Announce and Early Bird</span></div><div class="pdate">11.08 – 17.08</div></div>
+    <div class="pgoal"><span class="he">היום הכי חשוב בקמפיין. פותחים את העיר.</span><span class="en">The most important day of the campaign. The city opens.</span></div>
+    <div class="ptarget"><span class="he">יעד מצטבר: 70</span><span class="en">Cumulative target: 70</span></div>
+    <ul>
+      <li><span class="he"><strong>שלישי 11.08 בבוקר:</strong> פוסטר, דף אירוע, סבב 1 ב־160 עם 250 כרטיסים. הכל באותה שעה.</span><span class="en"><strong>Tuesday 11.08 morning:</strong> poster, event page, tier 1 at 160 with 250 tickets. All at once.</span></li>
+      <li><span class="he"><strong>סדר:</strong> ווטסאפ ו־VIP קודם, רשימה מלאה שעתיים אחרי, אינסטגרם במקביל לווטסאפ.</span><span class="en"><strong>Order:</strong> WhatsApp and VIP first, full list two hours later, Instagram alongside WhatsApp.</span></li>
+      <li><span class="he">פיצ'ים של לילוש יוצאים באותו יום.</span><span class="en">Lilush's pitches go out the same day.</span></li>
+      <li><span class="he">שבת 16.08: "נשארו X מתוך 250". זה הפוסט שמייצר את הגל השני.</span><span class="en">Saturday 16.08: "X left of 250". This is the post that creates the second wave.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 3 · חשיפת הקונספט</span><span class="en">Week 3 · Concept reveal</span></div><div class="pdate">18.08 – 24.08</div></div>
+    <div class="pgoal"><span class="he">עכשיו מסבירים למה זה לא עוד מסיבה.</span><span class="en">Now you explain why this is not another party.</span></div>
+    <div class="ptarget"><span class="he">יעד מצטבר: 170</span><span class="en">Cumulative target: 170</span></div>
+    <ul>
+      <li><span class="he">קרוסלת המבנה, טיזר תא הווידוי, קוד לבוש.</span><span class="en">Structure carousel, confession booth teaser, dress code.</span></li>
+      <li><span class="he">הפוסט "אנחנו לא מפרסמים ליינאפ". זו העמדה ולא התנצלות.</span><span class="en">The "we do not publish a lineup" post. A position, not an apology.</span></li>
+      <li><span class="he">גל PR שני סביב תא הווידוי.</span><span class="en">Second PR wave around the confession booth.</span></li>
+      <li><span class="he">אם סבב 1 נגמר, פותחים סבב 2 ומכריזים כאירוע.</span><span class="en">If tier 1 sells out, open tier 2 and announce it as an event.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 4 · שותפים ושגרירים</span><span class="en">Week 4 · Partners and ambassadors</span></div><div class="pdate">25.08 – 31.08</div></div>
+    <div class="pgoal"><span class="he">מוסיפים אנשים למשוואה. כל אחד מביא את הקהל שלו.</span><span class="en">Add people to the equation. Each brings their own crowd.</span></div>
+    <div class="ptarget"><span class="he">יעד מצטבר: 290</span><span class="en">Cumulative target: 290</span></div>
+    <ul>
+      <li><span class="he">Back Room reveal + קודי Electric People לאוויר. לא לפני.</span><span class="en">Back Room reveal and Electric People codes go live. Not before.</span></li>
+      <li><span class="he">כל 20 עד 30 השגרירים מקבלים קוד ונכסים באותו יום.</span><span class="en">All 20 to 30 ambassadors get a code and assets the same day.</span></li>
+      <li><span class="he">15 קבוצות נזרעו, כל אחת עם קוד.</span><span class="en">15 groups seeded, each with its own code.</span></li>
+      <li><span class="he">טיזר הויזואלס של בן קריתי.</span><span class="en">Ben Kriyati visuals teaser.</span></li>
+      <li><span class="he"><strong>בדיקת 31.08.</strong> מתחת ל־240, מפעילים את כל החלופות.</span><span class="en"><strong>31.08 checkpoint.</strong> Under 240, activate every fallback.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 5 · הוכחה חברתית</span><span class="en">Week 5 · Social proof</span></div><div class="pdate">01.09 – 07.09</div></div>
+    <div class="pgoal"><span class="he">שאנשים יראו שאחרים הולכים.</span><span class="en">People need to see that others are going.</span></div>
+    <div class="ptarget"><span class="he">יעד מצטבר: 440</span><span class="en">Cumulative target: 440</span></div>
+    <ul>
+      <li><span class="he">25 אנשים עם קהל, בקשה אישית אחד אחד. לא הודעה קבוצתית.</span><span class="en">25 people with an audience, asked one by one. Never a group message.</span></li>
+      <li><span class="he">UGC "מה החטא שלך" בסטורי, אנחנו משתפים חזרה.</span><span class="en">UGC "what is your sin" in stories, we reshare.</span></li>
+      <li><span class="he">ריל קדימון גדול מהארכיון.</span><span class="en">Big trailer reel from the archive.</span></li>
+      <li><span class="he"><strong>בדיקת 07.09.</strong> מתחת ל־380, מורידים יעד ל־700 ומקצצים הפקה עכשיו.</span><span class="en"><strong>07.09 checkpoint.</strong> Under 380, drop to 700 and cut production now.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase peak">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 6 · השערים נסגרים</span><span class="en">Week 6 · The gates close</span></div><div class="pdate">08.09 – 14.09</div></div>
+    <div class="pgoal"><span class="he">דחיפות אמיתית. סבב אחרון.</span><span class="en">Real urgency. Final tier.</span></div>
+    <div class="ptarget"><span class="he">יעד מצטבר: 650</span><span class="en">Cumulative target: 650</span></div>
+    <ul>
+      <li><span class="he">08.09 סבב 3 ב־250. מודיעים שזה המחיר האחרון לפני 280 בדלת.</span><span class="en">08.09 tier 3 at 250. State plainly this is the last price before 280 at the door.</span></li>
+      <li><span class="he">ספירה יומית בסטורי, אותו פורמט בדיוק.</span><span class="en">Daily story countdown, exactly the same format.</span></li>
+      <li><span class="he">פוסט מידע פרקטי: שעות, הגעה, חניה, מחירי בר. אנשים לא קונים עם שאלות פתוחות.</span><span class="en">Practical info post: hours, getting there, parking, bar prices. People do not buy with open questions.</span></li>
+      <li><span class="he">גסטליסט ועיתונות נסגרים השבוע.</span><span class="en">Guestlist and press close this week.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase peak">
+    <div class="phead"><div class="ptitle"><span class="he">שבוע 7 · הימים האחרונים</span><span class="en">Week 7 · Final days</span></div><div class="pdate">15.09 – 19.09</div></div>
+    <div class="pgoal"><span class="he">35 עד 40% מהמכירה נופלת כאן.</span><span class="en">35 to 40% of sales land here.</span></div>
+    <div class="ptarget"><span class="he">יעד מצטבר: 1,000</span><span class="en">Cumulative target: 1,000</span></div>
+    <ul>
+      <li><span class="he">ספירה יומית 4,3,2,1. אותו קריאייטיב, מעגל שנסגר.</span><span class="en">Daily 4,3,2,1. Same creative, a circle closing.</span></li>
+      <li><span class="he">מייל אחרון 17.09. נושא קצר, לינק אחד.</span><span class="en">Final email 17.09. Short subject, one link.</span></li>
+      <li><span class="he">ווטסאפ בערב שישי 18.09. הערוץ הכי ממיר, נשמר לסוף.</span><span class="en">WhatsApp Friday evening 18.09. Highest-converting channel, saved for last.</span></li>
+      <li><span class="he">סבב אחרון של הזמנות אישיות למי שלא ענה.</span><span class="en">Final round of personal invites to everyone who did not reply.</span></li>
+      <li><span class="he">יום האירוע: סטוריז מההקמה מהבוקר.</span><span class="en">Event day: build stories from the morning.</span></li>
+    </ul>
+  </div>
+
+  <div class="phase past">
+    <div class="phead"><div class="ptitle"><span class="he">אחרי · החיים שאחרי</span><span class="en">After · the afterlife</span></div><div class="pdate">20.09 →</div></div>
+    <div class="pgoal"><span class="he">האירוע נגמר. הנכס רק מתחיל.</span><span class="en">The event is over. The asset is just starting.</span></div>
+    <ul>
+      <li><span class="he">ריקאפ אמיתי תוך 72 שעות. בלי סקריפט. ערך הפוטג' יורד כל יום.</span><span class="en">Real recap within 72 hours. No script. The footage loses value every day.</span></li>
+      <li><span class="he">Frequency Map של הלילה, פילר תוכן קיים.</span><span class="en">Frequency Map of the night, an existing content pillar.</span></li>
+      <li><span class="he">גייט אלבום תמונות מול מייל, אותה מערכת n8n מ־POPUP. ככה הופכים 1000 משתתפים ל־1000 מיילים.</span><span class="en">Photo album gated behind email, the same n8n system from POPUP. That is how 1,000 attendees become 1,000 emails.</span></li>
+      <li><span class="he">הפקת טראק <strong>Confession</strong> מההקלטות, יוצא ב־Proton.</span><span class="en">Produce the <strong>Confession</strong> track from the recordings, released on Proton.</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ================= TASKS ================= -->
+<section id="tasks"><div class="wrap">
+  <div class="stag">Tasks</div>
+  <h2><span class="he">משימות</span><span class="en">Tasks</span></h2>
+  <p class="lede"><span class="he">מסונכרן בין עומר למוסקו דרך אותו Firebase של דשבורד האופס. מה שאחד מסמן, השני רואה.</span><span class="en">Synced between Omer and Mosko through the same Firebase as the ops dashboard. What one ticks, the other sees.</span></p>
+
+  <div class="kpis">
+    <div class="kpi g"><div class="n" id="tpct">0%</div><div class="l"><span class="he">הושלם</span><span class="en">complete</span></div><div class="h"><span id="tdone">0</span> / <span id="ttot">0</span></div></div>
+    <div class="kpi"><div class="n" id="tover">0</div><div class="l"><span class="he">באיחור</span><span class="en">overdue</span></div><div class="h"><span class="he">דדליין עבר</span><span class="en">past deadline</span></div></div>
+    <div class="kpi"><div class="n" id="tweek">0</div><div class="l"><span class="he">השבוע</span><span class="en">this week</span></div><div class="h"><span class="he">7 ימים קדימה</span><span class="en">next 7 days</span></div></div>
+  </div>
+
+  <div id="taskroot"></div>
+</div></section>
+
+<!-- ================= ASSETS ================= -->
+<section id="assets"><div class="wrap">
+  <div class="stag">Assets</div>
+  <h2><span class="he">נכסים שצריך</span><span class="en">Assets needed</span></h2>
+  <p class="lede"><span class="he">כל שורה חוסמת פוסט או שיחה בתאריך מסוים. אין נכס, אין פוסט.</span><span class="en">Every row blocks a post or a conversation on a specific date. No asset, no post.</span></p>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">נכס</span><span class="en">Asset</span></th>
+      <th><span class="he">דדליין</span><span class="en">Deadline</span></th>
+      <th><span class="he">אחריות</span><span class="en">Owner</span></th>
+      <th><span class="he">חוסם את</span><span class="en">Blocks</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">בריף פוסטר למעצב</span><span class="en">Poster brief to designer</span></td><td class="num">28.07</td><td class="num">Mosko</td><td><span class="he">הכל</span><span class="en">everything</span></td></tr>
+      <tr><td class="k"><span class="he">מבנה קודי קופון</span><span class="en">Coupon code structure</span></td><td class="num">03.08</td><td class="num">Mosko</td><td><span class="he">שיחות שותפים ושגרירים</span><span class="en">partner and ambassador calls</span></td></tr>
+      <tr><td class="k"><span class="he">טיזר וידאו 8 שניות</span><span class="en">8 second video teaser</span></td><td class="num">03.08</td><td class="num">Oi + Mosko</td><td><span class="he">טיזר 04.08</span><span class="en">teaser 04.08</span></td></tr>
+      <tr><td class="k"><span class="he">20 קליפים מהארכיון</span><span class="en">20 clips from archive</span></td><td class="num">03.08</td><td class="num">Oi + Mosko</td><td><span class="he">כל הקמפיין</span><span class="en">whole campaign</span></td></tr>
+      <tr><td class="k"><span class="he">ערכת עיתונות</span><span class="en">Press kit</span></td><td class="num">05.08</td><td class="num">Mosko</td><td>PR</td></tr>
+      <tr><td class="k"><span class="he">קי-ויזואל + פוסטר, 8 גדלים</span><span class="en">Key visual and poster, 8 sizes</span></td><td class="num">06.08</td><td class="num"><span class="he">מעצב</span><span class="en">designer</span></td><td><span class="he">הכרזה 11.08</span><span class="en">announce 11.08</span></td></tr>
+      <tr><td class="k"><span class="he">דף אירוע Selector חי</span><span class="en">Live Selector event page</span></td><td class="num">08.08</td><td class="num">Mosko</td><td><span class="he">הכרזה 11.08</span><span class="en">announce 11.08</span></td></tr>
+      <tr><td class="k"><span class="he">מייל הכרזה + נושא</span><span class="en">Announce email and subject</span></td><td class="num">10.08</td><td class="num">Mosko</td><td><span class="he">שליחה 11.08</span><span class="en">send 11.08</span></td></tr>
+      <tr><td class="k"><span class="he">וידאו תא ווידוי 20 שניות</span><span class="en">Confession booth video 20 sec</span></td><td class="num">17.08</td><td class="num">Oi</td><td><span class="he">שבוע 3</span><span class="en">week 3</span></td></tr>
+      <tr><td class="k"><span class="he">ערכת שגרירים (קוד + נכסים)</span><span class="en">Ambassador kit (code and assets)</span></td><td class="num">24.08</td><td class="num">Mosko</td><td><span class="he">שבוע 4</span><span class="en">week 4</span></td></tr>
+      <tr><td class="k"><span class="he">פוטג' פריסט בן קריתי</span><span class="en">Ben Kriyati preset footage</span></td><td class="num">24.08</td><td class="num">Ben</td><td><span class="he">שבוע 4</span><span class="en">week 4</span></td></tr>
+      <tr><td class="k"><span class="he">ריל קדימון גדול</span><span class="en">Big trailer reel</span></td><td class="num">01.09</td><td class="num">Oi + Mosko</td><td><span class="he">שבוע 5</span><span class="en">week 5</span></td></tr>
+      <tr><td class="k"><span class="he">תבנית ספירה לאחור</span><span class="en">Countdown template</span></td><td class="num">05.09</td><td class="num"><span class="he">מעצב</span><span class="en">designer</span></td><td><span class="he">שבועות 6-7</span><span class="en">weeks 6-7</span></td></tr>
+      <tr><td class="k"><span class="he">פוסט מידע פרקטי</span><span class="en">Practical info post</span></td><td class="num">08.09</td><td class="num">Mosko</td><td><span class="he">שבוע 6</span><span class="en">week 6</span></td></tr>
+      <tr><td class="k"><span class="he">שלט + נוסח הסכמה לתא</span><span class="en">Booth signage and consent wording</span></td><td class="num">10.09</td><td class="num">Mosko</td><td><span class="he">האירוע</span><span class="en">the event</span></td></tr>
+      <tr><td class="k"><span class="he">סט הקלטה לתא</span><span class="en">Booth recording rig</span></td><td class="num">15.09</td><td class="num">Oi</td><td><span class="he">טראק Confession</span><span class="en">Confession track</span></td></tr>
+      <tr><td class="k"><span class="he">גייט אלבום תמונות n8n</span><span class="en">n8n photo album gate</span></td><td class="num">18.09</td><td class="num">Mosko</td><td><span class="he">לכידת מיילים אחרי</span><span class="en">post-event email capture</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<!-- ================= RISK ================= -->
+<section id="risk"><div class="wrap">
+  <div class="stag">Risk</div>
+  <h2><span class="he">סיכונים</span><span class="en">Risks</span></h2>
+  <div class="tw"><table>
+    <thead><tr>
+      <th><span class="he">סיכון</span><span class="en">Risk</span></th>
+      <th><span class="he">סימן מוקדם</span><span class="en">Early signal</span></th>
+      <th><span class="he">מה עושים</span><span class="en">Response</span></th>
+    </tr></thead>
+    <tbody>
+      <tr><td class="k"><span class="he">ההזמנה האישית לא קורית</span><span class="en">Personal invites do not happen</span></td><td><span class="he">הגיליון לא זז שבוע</span><span class="en">the sheet does not move for a week</span></td><td><span class="he">זה הסיכון מספר אחת. 32% מהיעד. בלוק קבוע ביומן, 20 דקות ביום, שניכם.</span><span class="en">This is risk number one. 32% of target. A fixed calendar block, 20 minutes a day, both of you.</span></td></tr>
+      <tr><td class="k">Electric People</td><td><span class="he">אין תשובה עד 03.08</span><span class="en">no answer by 03.08</span></td><td><span class="he">25% מהיעד תלוי בהם. מפעילים חלופת דיג'יים בודדים באותו יום.</span><span class="en">25% of target rides on them. Activate the individual DJ fallback the same day.</span></td></tr>
+      <tr><td class="k"><span class="he">Selector בלי יצוא דאטה</span><span class="en">Selector without data export</span></td><td><span class="he">מתגלה בשבוע 0</span><span class="en">found in week 0</span></td><td><span class="he">בלי מיילים של קונים אין רימרקטינג ואין רשימה לאירוע הבא. לבדוק לפני שמתחייבים.</span><span class="en">Without buyer emails there is no follow-up and no list for the next event. Check before committing.</span></td></tr>
+      <tr><td class="k"><span class="he">עומס תפעולי</span><span class="en">Operational overload</span></td><td><span class="he">פוסטים מתחילים לפספס</span><span class="en">posts start slipping</span></td><td><span class="he">4 ריליזים בלוח + חוזה ג'ונה + הסטודיו במקביל. יום עריכה מראש הוא מה שמונע את הקריסה.</span><span class="en">4 releases plus the Jonah contract plus studio work in parallel. A batched edit day up front is what prevents the collapse.</span></td></tr>
+      <tr><td class="k"><span class="he">עלות בן קריתי מפתיעה</span><span class="en">Ben Kriyati cost surprise</span></td><td><span class="he">שבוע 0</span><span class="en">week 0</span></td><td><span class="he">המודל מניח 3,000. אם זה 15,000, נקודת האיזון קופצת ב־50 כרטיסים.</span><span class="en">The model assumes 3,000. At 15,000 the breakeven jumps by 50 tickets.</span></td></tr>
+      <tr><td class="k"><span class="he">קניבליזציה של קודים</span><span class="en">Code cannibalisation</span></td><td><span class="he">יחס קוד גבוה מדי</span><span class="en">code share too high</span></td><td><span class="he">הקוד רץ רק בערוצים של השותף, אף פעם בשלנו. כתוב בהסכם.</span><span class="en">Codes run only on the partner's channels, never on ours. In the agreement.</span></td></tr>
+      <tr><td class="k"><span class="he">בעיה משפטית בהקלטות</span><span class="en">Legal issue on recordings</span></td><td><span class="he">אין נוסח הסכמה</span><span class="en">no consent wording</span></td><td><span class="he">שלט ברור בכניסה לתא, נוסח קצר בעברית ואנגלית, בלי שמות בפרסום. עד 10.09.</span><span class="en">Clear signage at the booth, short wording in Hebrew and English, no names published. By 10.09.</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="call">
+    <div class="t"><span class="he">הסיכון הגדול באמת</span><span class="en">The real risk</span></div>
+    <p class="he">לא המכירות. זה שקמפיין של 7.5 שבועות דורש 3 פוסטים בשבוע ועוד סטוריז יומיים ועוד 200 הזמנות אישיות בשבוע, במקביל ל־4 ריליזים שכבר בלוח ולחוזה של ג'ונה שתקוע מיוני. <strong>יום עריכה אחד בתחילת אוגוסט שמייצר את רוב הנכסים שווה יותר מכל טקטיקה במסמך הזה.</strong></p>
+    <p class="en">Not sales. It is that a 7.5 week campaign needs 3 posts a week plus daily stories plus 200 personal invites a week, alongside 4 releases already on the calendar and the Jonah contract stuck since June. <strong>One batched edit day in early August producing most of the assets is worth more than every tactic in this document.</strong></p>
+  </div>
+</div></section>
+
+</main>
+
+<footer>Yaffa Records · SIN CITY · Haoman 17 · 19.09.2026 · Internal</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+window.AUTH_EMAIL = "info@yaffarecords.com";
+const firebaseConfig = {
+  apiKey: "AIzaSyD6jJ-6RfSDwUXa7ioOXsXT5kwL9NBP-ek",
+  authDomain: "yaffa-dashboard.firebaseapp.com",
+  databaseURL: "https://yaffa-dashboard-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "yaffa-dashboard",
+  storageBucket: "yaffa-dashboard.firebasestorage.app",
+  messagingSenderId: "275736999213",
+  appId: "1:275736999213:web:00e65503141995f28ecfa4"
+};
+let dbRef = null;
+try { firebase.initializeApp(firebaseConfig); dbRef = firebase.database().ref('state'); }
+catch(e){ console.warn('Firebase unavailable, local-only mode', e); }
+
+/* ---------- AUTH ---------- */
+(function(){
+  function reveal(){ document.body.classList.add('auth-ok'); const g=document.getElementById('auth-gate'); if(g) g.remove(); }
+  async function check(){
+    const pw = document.getElementById('auth-input').value;
+    const errEl = document.getElementById('auth-err'); if(errEl) errEl.textContent='';
+    try { await firebase.auth().signInWithEmailAndPassword(window.AUTH_EMAIL, pw); reveal(); }
+    catch(e){ if(errEl) errEl.textContent='Wrong password'; const i=document.getElementById('auth-input'); if(i) i.value=''; }
+  }
+  if(window.firebase && firebase.auth){ firebase.auth().onAuthStateChanged(u=>{ if(u) reveal(); }); }
+  window.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('auth-btn').addEventListener('click',check);
+    document.getElementById('auth-input').addEventListener('keydown',e=>{ if(e.key==='Enter') check(); });
+  });
+})();
+
+/* ---------- LANGUAGE ---------- */
+(function(){
+  const KEY='yaffa-sc-lang';
+  function setLang(l){
+    document.body.dataset.lang=l;
+    document.documentElement.lang = l;
+    document.documentElement.dir = (l==='he'?'rtl':'ltr');
+    document.getElementById('langbtn').textContent = (l==='he'?'EN':'עב');
+    try{ localStorage.setItem(KEY,l); }catch(e){}
+  }
+  window.addEventListener('DOMContentLoaded',()=>{
+    let l='he'; try{ l=localStorage.getItem(KEY)||'he'; }catch(e){}
+    setLang(l);
+    document.getElementById('langbtn').addEventListener('click',()=>{
+      setLang(document.body.dataset.lang==='he'?'en':'he');
+    });
+  });
+})();
+
+/* ---------- COUNTDOWN ---------- */
+(function(){
+  const EV = new Date('2026-09-19T17:00:00+03:00');
+  function tick(){
+    const d = Math.ceil((EV - new Date())/86400000);
+    ['dtg','dtg2'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent = d>0? d : 0; });
+  }
+  window.addEventListener('DOMContentLoaded',tick);
+})();
+
+/* ---------- TASKS ---------- */
+const TASKS = [
+  { id:'w0', he:'שבוע 0 · שבוע הנעילה', en:'Week 0 · Lock week', range:'28.07 – 03.08', items:[
+    ['sc-w0-1','לנעול קיבולת 1200, יעד 1000, מדרגות 160/200/250 ודלת 280','Lock capacity 1200, target 1000, tiers 160/200/250 and door 280','28.07','Both'],
+    ['sc-w0-2','לפתוח חשבון Selector ולהקים את האירוע','Open the Selector account and set up the event','29.07','Mosko'],
+    ['sc-w0-3','לוודא ב־Selector: כמות קשיחה לסבב, קודי קופון, יצוא מיילים של קונים','Verify in Selector: hard tier caps, coupon codes, buyer email export','29.07','Mosko'],
+    ['sc-w0-4','לשלוח בריף פוסטר וקי-ויזואל למעצב, 8 גדלים, דדליין 06.08','Send poster and key visual brief to designer, 8 sizes, deadline 06.08','28.07','Mosko'],
+    ['sc-w0-5','להתקשר לבן קריתי ולסגור עלות וסקופ','Call Ben Kriyati and close cost and scope','29.07','Both'],
+    ['sc-w0-6','לכתוב להאומן 17: קיבולת מאושרת, סף 65 מול 70 בבר, מה הם מפרסמים','Write to Haoman 17: approved capacity, 65 vs 70 bar threshold, what they publish','29.07','Mosko'],
+    ['sc-w0-7','בריף PR ללילוש ומאור הס, כולל קודים ומה אסור','PR brief to Lilush and Maor Hess, including codes and hard limits','30.07','Mosko'],
+    ['sc-w0-8','יום עריכה על ארכיון הווידאו, 20 קליפים קצרים','Edit day on the video archive, 20 short clips','30.07','Both'],
+    ['sc-w0-9','לבנות גיליון הזמנה אישית אחד, מחולק בין עומר למוסקו','Build one personal invite sheet, split between Omer and Mosko','30.07','Both'],
+    ['sc-w0-10','להגדיר מבנה קודי קופון, קוד לכל מקור','Define coupon code structure, one code per source','03.08','Mosko'],
+    ['sc-w0-11','לתכנן את תא הווידוי: מיקום, ציוד, מפעיל, נוסח הסכמה','Plan the confession booth: location, gear, operator, consent wording','30.07','Both'],
+    ['sc-w0-12','Electric People: דדליין תשובה, אחרת מפעילים חלופה','Electric People: answer deadline, otherwise activate fallback','03.08','Mosko']
+  ]},
+  { id:'w1', he:'שבוע 1 · טיזר', en:'Week 1 · Teaser', range:'04.08 – 10.08', items:[
+    ['sc-w1-1','פוסט טיזר 1, סילואטה אדומה, בלי מידע','Teaser post 1, red silhouette, no info','04.08','Mosko'],
+    ['sc-w1-2','להתחיל הזמנות אישיות, 100 לכל אחד השבוע','Start personal invites, 100 each this week','04.08','Both'],
+    ['sc-w1-3','ווטסאפ קומיוניטי, הודעה מסתורית אחת','WhatsApp community, one cryptic message','05.08','Mosko'],
+    ['sc-w1-4','ערכת עיתונות מוכנה ונשלחת ללילוש','Press kit ready and sent to Lilush','05.08','Mosko'],
+    ['sc-w1-5','פוסט טיזר 2, טקסט בלבד','Teaser post 2, text only','06.08','Mosko'],
+    ['sc-w1-6','קי-ויזואל ופוסטר התקבלו מהמעצב','Key visual and poster received from designer','06.08','Mosko'],
+    ['sc-w1-7','פוסט טיזר 3, וידאו 8 שניות','Teaser post 3, 8 second video','08.08','Mosko'],
+    ['sc-w1-8','דף אירוע Selector חי ונבדק עד תשלום','Selector event page live and tested through payment','08.08','Mosko'],
+    ['sc-w1-9','מייל הכרזה מוכן, נושא ופריהדר בנפרד','Announce email ready, subject and preheader separate','10.08','Mosko'],
+    ['sc-w1-10','לגייס 10 שגרירים ראשונים','Recruit the first 10 ambassadors','10.08','Both']
+  ]},
+  { id:'w2', he:'שבוע 2 · הכרזה ו־Early Bird', en:'Week 2 · Announce and Early Bird', range:'11.08 – 17.08', items:[
+    ['sc-w2-1','פוסטר יוצא, דף אירוע פתוח, סבב 1 ב־160 עם 250 כרטיסים','Poster out, event page open, tier 1 at 160 with 250 tickets','11.08','Mosko'],
+    ['sc-w2-2','ווטסאפ ו־VIP ראשונים, שעה לפני כולם','WhatsApp and VIP first, an hour before everyone','11.08','Mosko'],
+    ['sc-w2-3','מייל הכרזה לכל הרשימה, שעתיים אחרי','Announce email to the full list, two hours later','11.08','Mosko'],
+    ['sc-w2-4','לילוש מוציאה פיצ\'ים לעיתונות ולליסטינגים','Lilush sends press and listing pitches','11.08','Lilush'],
+    ['sc-w2-5','200 הזמנות אישיות השבוע','200 personal invites this week','17.08','Both'],
+    ['sc-w2-6','פוסט "נשארו X מ־250"','"X left of 250" post','16.08','Mosko'],
+    ['sc-w2-7','וידאו תא הווידוי, 20 שניות, מוכן','Confession booth video, 20 seconds, ready','17.08','Oi'],
+    ['sc-w2-8','בדיקת 17.08: מינימום 55 כרטיסים','17.08 checkpoint: minimum 55 tickets','17.08','Mosko']
+  ]},
+  { id:'w3', he:'שבוע 3 · חשיפת הקונספט', en:'Week 3 · Concept reveal', range:'18.08 – 24.08', items:[
+    ['sc-w3-1','קרוסלת המבנה: פיתוי, התמכרות, ווידוי, שחרור','Structure carousel: temptation, indulgence, confession, release','18.08','Mosko'],
+    ['sc-w3-2','טיזר תא הווידוי עולה','Confession booth teaser goes live','18.08','Mosko'],
+    ['sc-w3-3','פוסט "אנחנו לא מפרסמים ליינאפ"','"We do not publish a lineup" post','20.08','Mosko'],
+    ['sc-w3-4','פוסט קוד לבוש, אדום ושחור','Dress code post, red and black','22.08','Mosko'],
+    ['sc-w3-5','גל PR שני סביב תא הווידוי','Second PR wave around the confession booth','24.08','Lilush'],
+    ['sc-w3-6','200 הזמנות אישיות השבוע','200 personal invites this week','24.08','Both'],
+    ['sc-w3-7','ערכת שגרירים מוכנה: קוד, נכסים, הנחיות','Ambassador kit ready: code, assets, guidelines','24.08','Mosko'],
+    ['sc-w3-8','בדיקת 24.08: מינימום 140 כרטיסים','24.08 checkpoint: minimum 140 tickets','24.08','Mosko']
+  ]},
+  { id:'w4', he:'שבוע 4 · שותפים ושגרירים', en:'Week 4 · Partners and ambassadors', range:'25.08 – 31.08', items:[
+    ['sc-w4-1','Back Room reveal, קודי Electric People לאוויר','Back Room reveal, Electric People codes go live','25.08','Mosko'],
+    ['sc-w4-2','כל השגרירים קיבלו קוד ונכסים','All ambassadors have their code and assets','25.08','Mosko'],
+    ['sc-w4-3','15 קבוצות נזרעו, כל אחת עם קוד','15 groups seeded, each with its own code','27.08','Both'],
+    ['sc-w4-4','טיזר ויזואלס בן קריתי','Ben Kriyati visuals teaser','28.08','Mosko'],
+    ['sc-w4-5','מייל 2 לרשימה','Email 2 to the list','25.08','Mosko'],
+    ['sc-w4-6','200 הזמנות אישיות השבוע','200 personal invites this week','31.08','Both'],
+    ['sc-w4-7','בדיקת 31.08: מינימום 240 כרטיסים','31.08 checkpoint: minimum 240 tickets','31.08','Mosko']
+  ]},
+  { id:'w5', he:'שבוע 5 · הוכחה חברתית', en:'Week 5 · Social proof', range:'01.09 – 07.09', items:[
+    ['sc-w5-1','ריל קדימון גדול עולה','Big trailer reel goes live','01.09','Mosko'],
+    ['sc-w5-2','לבקש שיתוף מ־25 אנשים עם קהל, אחד אחד','Ask 25 people with an audience to share, one by one','03.09','Both'],
+    ['sc-w5-3','קמפיין UGC "מה החטא שלך" בסטוריז','UGC "what is your sin" story campaign','04.09','Mosko'],
+    ['sc-w5-4','חשבונות סצנה ואינפלואנסרים, הזמנות אישיות','Scene accounts and influencers, personal invites','05.09','Lilush'],
+    ['sc-w5-5','תבנית ספירה לאחור מוכנה','Countdown template ready','05.09','Mosko'],
+    ['sc-w5-6','200 הזמנות אישיות השבוע','200 personal invites this week','07.09','Both'],
+    ['sc-w5-7','בדיקת 07.09: מינימום 380. נקודת ההחלטה','07.09 checkpoint: minimum 380. The decision point','07.09','Both']
+  ]},
+  { id:'w6', he:'שבוע 6 · השערים נסגרים', en:'Week 6 · The gates close', range:'08.09 – 14.09', items:[
+    ['sc-w6-1','סבב 3 נפתח ב־250','Tier 3 opens at 250','08.09','Mosko'],
+    ['sc-w6-2','פוסט מידע פרקטי: שעות, הגעה, חניה, בר','Practical info post: hours, access, parking, bar','08.09','Mosko'],
+    ['sc-w6-3','מייל 3 לרשימה','Email 3 to the list','08.09','Mosko'],
+    ['sc-w6-4','ספירה יומית בסטוריז מתחילה','Daily story countdown starts','08.09','Mosko'],
+    ['sc-w6-5','שלט ונוסח הסכמה לתא הווידוי מוכנים','Booth signage and consent wording ready','10.09','Mosko'],
+    ['sc-w6-6','גסטליסט ועיתונות נסגרים','Guestlist and press close','12.09','Both'],
+    ['sc-w6-7','200 הזמנות אישיות השבוע','200 personal invites this week','14.09','Both'],
+    ['sc-w6-8','בדיקת 14.09: מינימום 560 כרטיסים','14.09 checkpoint: minimum 560 tickets','14.09','Mosko']
+  ]},
+  { id:'w7', he:'שבוע 7 · הימים האחרונים', en:'Week 7 · Final days', range:'15.09 – 19.09', items:[
+    ['sc-w7-1','ספירה יומית 4,3,2,1','Daily countdown 4,3,2,1','15.09','Mosko'],
+    ['sc-w7-2','סט הקלטה לתא הווידוי מוכן ונבדק','Booth recording rig ready and tested','15.09','Oi'],
+    ['sc-w7-3','מייל אחרון לרשימה','Final email to the list','17.09','Mosko'],
+    ['sc-w7-4','סבב אחרון של הזמנות אישיות למי שלא ענה','Final round of personal invites to non-repliers','17.09','Both'],
+    ['sc-w7-5','גייט אלבום תמונות n8n מוכן','n8n photo album gate ready','18.09','Mosko'],
+    ['sc-w7-6','ווטסאפ קומיוניטי, ההודעה האחרונה','WhatsApp community, the final message','18.09','Mosko'],
+    ['sc-w7-7','יום האירוע: סטוריז מההקמה מהבוקר','Event day: build stories from the morning','19.09','Both']
+  ]},
+  { id:'after', he:'אחרי · החיים שאחרי', en:'After · the afterlife', range:'20.09 →', items:[
+    ['sc-af-1','ריקאפ אמיתי עולה תוך 72 שעות','Real recap live within 72 hours','22.09','Both'],
+    ['sc-af-2','גייט אלבום תמונות פתוח, לכידת מיילים','Photo album gate open, email capture running','22.09','Mosko'],
+    ['sc-af-3','Frequency Map של הלילה','Frequency Map of the night','25.09','Mosko'],
+    ['sc-af-4','ריקאפ לעיתונות','Recap to press','25.09','Lilush'],
+    ['sc-af-5','בחירת קטעים מהקלטות הווידוי','Select cuts from the confession recordings','30.09','Oi'],
+    ['sc-af-6','הפקת טראק Confession','Produce the Confession track','31.10','Oi'],
+    ['sc-af-7','סגירת תאריך ריליז ל־Confession מול Proton','Lock a Confession release date with Proton','31.10','Mosko']
+  ]}
+];
+
+(function(){
+  const PREFIX='yaffa-ops-v1-';
+  function loadState(id){ try{ return localStorage.getItem(PREFIX+id); }catch(e){ return null; } }
+  function saveLocal(id,v){ try{ localStorage.setItem(PREFIX+id,v); }catch(e){} }
+  let remoteApplying=false;
+  function saveState(id,v){
+    saveLocal(id,v);
+    try{ if(dbRef && !remoteApplying && window.firebase && firebase.auth().currentUser) dbRef.child(id).set(v); }catch(e){}
+  }
+  function parseD(s){ const [d,m]=s.split('.'); return new Date(2026,parseInt(m,10)-1,parseInt(d,10)); }
+
+  function render(){
+    const root=document.getElementById('taskroot'); if(!root) return;
+    root.innerHTML = TASKS.map(g=>`
+      <div class="tgroup" data-g="${g.id}">
+        <div class="thead">
+          <div class="tt"><span class="he">${g.he}</span><span class="en">${g.en}</span></div>
+          <div style="display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end">
+            <div class="pbar"><i data-pb="${g.id}"></i></div>
+            <div class="tw2"><span data-gc="${g.id}">0</span>/${g.items.length} · ${g.range}</div>
+          </div>
+        </div>
+        <div class="tbody">
+          ${g.items.map(it=>`
+            <div class="task">
+              <input type="checkbox" id="${it[0]}" data-id="${it[0]}" data-due="${it[3]}">
+              <label for="${it[0]}"><span class="he">${it[1]}</span><span class="en">${it[2]}</span></label>
+              <div class="meta">${it[3]} · <span class="own">${it[4]}</span></div>
+            </div>`).join('')}
+        </div>
+      </div>`).join('');
+
+    root.querySelectorAll('input[type=checkbox][data-id]').forEach(cb=>{
+      if(loadState(cb.dataset.id)==='true') cb.checked=true;
+      cb.addEventListener('change',()=>{ saveState(cb.dataset.id, cb.checked); stats(); });
+    });
+    stats();
+  }
+
+  function stats(){
+    const all=[...document.querySelectorAll('#taskroot input[type=checkbox]')];
+    const done=all.filter(c=>c.checked).length;
+    const now=new Date(); now.setHours(0,0,0,0);
+    const wk=new Date(now.getTime()+7*86400000);
+    let over=0, week=0;
+    all.forEach(c=>{ if(c.checked) return; const d=parseD(c.dataset.due); if(d<now) over++; else if(d<=wk) week++; });
+    const set=(id,v)=>{ const e=document.getElementById(id); if(e) e.textContent=v; };
+    set('tdone',done); set('ttot',all.length);
+    set('tpct', all.length? Math.round(done/all.length*100)+'%':'0%');
+    set('tover',over); set('tweek',week);
+    TASKS.forEach(g=>{
+      const boxes=[...document.querySelectorAll(`[data-g="${g.id}"] input[type=checkbox]`)];
+      const d=boxes.filter(b=>b.checked).length;
+      const c=document.querySelector(`[data-gc="${g.id}"]`); if(c) c.textContent=d;
+      const pb=document.querySelector(`[data-pb="${g.id}"]`); if(pb) pb.style.width=(boxes.length? d/boxes.length*100:0)+'%';
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    render();
+    if(dbRef){
+      dbRef.on('child_changed',s=>applyRemote(s.key,s.val()));
+      dbRef.on('child_added',s=>applyRemote(s.key,s.val()));
+    }
+  });
+
+  function applyRemote(id,val){
+    if(String(id).indexOf('sc-')!==0) return;
+    const cb=document.querySelector('input[type=checkbox][data-id="'+CSS.escape(id)+'"]');
+    const on=(val===true||val==='true');
+    saveLocal(id,on);
+    if(cb && cb.checked!==on){ remoteApplying=true; cb.checked=on; remoteApplying=false; stats(); }
+  }
+})();
+</script>
+</body>
+</html>
