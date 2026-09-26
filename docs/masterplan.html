@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Yaffa Masterplan 2026-2027</title>
+<meta name="theme-color" content="#080809">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Heebo:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--void:#080809; --deep:#0E0E12; --surface:#16161C; --surface-2:#1E1E26; --surface-3:#2A2A33;
+--ivory:#EDE8DC; --ivory-dim:#B5B0A4; --muted:#7A7770; --faint:#4A4844;
+--gold:#BF9830; --gold-light:#D4AC46; --gold-soft:rgba(191,152,48,.12); --gold-line:rgba(191,152,48,.35);
+--border:rgba(237,232,220,.08); --border-strong:rgba(237,232,220,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ivory);font-family:'Heebo','Inter',sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+body[data-lang="en"]{direction:ltr;font-family:'Inter','Heebo',sans-serif}
+body[data-lang="en"] .he{display:none!important}
+body[data-lang="he"] .en{display:none!important}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+#auth-gate{display:flex;position:fixed;inset:0;background:#080809;color:#EDE8DC;align-items:center;justify-content:center;flex-direction:column;gap:16px;font-family:-apple-system,sans-serif;z-index:99999}
+#auth-gate input{background:#16161C;border:1px solid rgba(237,232,220,.18);color:#EDE8DC;padding:12px 16px;font-size:14px;border-radius:4px;width:240px;text-align:center;font-family:monospace}
+#auth-gate button{background:#BF9830;border:none;color:#080809;padding:10px 24px;font-size:12px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;cursor:pointer;border-radius:2px}
+#auth-gate .err{color:#C13B2E;font-size:12px;min-height:16px}
+body:not(.auth-ok)>header,body:not(.auth-ok)>nav,body:not(.auth-ok)>main,body:not(.auth-ok)>footer,body:not(.auth-ok)>.topbar{display:none!important}
+.topbar{background:var(--deep);border-bottom:1px solid var(--border);padding:10px 0}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.crumbs{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.crumbs a{color:var(--gold);text-decoration:none}
+.langbtn{background:var(--surface);border:1px solid var(--border-strong);color:var(--ivory-dim);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;padding:7px 14px;border-radius:3px;cursor:pointer}
+.langbtn:hover{border-color:var(--gold);color:var(--gold)}
+header{padding:60px 0 38px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+header:before{content:'';position:absolute;top:-220px;left:50%;transform:translateX(-50%);width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(191,152,48,.14),transparent 68%);pointer-events:none}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+h1{font-family:'Cinzel',serif;font-size:clamp(38px,7.5vw,80px);font-weight:700;letter-spacing:.06em;line-height:1.02;margin:14px 0 8px;direction:ltr}
+body[data-lang="he"] h1{text-align:right}
+h1 .c{color:var(--gold)}
+.tagline{font-size:19px;color:var(--ivory-dim);max-width:760px}
+.hmeta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.hchip{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--ivory-dim)}
+.hchip b{color:var(--ivory);font-weight:500}
+.hchip.hot{border-color:var(--gold-line);background:var(--gold-soft)}
+.hchip.hot b{color:var(--gold-light)}
+nav.snav{position:sticky;top:0;z-index:60;background:rgba(8,8,9,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+nav.snav .wrap{display:flex;overflow-x:auto;scrollbar-width:none}
+nav.snav .wrap::-webkit-scrollbar{display:none}
+nav.snav a{padding:14px 13px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;text-transform:uppercase}
+nav.snav a:hover{color:var(--ivory);border-bottom-color:var(--gold)}
+section{padding:56px 0;border-bottom:1px solid var(--border);scroll-margin-top:48px}
+.stag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:9px}
+h2{font-family:'Cinzel',serif;font-size:30px;font-weight:600;letter-spacing:.03em;margin-bottom:10px}
+body[data-lang="he"] h2,body[data-lang="he"] h3{font-family:'Heebo',sans-serif;font-weight:600;letter-spacing:0}
+h3{font-family:'Cinzel',serif;font-size:18px;font-weight:600;margin:30px 0 10px}
+h4{font-size:14.5px;font-weight:600;margin:0 0 8px;color:var(--ivory)}
+.lede{font-size:17px;color:var(--ivory-dim);max-width:820px;margin-bottom:24px}
+p{margin-bottom:11px;color:#c6c2ba;font-size:14.5px}
+ul{margin:8px 20px 12px}
+body[data-lang="he"] ul{margin:8px 20px 12px 0}
+li{margin-bottom:6px;color:#c6c2ba;font-size:14.5px}
+li::marker{color:var(--gold)}
+strong{color:var(--ivory);font-weight:500}
+.gold{color:var(--gold-light)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.north{background:var(--surface);border:1px solid var(--gold-line);border-radius:4px;padding:26px 24px;margin:8px 0 22px;font-size:21px;line-height:1.5;color:var(--ivory)}
+.north small{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px}
+.card .num{font-family:'Cinzel',serif;font-size:28px;color:var(--gold);line-height:1;margin-bottom:10px;direction:ltr;display:block}
+body[data-lang="he"] .card .num{text-align:right}
+.card p:last-child,.card ul:last-child{margin-bottom:0}
+.card.acc{border-inline-start:3px solid var(--gold)}
+.fly{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:10px;margin:10px 0 18px}
+.fly svg{width:100%;height:auto;display:block;max-width:640px;margin:0 auto}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:4px}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{background:var(--surface-2);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.13em;color:var(--muted);text-transform:uppercase;padding:11px 12px;text-align:start;font-weight:400;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:11px 12px;font-size:13.5px;color:#c6c2ba;border-bottom:1px solid rgba(237,232,220,.05);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+td.k{color:var(--ivory);font-weight:500}
+td.n{font-family:'JetBrains Mono',monospace;color:var(--ivory);white-space:nowrap;direction:ltr}
+body[data-lang="he"] td.n{text-align:right}
+td.n.t{color:var(--gold-light)}
+td input{background:var(--surface-2);border:1px solid var(--border-strong);color:var(--ivory);font-family:'JetBrains Mono',monospace;font-size:13px;padding:6px 8px;border-radius:3px;width:96px;direction:ltr}
+td input:focus{outline:none;border-color:var(--gold)}
+.tbd{color:var(--muted);font-style:italic}
+.pillar{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:14px}
+.pillar .ph{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.pillar .pn{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);letter-spacing:.1em}
+.pillar .pt{font-size:21px;font-weight:600;color:var(--ivory)}
+body[data-lang="en"] .pillar .pt{font-family:'Cinzel',serif;font-weight:600}
+.pillar .pg{font-size:15px;color:var(--ivory-dim);margin-bottom:14px}
+.pillar .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pillar h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin:0 0 6px;font-weight:400}
+.pillar.first{border-color:var(--gold-line)}
+.q{background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--gold);border-radius:4px;padding:20px 22px;margin-bottom:12px}
+.q.past{border-inline-start-color:var(--faint)}
+.qh{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.qt{font-size:19px;font-weight:600}
+body[data-lang="en"] .qt{font-family:'Cinzel',serif}
+.qd{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-light);letter-spacing:.08em;direction:ltr}
+.qg{font-size:14.5px;color:var(--ivory-dim);margin-bottom:12px;font-style:italic}
+.pbar{height:3px;background:var(--surface-3);border-radius:2px;overflow:hidden;width:110px}
+.pbar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.qc{display:flex;align-items:center;gap:10px}
+.qc span{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);direction:ltr}
+.ms{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:start;padding:8px 0;border-top:1px solid rgba(237,232,220,.05)}
+.ms input{margin-top:5px;accent-color:#BF9830;width:15px;height:15px;cursor:pointer}
+.ms label{font-size:14px;color:#c6c2ba;cursor:pointer}
+.ms input:checked+label{color:var(--faint);text-decoration:line-through}
+.ms .m{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);white-space:nowrap;direction:ltr}
+.ms.key label{color:var(--ivory);font-weight:500}
+.city{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;position:relative}
+.city .cw{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-light);letter-spacing:.08em;margin-bottom:4px;direction:ltr}
+body[data-lang="he"] .city .cw{text-align:right}
+.city .cn{font-family:'Cinzel',serif;font-size:22px;font-weight:600;margin-bottom:8px;direction:ltr}
+body[data-lang="he"] .city .cn{text-align:right}
+.st{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:2px;border:1px solid var(--border-strong);color:var(--muted);margin-bottom:10px}
+.st.warm{border-color:var(--gold-line);color:var(--gold-light)}
+.city p{font-size:13.5px}
+.rule{display:grid;grid-template-columns:34px 1fr;gap:10px;padding:12px 0;border-top:1px solid var(--border)}
+.rule:first-child{border-top:none}
+.rule .rn{font-family:'Cinzel',serif;color:var(--gold);font-size:18px}
+.rule p{margin:0}
+.dec{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 0;border-top:1px solid var(--border);align-items:center}
+.dec:first-child{border-top:none}
+.dec .who{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);white-space:nowrap}
+.dec p{margin:0}
+.done-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.1em}
+footer{padding:34px 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.06em}
+@media (max-width:860px){
+.g3,.g2,.pillar .cols{grid-template-columns:1fr}
+section{padding:42px 0}
+h2{font-size:25px}
+.north{font-size:18px}
+}
+</style>
+</head>
+<body data-lang="he">
+<div id="auth-gate">
+<div style="font-family:'Cinzel',serif;font-size:22px;letter-spacing:.18em;color:#BF9830">YAFFA RECORDS</div>
+<div style="font-size:12px;letter-spacing:.2em;color:#7A7770">MASTERPLAN 2026-2027</div>
+<input type="password" id="auth-input" placeholder="password" autocomplete="current-password">
+<button id="auth-btn">Enter</button>
+<div class="err" id="auth-err"></div>
+</div>
+<div class="topbar"><div class="wrap">
+<div class="crumbs"><a href="./index.html">&larr; Release Ops</a> <span style="color:var(--faint)">/</span> MASTERPLAN</div>
+<div><button class="langbtn" id="langbtn">EN</button></div>
+</div></div>
+<header><div class="wrap">
+<div class="eyebrow">Yaffa Records · Masterplan · Q4 2026 → Q4 2027</div>
+<h1>YAFFA <span class="c">WORLDWIDE</span></h1>
+<div class="tagline">
+<span class="he">מתל אביב לעולם. קהילה שמגיעה לכל דבר, סדרה שמביאה חשיפה, ואירועי Yaffa שלנו בחמש ערים עד סוף 2027.</span>
+<span class="en">From Tel Aviv to the world. A community that shows up to everything, a series that brings reach, and our own Yaffa events in five cities by the end of 2027.</span>
+</div>
+<div class="hmeta">
+<div class="hchip hot"><span class="he">עד קוסטה ריקה: </span><span class="en">To Costa Rica: </span><b id="cd">-</b> <span class="he">ימים</span><span class="en">days</span></div>
+<div class="hchip"><b>5</b> <span class="he">ערים</span><span class="en">cities</span> · TLV · CR · PA · TYO · HK</div>
+<div class="hchip"><b>15</b> <span class="he">חודשים</span><span class="en">months</span></div>
+<div class="hchip"><span class="he">עודכן</span><span class="en">Updated</span> <b>26.09.2026 · v3</b></div>
+</div>
+</div></header>
+<nav class="snav"><div class="wrap">
+<a href="#vision"><span class="he">חזון</span><span class="en">Vision</span></a>
+<a href="#engine"><span class="he">המנוע</span><span class="en">Engine</span></a>
+<a href="#score"><span class="he">לוח תוצאות</span><span class="en">Scoreboard</span></a>
+<a href="#pillars"><span class="he">עמודי תווך</span><span class="en">Pillars</span></a>
+<a href="#roadmap"><span class="he">מפת דרכים</span><span class="en">Roadmap</span></a>
+<a href="#cities"><span class="he">ערים</span><span class="en">Cities</span></a>
+<a href="#partners"><span class="he">שותפים</span><span class="en">Partners</span></a>
+<a href="#money"><span class="he">כסף</span><span class="en">Money</span></a>
+<a href="#rules"><span class="he">חוקים</span><span class="en">Rules</span></a>
+<a href="#decisions"><span class="he">החלטות פתוחות</span><span class="en">Open decisions</span></a>
+</div></nav>
+<main>
+<!-- VISION -->
+<section id="vision"><div class="wrap">
+<div class="stag">01 · <span class="he">חזון</span><span class="en">Vision</span></div>
+<h2><span class="he">לאן אנחנו הולכים</span><span class="en">Where we are going</span></h2>
+<p class="lede">
+<span class="he">שנה אחרי ההשקה יש לנו קטלוג, קהל, סאונד שמזוהה איתנו ומסיבה שנמכרת. מה שחסר זה תוכנית. הדף הזה הוא התוכנית ל-15 החודשים הקרובים, והוא מתעדכן כל חודש.</span>
+<span class="en">A year after launch we have a catalog, an audience, a sound people recognize and a party that sells. What we lacked was a plan. This page is the plan for the next 15 months, and it gets updated every month.</span>
+</p>
+<div class="north">
+<small><span class="he">כוכב הצפון</span><span class="en">North star</span></small>
+<span class="he">עד סוף 2027: אירוע Yaffa שלנו, עם קהל שלנו, בחמש ערים. כל השאר משרת את זה.</span>
+<span class="en">By the end of 2027: our own Yaffa event, with our own crowd, in five cities. Everything else serves that.</span>
+</div>
+<div class="g3">
+<div class="card acc"><span class="num">01</span><h4><span class="he">יותר מנויים</span><span class="en">More subscribers</span></h4>
+<p><span class="he">קהל שבבעלותנו: מייל וווטסאפ קודם, אחריהם Spotify, YouTube ו-Instagram. קהל שלנו הוא מה שממלא אירוע בעיר שלא היינו בה.</span><span class="en">An audience we own: email and WhatsApp first, then Spotify, YouTube and Instagram. Our own audience is what fills an event in a city we have never played.</span></p></div>
+<div class="card acc"><span class="num">02</span><h4><span class="he">יותר חשיפה</span><span class="en">More reach</span></h4>
+<p><span class="he">הסדרה Yaffa in 30 Days מספרת את הסיפור שלנו ומביאה חשיפה. הסיפור הוא מה שמחבר אנשים למותג, מעבר למוזיקה.</span><span class="en">The Yaffa in 30 Days series tells our story and brings reach. The story is what connects people to the brand, beyond the music.</span></p></div>
+<div class="card acc"><span class="num">03</span><h4><span class="he">אירועי Yaffa בעולם</span><span class="en">Yaffa events worldwide</span></h4>
+<p><span class="he">מרץ 2027 קוסטה ריקה ופנמה, אפריל 2027 יפן והונג קונג. האירועים מממנים את הכל.</span><span class="en">March 2027 Costa Rica and Panama, April 2027 Japan and Hong Kong. Events fund everything.</span></p></div>
+</div>
+</div></section>
+<!-- ENGINE -->
+<section id="engine"><div class="wrap">
+<div class="stag">02 · <span class="he">המנוע</span><span class="en">The engine</span></div>
+<h2><span class="he">איך הכל מתחבר</span><span class="en">How it all connects</span></h2>
+<p class="lede">
+<span class="he">מוזיקה וסדרה מביאות אנשים. הקהילה מחזיקה אותם. הקהילה ממלאת את האירועים. האירועים מביאים כסף ותוכן, וזה מממן את הריליס והפרק הבא. אם חוליה אחת נשברת, הכל מאט.</span>
+<span class="en">Music and the series bring people in. The community keeps them. The community fills the events. Events bring money and content, which pay for the next release and the next episode. If one link breaks, everything slows down.</span>
+</p>
+<div class="fly"><svg id="flysvg" viewBox="0 0 640 430" role="img" aria-label="Yaffa flywheel"></svg></div>
+</div></section>
+<!-- SCOREBOARD -->
+<section id="score"><div class="wrap">
+<div class="stag">03 · <span class="he">לוח תוצאות</span><span class="en">Scoreboard</span></div>
+<h2><span class="he">המספרים שאנחנו מזיזים</span><span class="en">The numbers we move</span></h2>
+<p class="lede">
+<span class="he">עמודת "עכשיו" נשמרת ומסתנכרנת לשנינו. מעדכנים אותה פעם בחודש, ביום שני הראשון.</span>
+<span class="en">The "Now" column saves and syncs for both of us. Update it once a month, on the first Monday.</span>
+</p>
+<div class="tw"><table>
+<thead><tr>
+<th><span class="he">מדד</span><span class="en">Metric</span></th>
+<th><span class="he">נקודת פתיחה</span><span class="en">Baseline</span></th>
+<th><span class="he">סוף 2026</span><span class="en">End 2026</span></th>
+<th><span class="he">יוני 2027</span><span class="en">June 2027</span></th>
+<th><span class="he">סוף 2027</span><span class="en">End 2027</span></th>
+<th><span class="he">עכשיו</span><span class="en">Now</span></th>
+</tr></thead>
+<tbody id="kpibody"></tbody>
+</table></div>
+<p class="note"><span class="he">היעדים הם הצעת פתיחה. עומר ומוסקו מאשרים או מתקנים. נקודות פתיחה מסומנות "למלא" כשאין לנו מספר מאומת בקבצים.</span><span class="en">Targets are an opening proposal. Omer and Mosko approve or adjust. Baselines marked "fill in" have no verified number in our files yet.</span></p>
+</div></section>
+<!-- PILLARS -->
+<section id="pillars"><div class="wrap">
+<div class="stag">04 · <span class="he">עמודי תווך</span><span class="en">Pillars</span></div>
+<h2><span class="he">שישה דברים שעליהם הכל עומד</span><span class="en">Six things everything stands on</span></h2>
+<div class="pillar first">
+<div class="ph"><span class="pn">I</span><span class="pt"><span class="he">הקהילה</span><span class="en">The community</span></span></div>
+<div class="pg"><span class="he">הבסיס של הכל. 200 אנשים שמגיעים לכל דבר, ומסביבם קהילה שמרגישה שהיא חלק, שיש לה מה להגיד, ושגדלה כל שבוע ולא רק אחרי אירוע.</span><span class="en">The base of everything. 200 people who turn up to everything, and around them a community that feels part of it, gets a say, and grows every week, not only after an event.</span></div>
+<div class="cols">
+<div>
+<h5><span class="he">המבנה</span><span class="en">Structure</span></h5>
+<ul>
+<li><span class="he"><strong>קהילת ווטסאפ Yaffa</strong>: ערוץ הכרזות אחד לכולם.</span><span class="en"><strong>Yaffa WhatsApp community</strong>: one announcement channel for everyone.</span></li>
+<li><span class="he"><strong>ה-200</strong>: מי שהגיע לשני אירועים ומעלה. מקבל קודם, מצביע ראשון.</span><span class="en"><strong>The 200</strong>: anyone with two or more events. Gets everything first, votes first.</span></li>
+<li><span class="he"><strong>קבוצה לכל עיר בחו"ל</strong>: השותף המקומי מזמין את הקהל שלו.</span><span class="en"><strong>A group per city abroad</strong>: the local partner invites their crowd.</span></li>
+</ul>
+<h5><span class="he">שתי שפות, שתי קהילות</span><span class="en">Two languages, two communities</span></h5>
+<ul>
+<li><span class="he"><strong>קהילת Yaffa בעברית</strong>: הקהילה הקיימת. הבית של האירועים בארץ ושל ה-200.</span><span class="en"><strong>Yaffa Hebrew community</strong>: the existing one. Home of the Israel events and the 200.</span></li>
+<li><span class="he"><strong>Yaffa International באנגלית</strong>: קהילה חדשה לקהל שמגיע מהסדרה ומהריליסים, ובתוכה קבוצה לכל עיר בחו"ל.</span><span class="en"><strong>Yaffa International in English</strong>: a new community for people who come from the series and the releases, with a group per city abroad inside it.</span></li>
+<li><span class="he"><strong>עמוד הצטרפות אחד שמנתב לפי מדינה</strong>: מישראל לקהילה בעברית, מכל מקום אחר ל-International ולרשימת המייל באנגלית.</span><span class="en"><strong>One join page that routes by country</strong>: Israel goes to the Hebrew community, everywhere else to International and the English email list.</span></li>
+<li><span class="he">אותו מחזור תוכן בשתיהן, כל אחת בשפה שלה. בקהילה בעברית שורה אחת על כל פרק חדש בסדרה.</span><span class="en">The same content cycle in both, each in its own language. The Hebrew community gets one line about every new series episode.</span></li>
+</ul>
+<h5><span class="he">איך מדברים איתם</span><span class="en">How we talk to them</span></h5>
+<ul>
+<li><span class="he">עד 3 שורות, פעולה אחת, לינק אחד. בלי חפירות.</span><span class="en">Three lines max, one action, one link. No essays.</span></li>
+<li><span class="he">הודעה אחת בשבוע לכל היותר. שקט זה חלק מהאלגנטיות.</span><span class="en">One message a week at most. Silence is part of the elegance.</span></li>
+<li><span class="he">גוף יחיד, בלי נקודות בסוף שורה, "קוד קופון" במלואו.</span><span class="en">Singular voice, no periods at line ends, "coupon code" spelled out.</span></li>
+</ul>
+<h5><span class="he">מחזור של 4 שבועות, מעבר לריליסים ומסיבות</span><span class="en">A 4 week cycle, beyond releases and parties</span></h5>
+<ul>
+<li><span class="he"><strong>שבוע 1 · סקר</strong>: "המסיבה הבאה, מה אתם חושבים?", "איזה אמן הייתם רוצים לראות אצלנו?"</span><span class="en"><strong>Week 1 · Poll</strong>: "The next party, what do you think?", "Which artist would you want to see with us?"</span></li>
+<li><span class="he"><strong>שבוע 2 · מאחורי הקלעים</strong>: רגע מהסטודיו, קטע מהסדרה, משהו שלא עלה לאינסטגרם.</span><span class="en"><strong>Week 2 · Behind the scenes</strong>: a studio moment, a series clip, something that never hit Instagram.</span></li>
+<li><span class="he"><strong>שבוע 3 · מוזיקה</strong>: אדיט או ריליס, לחברים קודם.</span><span class="en"><strong>Week 3 · Music</strong>: an edit or a release, members first.</span></li>
+<li><span class="he"><strong>שבוע 4 · האירוע הבא</strong>: מה שהקהילה בחרה, וההנחה לחברים.</span><span class="en"><strong>Week 4 · The next event</strong>: what the community chose, and the member discount.</span></li>
+</ul>
+</div>
+<div>
+<h5><span class="he">מה מקבלים</span><span class="en">What members get</span></h5>
+<ul>
+<li><span class="he">קוד הנחה קבוע לחברים לכל אירוע. פחות כרטיסים חינם, יותר הנחות.</span><span class="en">A standing member discount for every event. Fewer free tickets, more discounts.</span></li>
+<li><span class="he">גישה מוקדמת של 24 שעות לכרטיסים ולאדיטים החינמיים.</span><span class="en">24 hour early access to tickets and free edits.</span></li>
+<li><span class="he">אלבום התמונות מכל אירוע.</span><span class="en">The photo album from every event.</span></li>
+<li><span class="he"><strong>אטמי אוזניים של AudioFeel</strong>: עמדת האטמים באירוע היא עמדת ההצטרפות. סורקים QR, מצטרפים, מקבלים זוג. "אנחנו מרפאים בתדר, אז שומרים על האוזניים."</span><span class="en"><strong>AudioFeel earplugs</strong>: the earplug station at the event is the join station. Scan the QR, join, get a pair. "We heal with frequency, so we protect your ears."</span></li>
+</ul>
+<h5><span class="he">הקהילה מחליטה</span><span class="en">The community decides</span></h5>
+<ul>
+<li><span class="he">סקר לפני כל אירוע: צבע התדר של הערב, אלמנט תפאורה, טראק הסגירה.</span><span class="en">A poll before every event: the night's frequency color, a decor element, the closing track.</span></li>
+<li><span class="he">איזה אדיט חינמי יוצא הבא, איזה אמן מגיע, ולאיזו עיר חוזרים בסבב השני.</span><span class="en">Which free edit drops next, which artist comes, and which city we return to in round two.</span></li>
+<li><span class="he">באירוע עצמו מראים את זה: "אתם בחרתם". ככה מרגישים חלק.</span><span class="en">At the event we show it: "you chose this". That is how people feel part of it.</span></li>
+</ul>
+<h5><span class="he">מנוע צמיחה קבוע</span><span class="en">An always-on growth engine</span></h5>
+<ul>
+<li><span class="he"><strong>חבר מביא חבר</strong>: כל חבר מקבל לינק אישי עם קוד אקראי (בלי שמות בלינקים). חבר שמצטרף דרכו, והמזמין מקבל קופון למסיבה הבאה.</span><span class="en"><strong>Bring a friend</strong>: every member gets a personal link with a random code (no names in links). A friend joins through it, and the inviter gets a coupon for the next party.</span></li>
+<li><span class="he">לינק הקהילה בכל מקום קבוע: ביו באינסטגרם, כל גייט של אדיט, כל DM של YAFFA מהסדרה, פוטר של כל מייל, SoundCloud ו-Spotify.</span><span class="en">The community link lives everywhere: IG bio, every edit gate, every YAFFA DM from the series, every email footer, SoundCloud and Spotify.</span></li>
+<li><span class="he">אחרי כל אירוע: עמדת ההצטרפות בלילה, ואלבום התמונות נפתח רק לחברים.</span><span class="en">After every event: the join station on the night, and the photo album opens to members only.</span></li>
+</ul>
+<h5><span class="he">להכיר את מי שבפנים</span><span class="en">Know who is inside</span></h5>
+<ul>
+<li><span class="he">טופס הצטרפות קצר (שם, עיר, איך הגעת) ומעקב אחרי מי הגיע לאיזה אירוע.</span><span class="en">A short join form (name, city, how you found us) and tracking of who came to which event.</span></li>
+<li><span class="he">כשיהיו מספיק נתונים: ניתוח מלא, פרופילים ואווטארים לכל סוג חבר. מזה נגזרים המסרים, האמנים והאירועים.</span><span class="en">Once there is enough data: a full analysis, profiles and avatars for each member type. Messaging, artists and events follow from that.</span></li>
+</ul>
+</div>
+</div>
+<p class="note"><span class="he">היעד: לפחות 30% מהקהל בכל אירוע מצטרף לקהילה באותו לילה, ובין אירועים הקהילה גדלה בעיקר מחבר מביא חבר. ב-SIN CITY שום דבר לא עשה את זה, וזה הפער הכי גדול שלנו.</span><span class="en">Target: at least 30% of every crowd joins the community that night, and between events it grows mostly through bring a friend. At SIN CITY nothing did this, and it is our biggest gap.</span></p>
+</div>
+<div class="pillar">
+<div class="ph"><span class="pn">II</span><span class="pt"><span class="he">הסיפור והסדרה · Yaffa in 30 Days</span><span class="en">The story and the series · Yaffa in 30 Days</span></span></div>
+<p><span class="he"><strong>באנגלית, לקהל הבינלאומי.</strong> הסדרה מדברת קודם כל לעולם, והיא זו שבונה את הקהל שיגיע לאירועים בקוסטה ריקה, בפנמה ובאסיה. ההפקה עצמה מנוהלת בהאב של הסדרה: <a class="gold" href="https://yaffa-series-hub.vercel.app" target="_blank" rel="noopener">yaffa-series-hub.vercel.app</a> (תסריטים, רשימת שוטים, ימי צילום, בריף צילום, פוסט, פלייבוק השקה).</span><span class="en"><strong>In English, for the international audience.</strong> The series speaks to the world first, and it is what builds the crowd for Costa Rica, Panama and Asia. Production itself runs in the series hub: <a class="gold" href="https://yaffa-series-hub.vercel.app" target="_blank" rel="noopener">yaffa-series-hub.vercel.app</a> (scripts, shot list, shoot days, photo brief, post, launch playbook).</span></p>
+<div class="pg"><span class="he">המוזיקה מחברת, אבל הסיפור הוא מה שגורם לאנשים להתאהב במותג. מי שמכיר את הסיפור של Yaffa נשאר, מביא חברים ומגיע לכל דבר. ככה נשמרים הטרו פאנס איכותיים ונאמנים. הסדרה היא גם מנוע החשיפה, והיא הדרך העיקרית לספר את הסיפור.</span><span class="en">The music connects, but the story is what makes people fall for the brand. People who know the Yaffa story stay, bring friends and show up to everything. That keeps our true fans high quality and loyal. The series is also the reach engine, and the main way we tell the story.</span></div>
+<div class="cols">
+<div>
+<h5><span class="he">עונות</span><span class="en">Seasons</span></h5>
+<ul>
+<li><span class="he"><strong>עונה 1 · סיפור המקור</strong>: יאפה, השם, הסאונד, הספק, ההשקה. הגרסה העדכנית בהאב: 14 פרקים של 90 עד 120 שניות, שני ימי צילום. נובמבר 2026.</span><span class="en"><strong>Season 1 · The origin</strong>: Yaffa, the name, the sound, the doubt, the launch. The current version in the hub: 14 episodes of 90 to 120 seconds, two shoot days. November 2026.</span></li>
+<li><span class="he"><strong>עונה 2 · הדרך לעולם</strong>: מהשיחה הראשונה עם השותף בקוסטה ריקה ועד הלילה עצמו. 30 ימים שנגמרים באירוע. פברואר עד מרץ 2027.</span><span class="en"><strong>Season 2 · The road to the world</strong>: from the first call with the Costa Rica partner to the night itself. 30 days that end in an event. February to March 2027.</span></li>
+<li><span class="he"><strong>עונה 3</strong>: נקבעת לפי הנתונים של עונות 1 ו-2. קיץ 2027.</span><span class="en"><strong>Season 3</strong>: decided by the numbers from seasons 1 and 2. Summer 2027.</span></li>
+</ul>
+<h5><span class="he">הסיפור גם מחוץ לסדרה</span><span class="en">The story beyond the series</span></h5>
+<ul>
+<li><span class="he">הייליט קבוע "הסיפור" באינסטגרם, ווידאו קצר של הסיפור בביו ובאתר.</span><span class="en">A permanent "The story" IG highlight, and a short story video in the bio and on the site.</span></li>
+<li><span class="he">כל אירוע נפתח בטקס, וכל ריליס מקבל את הסיפור שלו בשורה אחת.</span><span class="en">Every event opens with the ritual, and every release gets its own story in one line.</span></li>
+<li><span class="he">מספרים את זה כמו שזה: יאפה הייתה הילרית, הלייבל נוסד לזכרה, ואת שכבת התדרים אנחנו הוספנו. בלי לשים מילים בפה שלה ובלי הרצאות טכניות מול המצלמה.</span><span class="en">We tell it as it is: Yafa was a healer, the label was founded in her memory, and the frequency layer is ours. No words put in her mouth and no technical lectures on camera.</span></li>
+</ul>
+</div>
+<div>
+<h5><span class="he">איך זה הופך למנויים</span><span class="en">How it turns into subscribers</span></h5>
+<ul>
+<li><span class="he">כל פרק נגמר בקריאה אחת: להגיב YAFFA, מקבלים DM באנגלית, ועמוד ההצטרפות מנתב לקהילה הנכונה ולרשימה.</span><span class="en">Every episode ends with one ask: comment YAFFA, get a DM in English, and the join page routes to the right community and the list.</span></li>
+<li><span class="he">Reels ל-Instagram ו-TikTok, וגרסה ארוכה ל-YouTube בסוף כל עונה.</span><span class="en">Reels for Instagram and TikTok, and a long cut for YouTube at the end of each season.</span></li>
+<li><span class="he">בזמן שהסדרה רצה, לגריד עולה רק הסדרה. כל השאר לסטוריז.</span><span class="en">While a season runs, only the series goes to the grid. Everything else goes to Stories.</span></li>
+<li><span class="he">מספרי צמיחה וסטרימים גלויים, הכנסות לא.</span><span class="en">Growth and stream numbers are public, revenue is not.</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="pillar">
+<div class="ph"><span class="pn">III</span><span class="pt"><span class="he">בגובה העיניים</span><span class="en">At eye level</span></span></div>
+<div class="pg"><span class="he">אנחנו אנשים רגילים שעושים מוזיקה. לא מורמים מעם, לא באים בפוזה ולא מדברים מלמעלה. זה חלק מהמותג בדיוק כמו הסאונד, וזה צריך להרגיש בכל הודעה, פוסט ופגישה.</span><span class="en">We are regular people who make music. Not above anyone, no pose, never talking down. That is as much a part of the brand as the sound, and it should show in every message, post and meeting.</span></div>
+<div class="cols">
+<div>
+<h5><span class="he">מה עושים בפועל</span><span class="en">What we actually do</span></h5>
+<ul>
+<li><span class="he"><strong>עונים לכל טראק שנשלח אלינו</strong> עם ביקורת אמיתית, תוך 14 יום.</span><span class="en"><strong>We answer every track sent to us</strong> with real feedback, within 14 days.</span></li>
+<li><span class="he">עונים ל-DM ולתגובות. אדם כותב, אדם עונה.</span><span class="en">We reply to DMs and comments. A person writes, a person answers.</span></li>
+<li><span class="he">באירועים: יורדים לרחבה, מדברים עם אנשים, מצלמים את הקהל ולא רק את הבמה.</span><span class="en">At events: we go down to the floor, talk to people, film the crowd and not just the stage.</span></li>
+</ul>
+</div>
+<div>
+<h5><span class="he">איך זה הופך לתוכן</span><span class="en">How it becomes content</span></h5>
+<ul>
+<li><span class="he"><strong>"שלחתם, הקשבנו"</strong>: פעם בחודש עומר ומוסקו מקשיבים לטראקים של הקהילה ונותנים פידבק מול המצלמה. בהסכמת השולח.</span><span class="en"><strong>"You sent it, we listened"</strong>: once a month Omer and Mosko listen to community tracks and give feedback on camera. With the sender's consent.</span></li>
+<li><span class="he">המסר בכל ערוץ: אנחנו כמוכם, רק מבלים יותר זמן בסטודיו.</span><span class="en">The message on every channel: we are like you, we just spend more time in the studio.</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="pillar">
+<div class="ph"><span class="pn">IV</span><span class="pt"><span class="he">מוזיקה: אדיטים וריליסים</span><span class="en">Music: edits and releases</span></span></div>
+<div class="pg"><span class="he">שני מנועים שעובדים יחד. האדיטים הם מנוע הצמיחה, הריליסים הם הקטלוג שבונה את הלייבל ואת מה שבוקרים רואים. לא מזניחים אף אחד מהם, ואין בעיה להוציא הרבה.</span><span class="en">Two engines working together. Edits are the growth engine, releases are the catalog that builds the label and what bookers see. Neither gets neglected, and releasing a lot is fine.</span></div>
+<div class="cols">
+<div>
+<h5><span class="he">אדיטים · צמיחה</span><span class="en">Edits · growth</span></h5>
+<ul>
+<li><span class="he">אדיט חינמי כל שבועיים, לא רק אחרי דרופ.</span><span class="en">A free edit every two weeks, not only after a drop.</span></li>
+<li><span class="he">כל אדיט עובר דרך גייט מייל, ובגייט גם לינק לקהילה. בלי חריגות.</span><span class="en">Every edit goes through an email gate, and the gate also carries the community link. No exceptions.</span></li>
+<li><span class="he">הקהילה מצביעה על האדיט הבא.</span><span class="en">The community votes on the next edit.</span></li>
+</ul>
+<h5><span class="he">ריליסים · הקטלוג</span><span class="en">Releases · the catalog</span></h5>
+<ul>
+<li><span class="he">לפחות ריליס רשמי אחד בחודש ברביעי, יותר כשיש חומר מוכן.</span><span class="en">At least one official release a month on a Wednesday, more when material is ready.</span></li>
+<li><span class="he">פיץ' לעורכי Spotify בכל ריליס, ופלייליסט This Is Yaffa Records מתעדכן.</span><span class="en">Spotify editorial pitch on every release, and the This Is Yaffa Records playlist kept current.</span></li>
+</ul>
+</div>
+<div><ul>
+<li><span class="he"><strong>המהלך החדש</strong>: מרבעון 4 של 2026, קמפייני Meta של הריליסים מכוונים גם לקוסטה ריקה, פנמה, יפן והונג קונג. כשנגיע, כבר יהיו שם אנשים ברשימה.</span><span class="en"><strong>The new move</strong>: from Q4 2026, release Meta campaigns also target Costa Rica, Panama, Japan and Hong Kong. When we land, people there are already on the list.</span></li>
+<li><span class="he">סט מצולם מכל אירוע עולה ל-YouTube.</span><span class="en">A filmed set from every event goes to YouTube.</span></li>
+</ul></div>
+</div>
+</div>
+<div class="pillar">
+<div class="ph"><span class="pn">V</span><span class="pt"><span class="he">מנוע האירועים בארץ</span><span class="en">The home events engine</span></span></div>
+<div class="pg"><span class="he">המנוע שמממן הכל, ובית הגידול של הקהילה.</span><span class="en">The engine that funds everything, and where the community grows.</span></div>
+<div class="cols">
+<div><ul>
+<li><span class="he"><strong>ערב קלאב בחמישי כל 6 עד 8 שבועות</strong>: קטן, אינטימי, בסגנון קלאב. זה המקום שבו נבנים ה-200.</span><span class="en"><strong>A Thursday club night every 6 to 8 weeks</strong>: small, intimate, club style. This is where the 200 are built.</span></li>
+<li><span class="he"><strong>שני אירועי דגל בשנה</strong> בסגנון SIN CITY: אחד לפני הקיץ, אחד בסתיו.</span><span class="en"><strong>Two flagship events a year</strong> in the SIN CITY style: one before summer, one in autumn.</span></li>
+</ul></div>
+<div><ul>
+<li><span class="he">בוחנים כל מקום לפי חלוקת הבר קודם ושכירות אחר כך. ב-SIN CITY הבר נשא את הערב.</span><span class="en">Judge every venue on the bar split first and rent second. At SIN CITY the bar carried the night.</span></li>
+<li><span class="he">כל אירוע צריך לסיים ברווח. הרווח עובר לקופת העולם.</span><span class="en">Every event has to finish in profit. The profit goes to the world fund.</span></li>
+</ul></div>
+</div>
+</div>
+<div class="pillar">
+<div class="ph"><span class="pn">VI</span><span class="pt"><span class="he">Yaffa בעולם</span><span class="en">Yaffa worldwide</span></span></div>
+<div class="pg"><span class="he">אירועי Yaffa שלנו, לא הופעה אצל מישהו אחר. הקונספט שלנו, הסאונד שלנו, עם שותף מקומי בכל עיר.</span><span class="en">Our own Yaffa events, not a set at someone else's night. Our concept, our sound, with a local partner in every city.</span></div>
+<ul>
+<li><span class="he"><strong>מרץ 2027</strong>: קוסטה ריקה ופנמה. <strong>אפריל 2027</strong>: יפן והונג קונג.</span><span class="en"><strong>March 2027</strong>: Costa Rica and Panama. <strong>April 2027</strong>: Japan and Hong Kong.</span></li>
+<li><span class="he">כל עיר היא גם פרקים בסדרה וגם סט מצולם ל-YouTube. אף טיסה לא חוזרת בלי תוכן.</span><span class="en">Every city is also series episodes and a filmed set for YouTube. No flight comes home without content.</span></li>
+<li><span class="he">בחצי השני של 2027 חוזרים לעיר או שתיים שעבדו הכי טוב, במקום לפתוח עוד ערים.</span><span class="en">In the second half of 2027 we return to the one or two cities that worked best, instead of opening more.</span></li>
+</ul>
+</div>
+</div></section>
+<!-- ROADMAP -->
+<section id="roadmap"><div class="wrap">
+<div class="stag">05 · <span class="he">מפת דרכים</span><span class="en">Roadmap</span></div>
+<h2><span class="he">רבעון אחרי רבעון</span><span class="en">Quarter by quarter</span></h2>
+<p class="lede"><span class="he">כל אבן דרך מסתנכרנת. מסמנים כשזה קרה, לא כשזה "כמעט".</span><span class="en">Every milestone syncs. Tick it when it happened, not when it is "almost".</span></p>
+<div id="roadroot"></div>
+</div></section>
+<!-- CITIES -->
+<section id="cities"><div class="wrap">
+<div class="stag">06 · <span class="he">ערים</span><span class="en">Cities</span></div>
+<h2><span class="he">חמש ערים, חמישה לילות</span><span class="en">Five cities, five nights</span></h2>
+<div class="g3" style="margin-top:18px">
+<div class="city"><div class="cw"><span class="he">הבית · כל השנה</span><span class="en">Home · all year</span></div><div class="cn">TEL AVIV</div><span class="st warm"><span class="he">פעיל</span><span class="en">Active</span></span>
+<p><span class="he">הבסיס. ערבי קלאב ושני אירועי דגל. כאן בונים את ה-200 וכאן מרוויחים את הכסף לטיסות.</span><span class="en">The base. Club nights and two flagships. This is where the 200 are built and where the flight money is earned.</span></p></div>
+<div class="city"><div class="cw"><span class="he">מרץ 2027</span><span class="en">March 2027</span></div><div class="cn">COSTA RICA</div><span class="st"><span class="he">מחפשים שותף</span><span class="en">Finding a partner</span></span>
+<p><span class="he">עונת היובש, השיא של העונה שם. Envision באוביטה (בדרך כלל סוף פברואר, תחילת מרץ) מביא בדיוק את הקהל האלקטרוני והרוחני שמתאים ל-Yaffa. בונים את הלילה שלנו סביבו, לא נגדו. לאמת תאריכי 2027.</span><span class="en">Dry season, the peak there. Envision in Uvita (usually late February, early March) brings exactly the conscious electronic crowd that fits Yaffa. We build our night around it, not against it. Verify 2027 dates.</span></p></div>
+<div class="city"><div class="cw"><span class="he">מרץ 2027</span><span class="en">March 2027</span></div><div class="cn">PANAMA</div><span class="st"><span class="he">מחפשים שותף</span><span class="en">Finding a partner</span></span>
+<p><span class="he">אותו חלון נסיעה כמו קוסטה ריקה, טיסה קצרה בין השתיים. Tribal Gathering בפלאיה צ'יקיטה מביא קהל בינלאומי לאזור בתחילת השנה. לאמת תאריכי 2027.</span><span class="en">Same travel window as Costa Rica, a short hop between them. Tribal Gathering at Playa Chiquita brings an international crowd to the region early in the year. Verify 2027 dates.</span></p></div>
+<div class="city"><div class="cw"><span class="he">אפריל 2027</span><span class="en">April 2027</span></div><div class="cn">HONG KONG</div><span class="st warm"><span class="he">יש קשרים</span><span class="en">Warm contacts</span></span>
+<p><span class="he">הקשרים של ברוך. Cassio Social Club כמקום מועדף, Club MOP במקאו ו-Magic Room כשותפים אפשריים. מהאביב אין תשובה, צריך לחדש את הפנייה.</span><span class="en">Baruch's contacts. Cassio Social Club as the preferred venue, Club MOP in Macau and Magic Room as possible partners. No reply since spring, the outreach needs restarting.</span></p></div>
+<div class="city"><div class="cw"><span class="he">אפריל 2027</span><span class="en">April 2027</span></div><div class="cn">JAPAN</div><span class="st"><span class="he">מתחילים מאפס</span><span class="en">Starting from zero</span></span>
+<p><span class="he">אין לנו עדיין קשרים בקבצים. אפריל הוא עונת הדובדבן, תנועה גבוהה ומחירים גבוהים, אז צריך לסגור מקום ולינה מוקדם. טוקיו או אוסקה, לפי השותף.</span><span class="en">No contacts in our files yet. April is cherry blossom season, high traffic and high prices, so venue and stay need locking early. Tokyo or Osaka, depending on the partner.</span></p></div>
+</div>
+</div></section>
+<!-- PARTNERS -->
+<section id="partners"><div class="wrap">
+<div class="stag">07 · <span class="he">מודל השותף המקומי</span><span class="en">Local partner model</span></div>
+<h2><span class="he">אנחנו מביאים את Yaffa, הם מביאים את העיר</span><span class="en">We bring Yaffa, they bring the city</span></h2>
+<div class="g2" style="margin-top:18px">
+<div class="card"><h4><span class="he">מה Yaffa מביאה</span><span class="en">What Yaffa brings</span></h4><ul>
+<li><span class="he">הקונספט: פתיחת הטקס, צבע תדר אחד לערב, הסיפור</span><span class="en">The concept: the ritual opening, one frequency color for the night, the story</span></li>
+<li><span class="he">סטים של Oi ו-Mosko, שלוש שעות כל אחד</span><span class="en">Oi and Mosko sets, three hours each</span></li>
+<li><span class="he">הפקת תוכן ופרקים בסדרה, חשיפה לשותף</span><span class="en">Content production and series episodes, exposure for the partner</span></li>
+<li><span class="he">הקהל שבנינו באזור דרך קמפייני הריליסים</span><span class="en">The audience we built in the region through release campaigns</span></li>
+</ul></div>
+<div class="card"><h4><span class="he">מה השותף מביא</span><span class="en">What the partner brings</span></h4><ul>
+<li><span class="he">מקום עם דיל בר טוב, רישוי ותפעול מקומי</span><span class="en">A venue with a good bar deal, permits and local ops</span></li>
+<li><span class="he">קהל משלו, מוכח. אירועים קודמים שנמכרו</span><span class="en">Their own crowd, proven. Past events that sold</span></li>
+<li><span class="he">כרטוס, יחסי ציבור מקומיים, דיג'יי פתיחה שמביא אנשים</span><span class="en">Ticketing, local PR, an opening DJ who brings people</span></li>
+<li><span class="he">טיסות ולינה, או גארנטי שמכסה אותן</span><span class="en">Flights and accommodation, or a guarantee that covers them</span></li>
+</ul></div>
+</div>
+<h3><span class="he">הדיל, נקודת פתיחה</span><span class="en">The deal, opening position</span></h3>
+<ul>
+<li><span class="he">השותף מכסה טיסות ולינה, או גארנטי. זה הסטנדרט בבוקינג, וזה מה שהופך את הסבב לאפשרי.</span><span class="en">The partner covers flights and stay, or a guarantee. That is the booking standard, and it is what makes the tour possible.</span></li>
+<li><span class="he">הרווח הנקי מהערב מתחלק אחרי עלויות. פותחים ב-50/50.</span><span class="en">Net profit from the night is split after costs. We open at 50/50.</span></li>
+<li><span class="he">דף אחד, חתום, לפחות 10 שבועות לפני האירוע.</span><span class="en">One page, signed, at least 10 weeks before the event.</span></li>
+<li><span class="he">כל הפניות יוצאות מ-ben@yaffarecords.com בחתימת Ben Schwarz, Y-MGMT. לא מזכירים את ישראל כמיקום.</span><span class="en">All outreach goes from ben@yaffarecords.com signed Ben Schwarz, Y-MGMT. Israel is not named as the location.</span></li>
+<li><span class="he">מנסחים כך שהתשובה הדיפולטית היא מה שאנחנו רוצים.</span><span class="en">Frame every ask so the default answer is the one we want.</span></li>
+</ul>
+</div></section>
+<!-- MONEY -->
+<section id="money"><div class="wrap">
+<div class="stag">08 · <span class="he">כסף</span><span class="en">Money</span></div>
+<h2><span class="he">האירועים מממנים הכל</span><span class="en">Events fund everything</span></h2>
+<p class="lede"><span class="he">זה העיקרון. בדיקת מציאות: SIN CITY סיים ברווח קטן, והבר הוא שהחזיק אותו. אירוע דגל אחד לא מממן טיסה לשניים למרכז אמריקה ולאסיה. לכן הסבב עומד על שלוש רגליים.</span><span class="en">That is the principle. Reality check: SIN CITY closed with a small profit, and the bar is what carried it. One flagship does not fund two people flying to Central America and Asia. So the tour stands on three legs.</span></p>
+<div class="g3">
+<div class="card acc"><span class="num">1</span><h4><span class="he">השותף משלם את הדרך</span><span class="en">The partner pays the way</span></h4><p><span class="he">טיסות ולינה, או גארנטי. בלי זה העיר לא נכנסת ללוח.</span><span class="en">Flights and stay, or a guarantee. Without it the city does not go on the calendar.</span></p></div>
+<div class="card acc"><span class="num">2</span><h4><span class="he">קופת העולם</span><span class="en">The world fund</span></h4><p><span class="he">הרווח מאירועי הארץ ברבעון 4 של 2026 וברבעון 1 של 2027 נכנס לקופה נפרדת, רק לסבב.</span><span class="en">Profit from home events in Q4 2026 and Q1 2027 goes into a separate fund, for the tour only.</span></p></div>
+<div class="card acc"><span class="num">3</span><h4><span class="he">הכל מייצר תוכן</span><span class="en">Everything makes content</span></h4><p><span class="he">כל לילה בחו"ל הוא פרקים וסט מצולם. התוכן מחזיר את ההשקעה דרך מנויים וחשיפה.</span><span class="en">Every night abroad is episodes and a filmed set. The content pays back through subscribers and reach.</span></p></div>
+</div>
+<ul style="margin-top:18px">
+<li><span class="he">עלויות מתחלקות 50/50 בין עומר למוסקו, לפי ההסכם הקיים. רווחי אירועים מחזירים קודם למי ששילם.</span><span class="en">Costs split 50/50 between Omer and Mosko, per the existing agreement. Event profit repays whoever fronted first.</span></li>
+<li><span class="he">אטמי AudioFeel: AudioFeel היא עסק נפרד. לקבוע בכתב מי משלם ובאיזה מחיר, לפני האירוע הראשון.</span><span class="en">AudioFeel earplugs: AudioFeel is a separate business. Agree in writing who pays and at what price, before the first event.</span></li>
+<li><span class="he">מספרים פרטיים (P&amp;L, רווח לאירוע) לא נכנסים לדף הזה. הם נשארים בדפי ה-P&amp;L.</span><span class="en">Private numbers (P&amp;L, profit per event) stay off this page. They live on the P&amp;L pages.</span></li>
+</ul>
+</div></section>
+<!-- RULES -->
+<section id="rules"><div class="wrap">
+<div class="stag">09 · <span class="he">חוקי ברזל</span><span class="en">Iron rules</span></div>
+<h2><span class="he">מה למדנו, ולא חוזרים עליו</span><span class="en">What we learned, and will not repeat</span></h2>
+<div class="card" style="margin-top:16px" id="rulesroot"></div>
+</div></section>
+<!-- DECISIONS -->
+<section id="decisions"><div class="wrap">
+<div class="stag">10 · <span class="he">החלטות פתוחות</span><span class="en">Open decisions</span></div>
+<h2><span class="he">מה צריך להחליט כדי לזוז</span><span class="en">What needs deciding to move</span></h2>
+<div class="card" style="margin-top:16px" id="decroot"></div>
+</div></section>
+<!-- RHYTHM -->
+<section id="rhythm"><div class="wrap">
+<div class="stag">11 · <span class="he">קצב עבודה</span><span class="en">Operating rhythm</span></div>
+<h2><span class="he">איך הדף הזה נשאר חי</span><span class="en">How this page stays alive</span></h2>
+<div class="g3" style="margin-top:16px">
+<div class="card"><h4><span class="he">כל שני</span><span class="en">Every Monday</span></h4><p><span class="he">15 דקות: מה זז השבוע, איזו אבן דרך הבאה, מי אחראי.</span><span class="en">15 minutes: what moved this week, which milestone is next, who owns it.</span></p></div>
+<div class="card"><h4><span class="he">שני ראשון בחודש</span><span class="en">First Monday of the month</span></h4><p><span class="he">מעדכנים את עמודת "עכשיו" בלוח התוצאות.</span><span class="en">Update the "Now" column on the scoreboard.</span></p></div>
+<div class="card"><h4><span class="he">סוף כל רבעון</span><span class="en">End of each quarter</span></h4><p><span class="he">פגישה עם עומר: מספרים מול יעדים, מה משנים ברבעון הבא.</span><span class="en">A session with Omer: numbers against targets, what changes next quarter.</span></p></div>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap">YAFFA RECORDS · MASTERPLAN 2026-2027 · <span class="he">מתל אביב לעולם</span><span class="en">From Tel Aviv to the world</span></div></footer>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+window.AUTH_EMAIL = "info@yaffarecords.com";
+const firebaseConfig = {
+apiKey: "AIzaSyD6jJ-6RfSDwUXa7ioOXsXT5kwL9NBP-ek",
+authDomain: "yaffa-dashboard.firebaseapp.com",
+databaseURL: "https://yaffa-dashboard-default-rtdb.europe-west1.firebasedatabase.app",
+projectId: "yaffa-dashboard",
+storageBucket: "yaffa-dashboard.firebasestorage.app",
+messagingSenderId: "275736999213",
+appId: "1:275736999213:web:00e65503141995f28ecfa4"
+};
+let dbRef = null;
+try { firebase.initializeApp(firebaseConfig); dbRef = firebase.database().ref('state'); }
+catch(e){ console.warn('Firebase unavailable, local-only mode', e); }
+/* AUTH */
+(function(){
+function reveal(){ document.body.classList.add('auth-ok'); const g=document.getElementById('auth-gate'); if(g) g.remove(); }
+async function check(){
+const pw=document.getElementById('auth-input').value;
+const errEl=document.getElementById('auth-err'); if(errEl) errEl.textContent='';
+try{ await firebase.auth().signInWithEmailAndPassword(window.AUTH_EMAIL,pw); reveal(); }
+catch(e){ if(errEl) errEl.textContent='Wrong password'; document.getElementById('auth-input').value=''; }
+}
+if(window.firebase && firebase.auth){ firebase.auth().onAuthStateChanged(u=>{ if(u) reveal(); }); }
+else { window.addEventListener('DOMContentLoaded',reveal); }
+window.addEventListener('DOMContentLoaded',()=>{
+const b=document.getElementById('auth-btn'), i=document.getElementById('auth-input');
+if(b) b.addEventListener('click',check);
+if(i) i.addEventListener('keydown',e=>{ if(e.key==='Enter') check(); });
+});
+})();
+/* SYNC HELPERS */
+const PREFIX='yaffa-ops-v1-';
+let remoteApplying=false;
+function loadLocal(id){ try{ return localStorage.getItem(PREFIX+id); }catch(e){ return null; } }
+function saveLocal(id,v){ try{ localStorage.setItem(PREFIX+id,String(v)); }catch(e){} }
+function saveState(id,v){
+saveLocal(id,v);
+try{ if(dbRef && !remoteApplying && firebase.auth().currentUser) dbRef.child(id).set(v); }catch(e){}
+}
+/* LANGUAGE */
+function L(){ return document.body.dataset.lang; }
+function setLang(l){
+document.body.dataset.lang=l;
+document.documentElement.lang=l;
+document.documentElement.dir=(l==='he'?'rtl':'ltr');
+document.getElementById('langbtn').textContent=(l==='he'?'EN':'עב');
+try{ localStorage.setItem('yaffa-mp-lang',l); }catch(e){}
+drawFly();
+}
+/* COUNTDOWN (placeholder date until the partner locks it) */
+function tick(){
+const ev=new Date('2027-03-15T20:00:00-06:00');
+const d=Math.ceil((ev-new Date())/86400000);
+document.getElementById('cd').textContent=d>0?d:0;
+}
+/* FLYWHEEL */
+function drawFly(){
+const svg=document.getElementById('flysvg'); if(!svg) return;
+const he=L()==='he';
+const nodes=[
+{he:'מוזיקה',en:'Music',sub_he:'ריליסים + אדיטים',sub_en:'releases + edits'},
+{he:'הסדרה',en:'The series',sub_he:'Yaffa in 30 Days',sub_en:'Yaffa in 30 Days'},
+{he:'הקהילה',en:'Community',sub_he:'מייל · ווטסאפ · ה-200',sub_en:'email · WhatsApp · the 200'},
+{he:'אירועים',en:'Events',sub_he:'בארץ ובעולם',sub_en:'home and abroad'},
+{he:'כסף ותוכן',en:'Money + content',sub_he:'מממנים את הסבב הבא',sub_en:'fund the next round'}
+];
+const cx=320,cy=215,r=158,n=nodes.length;
+const pt=a=>[cx+r*Math.cos(a*Math.PI/180), cy+r*Math.sin(a*Math.PI/180)];
+let s='<defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#BF9830"/></marker></defs>';
+s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(237,232,220,.08)" stroke-width="1"/>`;
+for(let i=0;i<n;i++){
+const a1=-90+i*72+20, a2=-90+(i+1)*72-20;
+const [x1,y1]=pt(a1),[x2,y2]=pt(a2);
+s+=`<path d="M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="#BF9830" stroke-width="1.6" marker-end="url(#ah)" opacity=".85"/>`;
+}
+s+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-family="Cinzel,serif" font-size="26" fill="#EDE8DC" letter-spacing="4">YAFFA</text>`;
+s+=`<text x="${cx}" y="${cy+20}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#7A7770" letter-spacing="2">${he?'המנוע':'THE ENGINE'}</text>`;
+nodes.forEach((nd,i)=>{
+const [x,y]=pt(-90+i*72);
+const w=160,h=52;
+const hot=(i===2);
+s+=`<rect x="${(x-w/2).toFixed(1)}" y="${(y-h/2).toFixed(1)}" width="${w}" height="${h}" rx="4" fill="#16161C" stroke="${hot?'#BF9830':'rgba(237,232,220,.18)'}" stroke-width="${hot?1.5:1}"/>`;
+s+=`<text x="${x.toFixed(1)}" y="${(y-3).toFixed(1)}" text-anchor="middle" font-family="${he?'Heebo':'Inter'},sans-serif" font-size="15" font-weight="600" fill="${hot?'#D4AC46':'#EDE8DC'}">${he?nd.he:nd.en}</text>`;
+s+=`<text x="${x.toFixed(1)}" y="${(y+15).toFixed(1)}" text-anchor="middle" font-family="${he?'Heebo':'Inter'},sans-serif" font-size="11" fill="#7A7770">${he?nd.sub_he:nd.sub_en}</text>`;
+});
+svg.innerHTML=s;
+}
+/* KPIs: [id, he, en, baseline_he, baseline_en, end26, jun27, end27] */
+const KPIS=[
+['mp-kpi-email','רשימת מייל (Brevo)','Email list (Brevo)','~3,500','~3,500','5,000','9,000','15,000'],
+['mp-kpi-wa','קהילת ווטסאפ בעברית','WhatsApp community, Hebrew','~400','~400','700','1,000','1,500'],
+['mp-kpi-wai','Yaffa International (אנגלית, כולל ערים)','Yaffa International (English, incl. cities)','0','0','150','600','1,500'],
+['mp-kpi-200','ה-200 (שני אירועים ומעלה)','The 200 (two+ events)','למדוד','measure','80','140','200'],
+['mp-kpi-spot','Spotify, מאזינים חודשיים (Oi + Mosko)','Spotify monthly listeners (Oi + Mosko)','~60K','~60K','75K','100K','150K'],
+['mp-kpi-yt','YouTube, מנויים חדשים','YouTube, new subscribers','למלא','fill in','+1,000','+3,000','+6,000'],
+['mp-kpi-ig','Instagram @yaffarecords, עוקבים חדשים','Instagram @yaffarecords, new followers','למלא','fill in','+2,000','+6,000','+12,000'],
+['mp-kpi-ref','הצטרפויות דרך חבר מביא חבר (מצטבר)','Joins via bring a friend (cumulative)','0','0','100','400','1,000'],
+['mp-kpi-edits','אדיטים חינמיים (מצטבר מ-10.2026)','Free edits (cumulative from 10.2026)','0','0','6','18','30'],
+['mp-kpi-rel','ריליסים רשמיים (מצטבר מ-10.2026)','Official releases (cumulative from 10.2026)','0','0','3','9','15'],
+['mp-kpi-demo','טראקים שקיבלו פידבק תוך 14 יום','Tracks answered with feedback within 14 days','למדוד','measure','100%','100%','100%'],
+['mp-kpi-join','הצטרפות לקהילה בלילה (% מהקהל)','Join rate on the night (% of crowd)','0%','0%','20%','30%','30%'],
+['mp-kpi-ilev','אירועים בארץ (מצטבר מ-10.2026)','Home events (cumulative from 10.2026)','0','0','2','5','10'],
+['mp-kpi-abroad','אירועי Yaffa בחו"ל','Yaffa events abroad','0','0','0','4','5-6']
+];
+function renderKpis(){
+const he=L()==='he';
+const tb=document.getElementById('kpibody');
+tb.innerHTML=KPIS.map(k=>{
+const base=he?k[3]:k[4];
+const tbd=(k[3]==='למלא'||k[3]==='למדוד');
+return `<tr><td class="k">${he?k[1]:k[2]}</td><td class="n ${tbd?'tbd':''}">${base}</td><td class="n t">${k[5]}</td><td class="n t">${k[6]}</td><td class="n t">${k[7]}</td><td><input type="text" data-kpi="${k[0]}" placeholder="-"></td></tr>`;
+}).join('');
+tb.querySelectorAll('input[data-kpi]').forEach(inp=>{
+const v=loadLocal(inp.dataset.kpi); if(v!==null && v!=='null') inp.value=v;
+inp.addEventListener('change',()=>saveState(inp.dataset.kpi,inp.value.trim()));
+});
+}
+/* ROADMAP: [id, he, en, when, owner, key?] */
+const ROAD=[
+{id:'q4',he:'רבעון 4 · 2026 · יסודות',en:'Q4 2026 · Foundation',range:'10.2026 → 12.2026',
+goal_he:'לסגור את SIN CITY, לבנות את מערכת הקהילה, להשיק את הסדרה ולחגוג שנה.',
+goal_en:'Close SIN CITY, build the community system, launch the series and celebrate year one.',items:[
+['mp-q4-1','לגבות את חלק הבר מהאומן 17 ולנעול את ה-P&L של SIN CITY','Collect the bar share from Haoman 17 and lock the SIN CITY P&L','10.2026','Mosko'],
+['mp-q4-2','מופעי מידברן ומצוקי דרגות','Midburn and Metzoke Dragot shows','10.2026','Both'],
+['mp-q4-3','מערכת ההצטרפות לקהילה: QR, עמדת אטמי AudioFeel, הודעת ברוכים הבאים, קוד חברים','Community join system: QR, AudioFeel earplug station, welcome message, member code','10.2026','Mosko',1],
+['mp-q4-4','לנעול את עונה 1 לפי ההאב, לסגור צלם ועורך, שני ימי צילום','Lock season 1 from the hub, confirm shooter and editor, two shoot days','10.2026','Both'],
+['mp-q4-13','חבר מביא חבר: לינק אישי עם קוד אקראי, קופון למסיבה הבאה למזמין','Bring a friend: personal link with a random code, next-party coupon for the inviter','11.2026','Mosko',1],
+['mp-q4-19','Yaffa International: קהילה באנגלית ועמוד הצטרפות שמנתב לפי מדינה','Yaffa International: English community and a join page that routes by country','11.2026','Mosko',1],
+['mp-q4-20','לסכם עם אליענה איפה היא משתלבת','Agree with Eliana where she comes in','10.2026','Mosko'],
+['mp-q4-14','לינק הקהילה בכל מקום: ביו, גייטים, DM של הסדרה, פוטר מייל, SoundCloud, Spotify','Community link everywhere: bio, gates, series DM, email footer, SoundCloud, Spotify','10.2026','Mosko'],
+['mp-q4-15','מחזור התוכן של 4 שבועות בווטסאפ מתחיל (סקר, מאחורי הקלעים, מוזיקה, אירוע)','The 4 week WhatsApp content cycle starts (poll, behind the scenes, music, event)','10.2026','Mosko'],
+['mp-q4-16','מערכת פידבק לטראקים: תיבה אחת, מענה תוך 14 יום','Track feedback system: one inbox, reply within 14 days','10.2026','Both'],
+['mp-q4-17','הייליט "הסיפור" ווידאו סיפור קצר לביו','"The story" highlight and a short story video for the bio','11.2026','Both'],
+['mp-q4-18','קצב אדיט חינמי כל שבועיים מתחיל','Free edit every two weeks begins','10.2026','Both'],
+['mp-q4-5','סקר קהילה ראשון: הקהילה בוחרת משהו באירוע הבא','First community poll: the community picks something for the next event','11.2026','Mosko'],
+['mp-q4-6','השקת Yaffa in 30 Days, עונה 1','Launch Yaffa in 30 Days, season 1','11.2026','Both',1],
+['mp-q4-7','ערב קלאב ראשון בחמישי','First Thursday club night','11.2026','Both'],
+['mp-q4-8','12.12 · שנה ל-Yaffa: ערב יום הולדת וסיום העונה','12.12 · Yaffa turns one: birthday night and season finale','12.2026','Both',1],
+['mp-q4-9','קמפייני הריליסים מכוונים גם לקוסטה ריקה, פנמה, יפן והונג קונג','Release campaigns also target Costa Rica, Panama, Japan and Hong Kong','11.2026','Mosko'],
+['mp-q4-10','רשימת 10 שותפים פוטנציאליים לכל אזור, ופנייה ראשונה מ-ben@','List 10 potential partners per region, first outreach from ben@','11.2026','Mosko'],
+['mp-q4-11','תבנית דיל שותף, דף אחד','Partner deal template, one page','12.2026','Mosko'],
+['mp-q4-12','לפתוח את קופת העולם','Open the world fund','12.2026','Both']
+]},
+{id:'q1',he:'רבעון 1 · 2027 · הדרך',en:'Q1 2027 · The road',range:'01.2027 → 03.2027',
+goal_he:'שותפים חתומים, עונה 2 רצה, והלילה הראשון שלנו מחוץ לארץ.',
+goal_en:'Partners signed, season 2 running, and our first night outside the country.',items:[
+['mp-q1-1','שותפים חתומים בקוסטה ריקה ובפנמה','Partners signed in Costa Rica and Panama','31.01.2027','Mosko',1],
+['mp-q1-2','שותפים חתומים בהונג קונג וביפן','Partners signed in Hong Kong and Japan','28.02.2027','Mosko',1],
+['mp-q1-3','ערב קלאב','Club night','02.2027','Both'],
+['mp-q1-4','קבוצות ווטסאפ לכל עיר נפתחות, השותף מזמין','City WhatsApp groups open, the partner invites','02.2027','Mosko'],
+['mp-q1-5','עונה 2 מתחילה: הדרך לעולם','Season 2 starts: the road to the world','02.2027','Both'],
+['mp-q1-8','ניתוח הקהילה: פרופילים ואווטארים לכל סוג חבר','Community analysis: profiles and avatars for each member type','01.2027','Mosko',1],
+['mp-q1-9','"שלחתם, הקשבנו": הפרק הראשון של פידבק לטראקים מול המצלמה','"You sent it, we listened": the first on-camera track feedback episode','01.2027','Both'],
+['mp-q1-6','Yaffa Costa Rica','Yaffa Costa Rica','03.2027','Both',1],
+['mp-q1-7','Yaffa Panama','Yaffa Panama','03.2027','Both',1]
+]},
+{id:'q2',he:'רבעון 2 · 2027 · אסיה וחזרה הביתה',en:'Q2 2027 · Asia and homecoming',range:'04.2027 → 06.2027',
+goal_he:'שני לילות באסיה, ואירוע דגל בבית שמספר את כל המסע.',
+goal_en:'Two nights in Asia, and a flagship at home that tells the whole journey.',items:[
+['mp-q2-1','Yaffa Japan','Yaffa Japan','04.2027','Both',1],
+['mp-q2-2','Yaffa Hong Kong','Yaffa Hong Kong','04.2027','Both',1],
+['mp-q2-3','ערב קלאב','Club night','05.2027','Both'],
+['mp-q2-4','אירוע דגל 1 בארץ: חזרה הביתה, עם הסרט מהמסע','Flagship 1 at home: homecoming, with the film from the road','06.2027','Both',1],
+['mp-q2-5','סיכום חצי שנה: מספרים מול יעדים, לאן חוזרים','Half-year review: numbers against targets, where we return','06.2027','Both']
+]},
+{id:'q3',he:'רבעון 3 · 2027 · מגדילים את מה שעבד',en:'Q3 2027 · Scale what worked',range:'07.2027 → 09.2027',
+goal_he:'קיץ של ערבי קלאב, עונה 3, וסגירת הסבב השני.',
+goal_en:'A summer of club nights, season 3, and locking round two.',items:[
+['mp-q3-1','שני ערבי קלאב בקיץ','Two summer club nights','07-08.2027','Both'],
+['mp-q3-2','עונה 3 של הסדרה','Series season 3','08.2027','Both'],
+['mp-q3-3','לסגור את הסבב השני: עיר או שתיים שהוכיחו את עצמן','Lock round two: the one or two cities that proved themselves','09.2027','Mosko',1],
+['mp-q3-4','מעבר מ-Brevo ל-Resend כשהרשימה מתקרבת ל-8,000','Move from Brevo to Resend as the list nears 8,000','~8K','Mosko']
+]},
+{id:'q4b',he:'רבעון 4 · 2027 · הסבב השני',en:'Q4 2027 · Round two',range:'10.2027 → 12.2027',
+goal_he:'אירוע דגל שני, חזרה לעולם, ושנתיים ל-Yaffa.',
+goal_en:'Second flagship, back out into the world, and Yaffa turns two.',items:[
+['mp-q4b-1','אירוע דגל 2 בארץ','Flagship 2 at home','10.2027','Both',1],
+['mp-q4b-2','סבב שני בחו"ל','Round two abroad','11.2027','Both',1],
+['mp-q4b-3','12.12 · שנתיים ל-Yaffa','12.12 · Yaffa turns two','12.2027','Both'],
+['mp-q4b-4','תוכנית 2028','The 2028 plan','12.2027','Both']
+]}
+];
+function renderRoad(){
+const he=L()==='he';
+const root=document.getElementById('roadroot');
+root.innerHTML=ROAD.map(q=>`
+<div class="q" data-q="${q.id}">
+<div class="qh"><div class="qt">${he?q.he:q.en}</div>
+<div class="qc"><div class="pbar"><i data-pb="${q.id}"></i></div><span data-qc="${q.id}">0/${q.items.length}</span><span class="qd">${q.range}</span></div></div>
+<div class="qg">${he?q.goal_he:q.goal_en}</div>
+${q.items.map(it=>`<div class="ms ${it[5]?'key':''}"><input type="checkbox" id="${it[0]}" data-id="${it[0]}"><label for="${it[0]}">${he?it[1]:it[2]}</label><span class="m">${it[3]} · ${it[4]}</span></div>`).join('')}
+</div>`).join('');
+root.querySelectorAll('input[data-id]').forEach(cb=>{
+if(loadLocal(cb.dataset.id)==='true') cb.checked=true;
+cb.addEventListener('change',()=>{ saveState(cb.dataset.id,cb.checked); roadStats(); });
+});
+roadStats();
+}
+function roadStats(){
+ROAD.forEach(q=>{
+const all=[...document.querySelectorAll(`.q[data-q="${q.id}"] input`)];
+const d=all.filter(c=>c.checked).length;
+const pb=document.querySelector(`[data-pb="${q.id}"]`); if(pb) pb.style.width=(all.length?100*d/all.length:0)+'%';
+const qc=document.querySelector(`[data-qc="${q.id}"]`); if(qc) qc.textContent=d+'/'+all.length;
+});
+}
+/* RULES */
+const RULES=[
+['לא הלינק מוכר, האדם שמבקש מוכר. בקשה אישית מעומר ומוסקו היא הערוץ הכי חזק שלנו.','The link does not sell, the person asking does. A personal ask from Omer and Mosko is our strongest channel.'],
+['באירועים שלנו מנגנים רק אמנים שהוציאו בלייבל. עומר ומוסקו שלוש שעות כל אחד, ובלי בק טו בק אלא אם זה באמת חי.','Only artists who released on the label play our events. Omer and Mosko three hours each, and no back to back unless it is truly alive.'],
+['צריך דיג\'יים צעירים שמביאים קהל לפתיחה ולסטים הראשונים. בוקינג בתשלום בא עם התחייבות למכור.','We need young DJs who bring a crowd for the opening sets. A paid booking comes with a selling commitment.'],
+['דבר חינמי שווה משהו רק אם ביקשו אותו. פחות כרטיסים חינם, יותר הנחות.','A free thing only has value if someone asked for it. Fewer comps, more discounts.'],
+['בלי מדיה ממומנת לאירועים. מדיה ממומנת כן לריליסים.','No paid media for events. Paid media is fine for releases.'],
+['בוחנים מקום לפי חלוקת הבר קודם. הבר הוא העסק.','Judge a venue on the bar split first. The bar is the business.'],
+['בן קריתי רק במקום שיש בו מסך.','Ben Kriyati only where the venue has a screen.'],
+['בגובה העיניים. לא מורמים מעם, לא בפוזה. עונים לכל מי שכותב, ולכל טראק שנשלח.','At eye level. Never above anyone, no pose. We answer everyone who writes, and every track sent to us.'],
+['אדיטים מביאים צמיחה, ריליסים בונים לייבל. אדיט אף פעם לא בא על חשבון ריליס.','Edits bring growth, releases build a label. An edit never comes at the expense of a release.'],
+['אף אירוע לא נגמר בלי שהקהל עבר דרך עמדת ההצטרפות לקהילה.','No event ends without the crowd passing the community join station.']
+];
+function renderRules(){
+const he=L()==='he';
+document.getElementById('rulesroot').innerHTML=RULES.map((r,i)=>`<div class="rule"><div class="rn">${i+1}</div><p>${he?r[0]:r[1]}</p></div>`).join('');
+}
+/* DECISIONS: [he, en, who, done?] */
+const DECS=[
+['עומר מאשר את התוכנית ואת היעדים','Omer signs off on the plan and the targets','Omer'],
+['הסדרה: ההאב מיוני (14 פרקים) הוא הגרסה העדכנית, לעומת תוכנית 30 הפרקים ממרץ. לאשר אורך ושם ציבורי','The series: the June hub (14 episodes) is the current version, versus the 30 episode plan from March. Confirm length and public name','Both'],
+['איפה אליענה משתלבת, לפי מה שהיא תבחר','Where Eliana comes in, based on what she picks','Mosko'],
+['תקציב הסדרה ומי מצלם ועורך','Series budget and who shoots and edits','Both'],
+['המקום לערבי הקלאב בחמישי (חלוקת בר קודם)','The venue for the Thursday club nights (bar split first)','Mosko'],
+['אטמי AudioFeel: מי משלם, כמה זוגות לאירוע, מיתוג משותף','AudioFeel earplugs: who pays, how many pairs per event, co-branding','Mosko'],
+['תנאי ברירת המחדל בדיל השותף','Default terms of the partner deal','Both'],
+['יעד קופת העולם ומי מחזיק בה','World fund target and who holds it','Both'],
+['תאריכים מדויקים למרץ ואפריל, אחרי אימות תאריכי Envision ו-Tribal Gathering 2027','Exact March and April dates, after verifying Envision and Tribal Gathering 2027 dates','Mosko'],
+['האקט המשותף של Oi ו-Mosko לא בתוכנית הזו','The Oi and Mosko joint act is not in this plan','26.09.2026',1],
+['הסדרה באנגלית ומדברת קודם כל לקהל הבינלאומי. הקהילה בעברית נשארת בעברית','The series is in English and speaks to the international audience first. The Hebrew community stays in Hebrew','26.09.2026',1]
+];
+function renderDecs(){
+const he=L()==='he';
+document.getElementById('decroot').innerHTML=DECS.map(d=>`<div class="dec"><p>${d[3]?'<span class="done-tag">'+(he?'הוחלט · ':'DECIDED · ')+'</span>':''}${he?d[0]:d[1]}</p><span class="who">${d[2]}</span></div>`).join('');
+}
+function renderAll(){ renderKpis(); renderRoad(); renderRules(); renderDecs(); drawFly(); }
+/* REMOTE SYNC */
+function applyRemote(k,v){
+if(!k || k.indexOf('mp-')!==0) return;
+remoteApplying=true;
+saveLocal(k,v);
+const cb=document.querySelector(`input[data-id="${k}"]`); if(cb){ cb.checked=(v===true||v==='true'); roadStats(); }
+const inp=document.querySelector(`input[data-kpi="${k}"]`); if(inp && document.activeElement!==inp){ inp.value=(v==null?'':v); }
+remoteApplying=false;
+}
+window.addEventListener('DOMContentLoaded',()=>{
+let l='he'; try{ l=localStorage.getItem('yaffa-mp-lang')||'he'; }catch(e){}
+document.body.dataset.lang=l;
+setLang(l);
+renderAll();
+tick();
+document.getElementById('langbtn').addEventListener('click',()=>{ setLang(L()==='he'?'en':'he'); renderAll(); });
+if(dbRef && window.firebase){
+firebase.auth().onAuthStateChanged(u=>{
+if(!u) return;
+dbRef.on('child_added',s=>applyRemote(s.key,s.val()));
+dbRef.on('child_changed',s=>applyRemote(s.key,s.val()));
+});
+}
+});
+</script>
+</body>
+</html>
