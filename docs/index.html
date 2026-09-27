@@ -3083,7 +3083,10 @@ Defiance turned dancefloor.</pre>
   }
 
   // Live sync: one-time migration of existing local ticks, then subscribe
-  if (dbRef) {
+  // Subscribe only once signed in: on a fresh domain there is no saved session yet, and a listener attached before login gets rejected and never retries
+  if (dbRef) firebase.auth().onAuthStateChanged(function (__u) {
+    if (!__u || window.__opsSubscribed) return;
+    window.__opsSubscribed = true;
     dbRef.once('value').then(snap => {
       const remote = snap.val() || {};
       const updates = {};
@@ -3108,7 +3111,7 @@ Defiance turned dancefloor.</pre>
       updateProgress();
       renderOverview();
     });
-  }
+  });
 
   // ===== NOTES + REMINDERS (synced via Firebase, push via ntfy) =====
   let notes = [];

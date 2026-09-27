@@ -1079,8 +1079,12 @@ const TASKS = [
   window.addEventListener('DOMContentLoaded',()=>{
     render();
     if(dbRef){
-      dbRef.on('child_changed',s=>applyRemote(s.key,s.val()));
-      dbRef.on('child_added',s=>applyRemote(s.key,s.val()));
+      firebase.auth().onAuthStateChanged(u=>{
+        if(!u || window.__scSubscribed) return;
+        window.__scSubscribed=true;
+        dbRef.on('child_changed',s=>applyRemote(s.key,s.val()));
+        dbRef.on('child_added',s=>applyRemote(s.key,s.val()));
+      });
     }
   });
 
