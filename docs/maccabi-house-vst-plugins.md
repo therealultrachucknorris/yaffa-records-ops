@@ -204,15 +204,25 @@ Adam's approval is the start. Before launch, put it **in writing** (not legal ad
 
 ---
 
-## 12. Decisions needed from us now
+## 12. Decisions (updated 27 Nov 2026)
 
-1. **Which first plugin?** (Recommendation: *Maccabi Drive*, free.)
-2. **Who has the Mac** that will be the dev and listening machine?
-3. **Who does the visual design** (knobs, background, logo usage)?
-4. **Split and ownership with Adam**: draft the one-pager.
-5. **New repo** for the plugins code: create `maccabi-house-plugins`?
+| # | Question | Decision |
+|---|---|---|
+| 1 | First plugin | **Maccabi Drive**, leaning yes. We're approved to use the artist's name (Adam Ten) on products. **Omer's feedback pending.** |
+| 2 | Dev and listening machines | **Mosko's and Omer's Macs** |
+| 3 | Visual design | **Mosko + Claude together.** Rule: **the plugin UI is written in code and rendered as vectors**, never bitmaps. Higgsfield is OK for mood boards and marketing visuals only |
+| 4 | Split and ownership with Adam | **Open**: draft the one-pager (§9) |
+| 5 | Plugins repo | **Yes**: `maccabi-house-plugins` |
 
-Once these are answered, the next Claude session can scaffold the repo, write `CLAUDE.md`, and get the first empty plugin building in CI.
+### Status: `maccabi-house-plugins` scaffolded
+- JUCE 9.0.6 + CMake. Builds **VST3, CLAP, Standalone** (AU on Mac).
+- **Maccabi Drive v0.1**: hero Drive knob plus Tone (tilt), Mix, Output. 4× oversampling, latency-aligned dry path, smoothed parameters.
+- **Vector UI kit** (`shared/ui/`): "Night in Jaffa" palette, sunset emblem, wordmark, custom knobs, all drawn in code. A `RenderUI` tool renders the UI to PNG without a DAW.
+- **11 unit tests pass**: silence, bounded output, tone tilt, smoothing, latency alignment, bypass, state recall, parameter IDs.
+- GitHub Actions for Linux, macOS and Windows (+ pluginval and auval). Signing and notarization are TODOs.
+- `CLAUDE.md` with the rules (real-time safety, parameter IDs are forever, vectors only, "Claude can't hear").
+
+**Next:** Omer's go/no-go → first listening round on both Macs → tune `DriveVoicing` → Adam's sign-off.
 
 ---
 
